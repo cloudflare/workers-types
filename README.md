@@ -8,33 +8,12 @@ npm install --save-dev @cloudflare/workers-types
 yarn add -D @cloudflare/workers-types
 ```
 
-**tsconfig.json**
+**Usage**
 
-You'll need to include the types in your tsconfig
+Just supply an empty import in one of your source files to receive the workers types
 
-```json
-{
-  "compilerOptions": {
-    "outDir": "./dist",
-    "module": "commonjs",
-    "target": "esnext",
-    "lib": ["esnext", "webworker"],
-    "alwaysStrict": true,
-    "strict": true,
-    "preserveConstEnums": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "esModuleInterop": true
-  },
-  "include": [
-    "./src/*.ts",
-    "./src/*.tsx",
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
-    "./node_modules/@cloudflare/workers-types/index.d.ts"
-  ],
-  "exclude": ["node_modules/", "dist/"]
-}
+```typescript
+import {} from '@cloudflare/workers-types'
 ```
 
 ### Using a KV namespace
@@ -46,7 +25,9 @@ It's recommended that you create an ambient type file for your KV namespace bind
 ```typescript
 import { KVNamespace } from '@cloudflare/workers-types'
 
-declare const myKVNamespace: KVNamespace
+declare global {
+  const myKVNamespace: KVNamespace
+}
 ```
 
 Now `myKVNamespace` is available to all of your source files.
