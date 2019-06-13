@@ -1,0 +1,12 @@
+{
+  "name": "@cloudflare/workers-types",
+  "version": "1.0.0",
+  "description": "TypeScript typings for Cloudflare Workers",
+  "main": "index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Fawcett",
+  "license": "ISC"
+}
