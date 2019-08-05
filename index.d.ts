@@ -7,7 +7,11 @@ interface RequestInit {
     cacheEverything?: boolean
     scrapeShield?: boolean
     apps?: boolean
-    minify?: boolean
+    minify?: {
+      javascript?: boolean
+      css?: boolean
+      html?: boolean
+    }
     mirage?: boolean
     /**
      * Redirects the request to an alternate origin server. You can use this,
