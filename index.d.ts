@@ -107,5 +107,11 @@ declare module '@cloudflare/workers-types' {
     put(key: string, value: string | ReadableStream | ArrayBuffer | FormData): Promise<void>
 
     delete(key: string): Promise<void>
+
+    list(options: {prefix?: string, limit?: number, cursor?: string}): Promise<{
+      keys: { name: string; expiration?: number }[];
+      list_complete: boolean;
+      cursor: string;
+    }>
   }
 }
