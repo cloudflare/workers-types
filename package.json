@@ -2,6 +2,10 @@
   "name": "@cloudflare/workers-types",
   "version": "1.0.2",
   "description": "TypeScript typings for Cloudflare Workers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cloudflare/workers-types"
+  },
   "main": "index.js",
   "types": "./index.d.ts",
   "scripts": {
