@@ -114,7 +114,6 @@ declare module '@cloudflare/workers-types' {
       options?: { 
         expiration?: string | number;
         expirationTtl?: string | number;
-        [propName: string]: any;
       }
     ): Promise<void>
 
