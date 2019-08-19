@@ -108,7 +108,14 @@ declare module '@cloudflare/workers-types' {
     get(key: string, type?: 'stream'): Promise<ReadableStream>
     get(key: string, type?: 'text' | 'json' | 'arrayBuffer' | 'stream'): Promise<any>
 
-    put(key: string, value: string | ReadableStream | ArrayBuffer | FormData): Promise<void>
+    put(
+      key: string, 
+      value: string | ReadableStream | ArrayBuffer | FormData,
+      options?: { 
+        expiration?: string | number;
+        expirationTtl?: string | number;
+      }
+    ): Promise<void>
 
     delete(key: string): Promise<void>
 
