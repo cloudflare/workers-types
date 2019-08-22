@@ -100,29 +100,35 @@ interface Request {
   }
 }
 
+type KVValue<Value> = Promise<Value | null>
+
 declare module '@cloudflare/workers-types' {
   export interface KVNamespace {
-    get(key: string, type?: 'text'): Promise<string>
-    get(key: string, type?: 'json'): Promise<object>
-    get(key: string, type?: 'arrayBuffer'): Promise<ArrayBuffer>
-    get(key: string, type?: 'stream'): Promise<ReadableStream>
-    get(key: string, type?: 'text' | 'json' | 'arrayBuffer' | 'stream'): Promise<any>
+    get(key: string): KVValue<string>
+    get(key: string, type: 'text'): KVValue<string>
+    get<ExpectedValue = unknown>(key: string, type: 'json'): KVValue<ExpectedValue>
+    get(key: string, type: 'arrayBuffer'): KVValue<ArrayBuffer>
+    get(key: string, type: 'stream'): KVValue<ReadableStream>
 
     put(
-      key: string, 
+      key: string,
       value: string | ReadableStream | ArrayBuffer | FormData,
-      options?: { 
-        expiration?: string | number;
-        expirationTtl?: string | number;
-      }
+      options?: {
+        expiration?: string | number
+        expirationTtl?: string | number
+      },
     ): Promise<void>
 
     delete(key: string): Promise<void>
 
-    list(options: {prefix?: string, limit?: number, cursor?: string}): Promise<{
-      keys: { name: string; expiration?: number }[];
-      list_complete: boolean;
-      cursor: string;
+    list(options: {
+      prefix?: string
+      limit?: number
+      cursor?: string
+    }): Promise<{
+      keys: { name: string; expiration?: number }[]
+      list_complete: boolean
+      cursor: string
     }>
   }
 }
