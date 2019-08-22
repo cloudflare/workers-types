@@ -104,11 +104,11 @@ type KVValue<Value> = Promise<Value | null>
 
 declare module '@cloudflare/workers-types' {
   export interface KVNamespace {
-    get(key: string, type?: 'text'): KVValue<string>
-    get(key: string, type?: 'json'): KVValue<object>
-    get(key: string, type?: 'arrayBuffer'): KVValue<ArrayBuffer>
-    get(key: string, type?: 'stream'): KVValue<ReadableStream>
-    get(key: string, type?: 'text' | 'json' | 'arrayBuffer' | 'stream'): KVValue<any>
+    get(key: string): KVValue<string>
+    get(key: string, type: 'text'): KVValue<string>
+    get<ExpectedValue = unknown>(key: string, type: 'json'): KVValue<ExpectedValue>
+    get(key: string, type: 'arrayBuffer'): KVValue<ArrayBuffer>
+    get(key: string, type: 'stream'): KVValue<ReadableStream>
 
     put(
       key: string,
