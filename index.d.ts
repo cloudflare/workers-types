@@ -153,6 +153,117 @@ interface Request {
   }
 }
 
+interface ContentOptions {
+  /**
+   * Controls the way the HTMLRewriter treats inserted content.
+   *
+   * - true: Raw HTML
+   * - false: Text and any HTML will be escaped
+   */
+  html: boolean
+}
+
+interface Element {
+  /**
+   *  The namespace URI of the element according to Infra Spec
+   * (https://infra.spec.whatwg.org/#namespaces).
+   */
+  namespaceURI: string
+  /**
+   * e.g. "div"
+   */
+  tagName: string
+  /**
+   * Read-Only - key/value pairs of attributes.
+   */
+  readonly attributes: Iterator<{ name: string; value: string }>
+  /**
+   * Indicates whether the element was removed/replaced in a previous handler
+   */
+  removed: boolean
+
+  getAttribute(name: string): string | null
+  hasAttribute(name: string): boolean
+  setAttribute(name: string, value: string): Element
+  removeAttribute(name: string): Element
+  before(content: string, settings?: ContentOptions): Element
+  after(content: string, settings?: ContentOptions): Element
+  prepend(content: string, settings?: ContentOptions): Element
+  append(content: string, settings?: ContentOptions): Element
+  replace(content: string, settings?: ContentOptions): Element
+  setInnerContent(content: string, settings?: ContentOptions): Element
+  remove(): Element
+  removeAndKeepContent(): Element
+}
+
+interface Text {
+  /**
+   * Indicates whether the element was removed/replaced in a previous handler.
+   */
+  removed: boolean
+  /**
+   * Read-Only - The text contents of the chunk. Could be empty if the chunk
+   * is the last chunk of the text node.
+   */
+  readonly text: string
+  /**
+   * Read-Only - indicates whether the chunk is the last chunk of the text node.
+   */
+  readonly lastInTextNode: boolean
+
+  before(content: string, settings?: ContentOptions): Element
+  after(content: string, settings?: ContentOptions): Element
+  replace(content: string, settings?: ContentOptions): Element
+  remove(): Element
+}
+
+interface Comment {
+  /**
+   * Indicates whether the element was removed/replaced in a previous handler.
+   */
+  removed: boolean
+  /**
+   * This property can be assigned different values, to modify comment’s text.
+   */
+  text: string
+
+  before(content: string, settings?: ContentOptions): Element
+  after(content: string, settings?: ContentOptions): Element
+  replace(content: string, settings?: ContentOptions): Element
+  remove(): Element
+}
+
+interface Doctype {
+  readonly name: string | null
+  /**
+   * Read-Only, The quoted string in the doctype after the PUBLIC atom.
+   */
+  readonly publicId: string | null
+  /**
+   * Read-Only, The quoted string in the doctype after the SYSTEM atom or immidiately after the publicId.
+   */
+  readonly systemId: string | null
+}
+
+interface ElementHandler {
+  element(element: Element): void
+  comments(comment: Comment): void
+  text(text: Text): void
+}
+
+interface DocumentHandler {
+  doctype(doctype: Doctype): void
+  comments(comment: Comment): void
+  text(text: Text): void
+}
+
+declare class HTMLRewriter {
+  constructor()
+  public on(selector: string, handlers: ElementHandler): HTMLRewriter
+  public onDocument(selector: string, handlers: DocumentHandler): HTMLRewriter
+  public transform(response: Response): Response
+}
+
 type KVValue<Value> = Promise<Value | null>
 
 declare module '@cloudflare/workers-types' {
