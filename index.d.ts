@@ -158,8 +158,8 @@ interface ContentOptions {
    * Controls the way the HTMLRewriter treats inserted content.
    *
    * - true: Raw HTML
-   * - false: Text and any HTML will be escaped
-   */
+   * - false: (Default) Text and any HTML will be escaped
+   */ 
   html: boolean
 }
 
@@ -182,17 +182,53 @@ interface Element {
    */
   removed: boolean
 
+  /**
+   * Returns the value for a given attribute name on the element, or null if it isn’t found.
+   */
   getAttribute(name: string): string | null
+  /**
+   * Returns a boolean indicating whether an attribute exists on the element.
+   */
   hasAttribute(name: string): boolean
+  /**
+   * Sets an attribute to a provided value, creating the attribute if it doesn’t exist.
+   */
   setAttribute(name: string, value: string): Element
+  /**
+   * Removes the attribute.
+   */
   removeAttribute(name: string): Element
-  before(content: string, settings?: ContentOptions): Element
-  after(content: string, settings?: ContentOptions): Element
-  prepend(content: string, settings?: ContentOptions): Element
-  append(content: string, settings?: ContentOptions): Element
-  replace(content: string, settings?: ContentOptions): Element
-  setInnerContent(content: string, settings?: ContentOptions): Element
+  /**
+   * Inserts content before the element.
+   */
+  before(content: string, options?: ContentOptions): Element
+  /**
+   * Inserts content right after the element.
+   */
+  after(content: string, options?: ContentOptions): Element
+  /**
+   * Inserts content right after the start tag of the element.
+   */
+  prepend(content: string, options?: ContentOptions): Element
+  /**
+   * Inserts content right before the end tag of the element.
+   */
+  append(content: string, options?: ContentOptions): Element
+  /**
+   * Removes the element and inserts content in place of it.
+   */
+  replace(content: string, options?: ContentOptions): Element
+  /**
+   * Replaces content of the element.
+   */
+  setInnerContent(content: string, options?: ContentOptions): Element
+  /**
+   * Removes the element with all its content.
+   */
   remove(): Element
+  /**
+   * Removes the start tag and end tag of the element, but keeps its inner content intact.
+   */
   removeAndKeepContent(): Element
 }
 
@@ -211,9 +247,21 @@ interface Text {
    */
   readonly lastInTextNode: boolean
 
-  before(content: string, settings?: ContentOptions): Element
-  after(content: string, settings?: ContentOptions): Element
-  replace(content: string, settings?: ContentOptions): Element
+  /**
+   * Inserts content before the element.
+   */
+  before(content: string, options?: ContentOptions): Element
+  /**
+   * Inserts content right after the element.
+   */
+  after(content: string, options?: ContentOptions): Element
+  /**
+   * Removes the element and inserts content in place of it.
+   */
+  replace(content: string, options?: ContentOptions): Element
+  /**
+   * Removes the element with all its content.
+   */
   remove(): Element
 }
 
@@ -227,9 +275,21 @@ interface Comment {
    */
   text: string
 
-  before(content: string, settings?: ContentOptions): Element
-  after(content: string, settings?: ContentOptions): Element
-  replace(content: string, settings?: ContentOptions): Element
+  /**
+   * Inserts content before the element.
+   */
+  before(content: string, options?: ContentOptions): Element
+  /**
+   * Inserts content right after the element.
+   */
+  after(content: string, options?: ContentOptions): Element
+  /**
+   * Removes the element and inserts content in place of it.
+   */
+  replace(content: string, options?: ContentOptions): Element
+  /**
+   * Removes the element with all its content.
+   */
   remove(): Element
 }
 
@@ -246,14 +306,32 @@ interface Doctype {
 }
 
 interface ElementHandler {
+  /**
+   * An incoming element, such as `div`
+   */
   element(element: Element): void
+  /**
+   * An incoming comment
+   */
   comments(comment: Comment): void
+  /**
+   * An incoming piece of text
+   */
   text(text: Text): void
 }
 
 interface DocumentHandler {
+  /**
+   * An incoming doctype, such as <!DOCTYPE html>
+   */
   doctype(doctype: Doctype): void
+  /**
+   * An incoming comment
+   */
   comments(comment: Comment): void
+  /**
+   * An incoming piece of text
+   */
   text(text: Text): void
 }
 
