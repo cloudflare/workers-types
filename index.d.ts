@@ -157,7 +157,7 @@ interface CacheOptions {
   /**
    * Consider the request method a GET regardless of its actual value.
    */
-  ignoreMethod: boolean;
+  ignoreMethod?: boolean;
 }
 
 export interface Caches {
@@ -170,12 +170,12 @@ export interface Caches {
       /**
        * Returns a promise wrapping the response object keyed to that request.
        */
-      match(request: Request | string, options: CacheOptions): Promise<Response | undefined>;
+      match(request: Request | string, options?: CacheOptions): Promise<Response | undefined>;
       /**
        * Deletes the Response object from the cache and
        * returns a Promise for a Boolean response
        */
-      delete(request: Request | string, options: CacheOptions): Promise<boolean>; 
+      delete(request: Request | string, options?: CacheOptions): Promise<boolean>; 
   };
 }
 
