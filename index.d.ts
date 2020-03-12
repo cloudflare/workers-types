@@ -309,15 +309,15 @@ interface ElementHandler {
   /**
    * An incoming element, such as `div`
    */
-  element(element: Element): void
+  element?(element: Element): void
   /**
    * An incoming comment
    */
-  comments(comment: Comment): void
+  comments?(comment: Comment): void
   /**
    * An incoming piece of text
    */
-  text(text: Text): void
+  text?(text: Text): void
 }
 
 interface DocumentHandler {
