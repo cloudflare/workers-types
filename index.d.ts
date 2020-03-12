@@ -1,5 +1,6 @@
 interface FetchEvent {
   passThroughOnException: () => void
+  request: Request
 }
 
 interface RequestInit {
