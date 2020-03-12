@@ -159,7 +159,7 @@ interface ContentOptions {
    *
    * - true: Raw HTML
    * - false: (Default) Text and any HTML will be escaped
-   */ 
+   */
   html: boolean
 }
 
