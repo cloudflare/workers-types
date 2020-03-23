@@ -307,7 +307,7 @@ interface Doctype {
   readonly systemId: string | null
 }
 
-interface ElementHandler {
+interface ElementHandlerOptionals {
   /**
    * An incoming element, such as `div`
    */
@@ -321,6 +321,15 @@ interface ElementHandler {
    */
   text?(text: Text): void
 }
+
+// See https://stackoverflow.com/a/49725198
+type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
+  Pick<T, Exclude<keyof T, Keys>>
+  & {
+    [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+  }[Keys]
+
+type ElementHandler = RequireAtLeastOne<ElementHandlerOptionals, 'element' | 'comments' | 'text'>
 
 interface DocumentHandler {
   /**
