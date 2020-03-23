@@ -1,7 +1,5 @@
 interface FetchEvent {
   passThroughOnException: () => void
-  respondWith: (arg: Response | Promise<Response>) => void
-  readonly request: Request
 }
 
 interface RequestInit {
