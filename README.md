@@ -16,6 +16,9 @@ Just supply an empty import in one of your source files to receive the workers t
 import {} from '@cloudflare/workers-types'
 ```
 
+Make sure that the `WebWorker` library is included in [`tsconfig`](https://www.typescriptlang.org/v2/en/tsconfig#lib). e.g.: `"lib": ["WebWorker"] // As well as "DOM", "ESNext", etc.`. `@cloudflare/workers-types` definitions are merged with `WebWorker`.
+
+
 ### Using a KV namespace
 
 It's recommended that you create an ambient type file for your KV namespace bindings. Create a file named `types.d.ts` in your src directory:
