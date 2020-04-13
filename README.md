@@ -16,7 +16,11 @@ Just supply an empty import in one of your source files to receive the workers t
 import {} from '@cloudflare/workers-types'
 ```
 
-Make sure that the `WebWorker` library is included in [`tsconfig`](https://www.typescriptlang.org/v2/en/tsconfig#lib). e.g.: `"lib": ["WebWorker"] // As well as "DOM", "ESNext", etc.`. `@cloudflare/workers-types` definitions are merged with `WebWorker`.
+Make sure that the `DOM`, `DOM.Iterable` and `WebWorker` [libraries][tsconfig-lib] are included in your [`tsconfig.json`]. e.g.: 
+```json
+"lib": ["DOM", "DOM.Iterable", "WebWorker"] // As well as "ESNext", etc. as your project requires
+```
+`@cloudflare/workers-types` definitions are merged with `WebWorker` while `DOM` and `DOM.Iterable` are used in the [`Request`], [`Response`] and [`Headers`] interfaces.
 
 
 ### Using a KV namespace
@@ -34,3 +38,10 @@ declare global {
 ```
 
 Now `myKVNamespace` is available to all of your source files.
+
+
+[tsconfig-lib]: https://www.typescriptlang.org/tsconfig#lib
+[`tsconfig.json`]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+[`Request`]: https://developers.cloudflare.com/workers/reference/apis/request/
+[`Response`]: https://developers.cloudflare.com/workers/reference/apis/response/
+[`Headers`]: https://developer.mozilla.org/en-US/docs/Web/API/Headers
