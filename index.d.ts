@@ -5,6 +5,8 @@ interface FetchEvent {
 interface RequestInit {
   cf?: {
     cacheEverything?: boolean
+    cacheTtl?: number
+    cacheTtlByStatus?: { [key: string]: number }
     scrapeShield?: boolean
     apps?: boolean
     image?: {
