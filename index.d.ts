@@ -363,6 +363,10 @@ declare class HTMLRewriter {
   public transform(response: Response): Response
 }
 
+declare interface CacheStorage {
+  default: Cache
+}
+
 type KVValue<Value> = Promise<Value | null>
 
 declare module '@cloudflare/workers-types' {
