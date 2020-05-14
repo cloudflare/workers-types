@@ -111,32 +111,33 @@ interface CfRequestProperties {
   /**
    *  (e.g. 395747)
    */
-  asn: string
-  city: string
-  clientTrustScore: number
+  asn: number
+  city?: string
+  clientTcpRtt: number
+  clientTrustScore?: number
   /**
    * The three-letter airport code of the data center that the request
    * hit. (e.g. "DFW")
    */
   colo: string
-  continent: string
+  continent?: string
   /**
    * The two-letter country code in the request. This is the same value
    * as that provided in the CF-IPCountry header. (e.g. "US")
    */
   country: string
   httpProtocol: string
-  latitude: number
-  longitude: number
-  postalCode: string
+  latitude?: number
+  longitude?: number
+  postalCode?: string
   /**
    * e.g. "Texas"
    */
-  region: string
+  region?: string
   /**
    * e.g. "TX"
    */
-  regionCode: string
+  regionCode?: string
   /**
    * e.g. "weight=256;exclusive=1"
    */
@@ -144,7 +145,7 @@ interface CfRequestProperties {
   /**
    * e.g. "America/Chicago"
    */
-  timezone: string
+  timezone?: string
   tlsVersion: string
   tlsCipher: string
   tlsClientAuth: {
