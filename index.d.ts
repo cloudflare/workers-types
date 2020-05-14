@@ -188,6 +188,38 @@ interface Request {
   cf: CfRequestProperties
 }
 
+interface FormData {
+  [Symbol.iterator](): IterableIterator<[string, FormDataEntryValue]>;
+  /**
+   * Returns an array of key, value pairs for every entry in the list.
+   */
+  entries(): IterableIterator<[string, FormDataEntryValue]>;
+  /**
+   * Returns a list of keys in the list.
+   */
+  keys(): IterableIterator<string>;
+  /**
+   * Returns a list of values in the list.
+   */
+  values(): IterableIterator<FormDataEntryValue>;
+}
+
+interface Headers {
+  [Symbol.iterator](): IterableIterator<[string, string]>;
+  /**
+   * Returns an iterator allowing to go through all key/value pairs contained in this object.
+   */
+  entries(): IterableIterator<[string, string]>;
+  /**
+   * Returns an iterator allowing to go through all keys of the key/value pairs contained in this object.
+   */
+  keys(): IterableIterator<string>;
+  /**
+   * Returns an iterator allowing to go through all values of the key/value pairs contained in this object.
+   */
+  values(): IterableIterator<string>;
+}
+
 interface ContentOptions {
   /**
    * Controls the way the HTMLRewriter treats inserted content.
