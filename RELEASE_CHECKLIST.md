@@ -32,7 +32,7 @@ Most of your comments will be about the changelog. Once the PR is finalized and 
 
 ### Tag and build release
 
-1. Once ready to merge, tag the commit by running either `git tag -a v#.#.# -m #.#.#`
+1. Once ready to merge, tag the commit by running `git tag -a v#.#.# -m #.#.#`
 1. Run `git push --tags`.
 1. Wait for CI to pass.
 
