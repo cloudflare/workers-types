@@ -9,13 +9,14 @@ This is a list of the things that need to happen during a release.
 1. Open the associated milestone. All issues and PRs should be closed. If
    they are not you should reassign all open issues and PRs to future
    milestones.
-1. Go through the commit history since the last release. Ensure that all PRs
+1. Go through the PR history since the last release. Ensure that all PRs
    that have landed are marked with the milestone. You can use this to
    show all the PRs that are merged on or after YYY-MM-DD:
    `https://github.com/issues?q=repo%3Acloudflare%2Fworkers-types+merged%3A%3E%3DYYYY-MM-DD`
-1. Go through the closed PRs in the milestone.
-1. Add this release to the `CHANGELOG.md`. Use the structure of previous
+1. Add this release to `CHANGELOG.md`. Use the structure of previous
    entries.
+1. Go through the closed PRs in the milestone. For each, add an entry to
+   `CHANGELOG.md`.
 
 ### Start a release PR
 
