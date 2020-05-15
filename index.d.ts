@@ -129,6 +129,10 @@ interface CfRequestProperties {
   httpProtocol: string
   latitude?: number
   longitude?: number
+  /**
+   * DMA metro code from which the request was issued, e.g. "635"
+   */
+  metroCode?: number
   postalCode?: string
   /**
    * e.g. "Texas"
