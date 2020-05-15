@@ -14,6 +14,15 @@ interface CfRequestInit {
    */
   cacheEverything?: boolean
   /**
+   * A request's cache key is what determines if two requests are
+   * "the same" for caching purposes. If a request has the same cache key
+   * as some previous request, then we can serve the same cached response for
+   * both. (e.g. 'some-key')
+   *
+   * Only available for Enterprise customers.
+   */
+  cacheKey?: string
+  /**
    * Force response to be cached for a given number of seconds. (e.g. 300)
    */
   cacheTtl?: number
