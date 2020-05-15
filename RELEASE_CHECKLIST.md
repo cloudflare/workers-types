@@ -20,6 +20,7 @@ This is a list of the things that need to happen during a release.
 ### Start a release PR
 
 1. Create a new branch "#.#.#" where "#.#.#" is this release's version (release) or "#.#.#-rc.#" (release candidate)
+1. Update the version number in `package.json`.
 1. Push up a commit with the `CHANGELOG.md` changes. The commit message can just be "#.#.#" (release) or "#.#.#-rc.#" (release candidate)
 1. Request review from maintainers.
 
