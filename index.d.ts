@@ -13,6 +13,15 @@ interface CfRequestInit {
    * playground.
    */
   cacheEverything?: boolean
+  /**
+   * Force response to be cached for a given number of seconds. (e.g. 300)
+   */
+  cacheTtl?: number
+  /**
+   * Force response to be cached for a given number of seconds based on the Origin status code.
+   * (e.g. { '200-299': 86400, '404': 1, '500-599': 0 })
+   */
+  cacheTtlByStatus?: { [key: string]: number }
   scrapeShield?: boolean
   apps?: boolean
   image?: {
