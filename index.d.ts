@@ -121,6 +121,11 @@ interface CfRequestProperties {
    *  (e.g. 395747)
    */
   asn: number
+  botManagement?: {
+    score: number
+    staticResource: boolean
+    verifiedBot: boolean
+  }
   city?: string
   clientTcpRtt: number
   clientTrustScore?: number
