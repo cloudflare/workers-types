@@ -440,8 +440,7 @@ declare interface CacheStorage {
 
 type KVValue<Value> = Promise<Value | null>
 
-declare module '@cloudflare/workers-types' {
-  export interface KVNamespace {
+interface KVNamespace {
     get(key: string): KVValue<string>
     get(key: string, type: 'text'): KVValue<string>
     get<ExpectedValue = unknown>(key: string, type: 'json'): KVValue<ExpectedValue>
@@ -469,4 +468,3 @@ declare module '@cloudflare/workers-types' {
       cursor: string
     }>
   }
-}
