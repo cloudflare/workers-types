@@ -175,9 +175,11 @@ interface CfRequestProperties {
   }
 }
 
-interface RequestInit {
-  cf?: CfRequestInit|CfRequestProperties
+interface WorkerRequestInit extends RequestInit {
+  cf?: CfRequestInit
 }
+
+declare function fetch(input: RequestInfo, init?: WorkerRequestInit): Promise<Response>;
 
 declare function addEventListener(
   type: 'fetch',
