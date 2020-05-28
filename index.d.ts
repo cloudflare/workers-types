@@ -175,18 +175,24 @@ interface CfRequestProperties {
   }
 }
 
-interface RequestInit {
-  cf?: CfRequestInit|CfRequestProperties
+interface WorkerRequestInit extends RequestInit {
+  cf?: CfRequestInit
+}
+
+declare function fetch(input: RequestInfo, init?: WorkerRequestInit): Promise<Response>;
+
+interface WorkerIncomingRequest extends Request {
+  cf: CfRequestProperties
+}
+
+interface WorkerFetchEvent extends FetchEvent {
+  request: WorkerIncomingRequest
 }
 
 declare function addEventListener(
   type: 'fetch',
-  handler: (event: FetchEvent) => void,
+  handler: (event: WorkerFetchEvent) => void,
 ): void
-
-interface Request {
-  cf: CfRequestProperties
-}
 
 interface FormData {
   [Symbol.iterator](): IterableIterator<[string, FormDataEntryValue]>;
