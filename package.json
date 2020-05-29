@@ -12,5 +12,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "John Fawcett",
-  "license": "ISC"
+  "license": "BSD-3-Clause"
 }
