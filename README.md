@@ -1,47 +1,40 @@
 # Cloudflare Workers Types
 
-**Install**
+## Install
 
 ```bash
-npm install --save-dev @cloudflare/workers-types
+npm install @cloudflare/workers-types
 -- Or
-yarn add -D @cloudflare/workers-types
+yarn add @cloudflare/workers-types
 ```
 
-**Usage**
+## Usage
 
-Just supply an empty import in one of your source files to receive the workers types
+The following is a minimal `tsconfig.json` for use alongside this package:
 
-```typescript
-import {} from '@cloudflare/workers-types'
-```
+**`tsconfig.json`**
 
-Make sure that the `DOM`, `DOM.Iterable` and `WebWorker` [libraries][tsconfig-lib] are included in your [`tsconfig.json`]. e.g.: 
 ```json
-"lib": ["DOM", "DOM.Iterable", "WebWorker"] // As well as "ESNext", etc. as your project requires
-```
-`@cloudflare/workers-types` definitions are merged with `WebWorker` while `DOM` and `DOM.Iterable` are used in the [`Request`], [`Response`] and [`Headers`] interfaces.
-
-
-### Using a KV namespace
-
-It's recommended that you create an ambient type file for your KV namespace bindings. Create a file named `types.d.ts` in your src directory:
-
-**`types.d.ts`**
-
-```typescript
-import { KVNamespace } from '@cloudflare/workers-types'
-
-declare global {
-  const myKVNamespace: KVNamespace
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ES2020", "WebWorker"],
+    "types": ["@cloudflare/workers-types"]
+  }
 }
 ```
 
-Now `myKVNamespace` is available to all of your source files.
+### Using bindings
 
+It's recommended that you create an ambient type file for any bindings your Worker uses. Create a file named `bindings.d.ts` in your src directory:
 
-[tsconfig-lib]: https://www.typescriptlang.org/tsconfig#lib
-[`tsconfig.json`]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
-[`Request`]: https://developers.cloudflare.com/workers/reference/apis/request/
-[`Response`]: https://developers.cloudflare.com/workers/reference/apis/response/
-[`Headers`]: https://developer.mozilla.org/en-US/docs/Web/API/Headers
+**`bindings.d.ts`**
+
+```typescript
+declare global {
+  const MY_ENV_VAR: string
+  const MY_SECRET: string
+  const myKVNamespace: KVNamespace
+}
+```
