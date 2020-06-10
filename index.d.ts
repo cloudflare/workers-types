@@ -458,7 +458,7 @@ interface KVNamespace {
 
     delete(key: string): Promise<void>
 
-    list(options: {
+    list(options?: {
       prefix?: string
       limit?: number
       cursor?: string
