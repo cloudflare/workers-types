@@ -451,7 +451,7 @@ interface DocumentHandler {
 declare class HTMLRewriter {
   constructor()
   public on(selector: string, handlers: ElementHandler): HTMLRewriter
-  public onDocument(selector: string, handlers: DocumentHandler): HTMLRewriter
+  public onDocument(handlers: DocumentHandler): HTMLRewriter
   public transform(response: Response): Response
 }
 
