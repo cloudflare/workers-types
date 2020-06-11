@@ -2,7 +2,7 @@ interface FetchEvent {
   passThroughOnException: () => void
 }
 
-interface CfRequestInit {
+interface RequestInitCfProperties {
    /**
    * In addition to the properties you can set in the RequestInit dict
    * that you pass as an argument to the Request constructor, you can
@@ -108,7 +108,7 @@ interface CfRequestInit {
   resolveOverride?: string
 }
 
-interface CfRequestProperties {
+interface IncomingRequestCfProperties {
   /**
    * In addition to the properties on the standard Request object,
    * the cf object contains extra information about the request provided
@@ -175,8 +175,29 @@ interface CfRequestProperties {
   }
 }
 
+interface CfRequestInit extends Omit<RequestInit, "cf"> {
+  cf?: RequestInitCfProperties
+}
+
 interface RequestInit {
-  cf?: CfRequestInit|CfRequestProperties
+  /**
+   * cf is a union of these two types because there are multiple
+   * scenarios in which it might be one or the other. If you need
+   * a type that only contains RequestInitCfProperties, use the
+   * CfRequestInit type.
+   */
+  cf?: 
+  /**
+   * Needs to be present to allow request from FetchEvent
+   * to be passed into Request constructor
+   * new Request("foo", event.request)
+   */
+  | IncomingRequestCfProperties 
+  /**
+   * Needs to be present to allow passing into Request constructor
+   * and into fetch API
+   */
+  | RequestInitCfProperties
 }
 
 declare function addEventListener(
@@ -185,7 +206,7 @@ declare function addEventListener(
 ): void
 
 interface Request {
-  cf: CfRequestProperties
+  cf: IncomingRequestCfProperties
 }
 
 interface FormData {
