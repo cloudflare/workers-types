@@ -4,7 +4,7 @@ const init: CfRequestInit = {
     // properties from IncomingRequestCfProperties
     // should not be assignable here
     // @ts-expect-error
-    colo: "hi"
+    colo: 'hi',
   },
 }
 
@@ -17,7 +17,7 @@ if (init.cf) {
 fetch('hi', init)
 
 // CfRequestInit works with Request
-new Request("hi", init)
+new Request('hi', init)
 
 // FetchEvent is manually specified and assignable
 addEventListener('fetch', (event: FetchEvent) => {
