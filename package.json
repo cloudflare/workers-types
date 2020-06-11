@@ -12,5 +12,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "John Fawcett",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "prettier": "2.0.5",
+    "typescript": "^3.9.5"
+  }
 }
