@@ -361,7 +361,7 @@ interface Element {
   /**
    * Read-Only - key/value pairs of attributes.
    */
-  readonly attributes: Iterator<{ name: string; value: string }>;
+  readonly attributes: IterableIterator<{ name: string; value: string }>;
   /**
    * Indicates whether the element was removed/replaced in a previous handler
    */
