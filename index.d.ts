@@ -407,19 +407,26 @@ interface Doctype {
   readonly systemId: string | null;
 }
 
+interface DocumentEnd {
+  /**
+   * Inserts content right after the end of the document.
+   */
+  append(content: string, options?: ContentOptions): DocumentEnd;
+}
+
 interface ElementHandlerOptionals {
   /**
    * An incoming element, such as `div`
    */
-  element?(element: Element): void;
+  element?(element: Element): void | Promise<void>;
   /**
    * An incoming comment
    */
-  comments?(comment: Comment): void;
+  comments?(comment: Comment): void | Promise<void>;
   /**
    * An incoming piece of text
    */
-  text?(text: Text): void;
+  text?(text: Text): void | Promise<void>;
 }
 
 // See https://stackoverflow.com/a/49725198
@@ -434,15 +441,19 @@ interface DocumentHandler {
   /**
    * An incoming doctype, such as <!DOCTYPE html>
    */
-  doctype(doctype: Doctype): void;
+  doctype(doctype: Doctype): void | Promise<void>;
   /**
    * An incoming comment
    */
-  comments(comment: Comment): void;
+  comments(comment: Comment): void | Promise<void>;
   /**
    * An incoming piece of text
    */
-  text(text: Text): void;
+  text(text: Text): void | Promise<void>;
+  /**
+   * The ending of the document
+   */
+  end(end: DocumentEnd): void | Promise<void>;
 }
 
 declare class HTMLRewriter {
