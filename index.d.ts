@@ -107,7 +107,7 @@ interface RequestInitCfProperties {
     /**
      * Output format to generate. It can be:
      *  - webp: generate images in Google WebP format. Set quality to 100 to get
-     *    the WebP-lossles format.
+     *    the WebP-lossless format.
      *  - json: instead of generating an image, outputs information about the
      *    image, in JSON format. The JSON object will contain image size
      *    (before and after resizing), source image’s MIME type, file size, etc.
@@ -485,7 +485,7 @@ interface Doctype {
    */
   readonly publicId: string | null;
   /**
-   * Read-Only, The quoted string in the doctype after the SYSTEM atom or immidiately after the publicId.
+   * Read-Only, The quoted string in the doctype after the SYSTEM atom or immediately after the publicId.
    */
   readonly systemId: string | null;
 }
