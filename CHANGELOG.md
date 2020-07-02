@@ -127,7 +127,7 @@
 
   The iterable methods `entries()`, `keys()` and `values()` are not present on these three types in `lib.webworker.d.ts`. They are instead supplied in `lib.dom.iterable.d.ts`.
 
-  However, as discussed in this issue on the TypeScript repo, `lib.dom.d.ts` and `lib.webworker.d.ts` have conflicting type definitions, and the maintainers hope to solve this issue by refactoring shared components into a new `web.iterable.d.ts` lib: https://github.com/microsoft/TypeScript/issues/32435#issuecomment-624741120
+  However, as discussed in this issue on the TypeScript repo, `lib.dom.d.ts` and `lib.webworker.d.ts` have conflicting type definitions, and the maintainers hope to solve this issue by refactoring shared components into a new `web.iterable.d.ts` lib: [https://github.com/microsoft/TypeScript/issues/32435#issuecomment-624741120](https://github.com/microsoft/TypeScript/issues/32435#issuecomment-624741120)
 
   Until then, we will include the iterable methods supported by Workers in our own type definitions.
 
