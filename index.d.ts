@@ -559,6 +559,30 @@ interface KVNamespace {
   get(key: string, type: 'arrayBuffer'): KVValue<ArrayBuffer>;
   get(key: string, type: 'stream'): KVValue<ReadableStream>;
 
+  getWithMetadata<ExpectedMetadata = unknown>(
+    key: string
+  ): KVValue<{ value: string; metadata: ExpectedMetadata }>;
+
+  getWithMetadata<ExpectedMetadata = unknown>(
+    key: string,
+    type: 'text'
+  ): KVValue<{ value: string; metadata: ExpectedMetadata }>;
+
+  getWithMetadata<ExpectedValue = unknown, ExpectedMetadata = unknown>(
+    key: string,
+    type: 'json'
+  ): KVValue<{ value: ExpectedValue; metadata: ExpectedMetadata }>;
+
+  getWithMetadata<ExpectedMetadata = unknown>(
+    key: string,
+    type: 'arrayBuffer'
+  ): KVValue<{ value: ArrayBuffer; metadata: ExpectedMetadata }>;
+
+  getWithMetadata<ExpectedMetadata = unknown>(
+    key: string,
+    type: 'stream'
+  ): KVValue<{ value: ReadableStream; metadata: ExpectedMetadata }>;
+
   put(
     key: string,
     value: string | ReadableStream | ArrayBuffer | FormData,
