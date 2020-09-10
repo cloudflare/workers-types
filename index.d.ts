@@ -106,13 +106,14 @@ interface RequestInitCfProperties {
     quality?: number;
     /**
      * Output format to generate. It can be:
+     *  - avif: generate images in AVIF format.
      *  - webp: generate images in Google WebP format. Set quality to 100 to get
      *    the WebP-lossless format.
      *  - json: instead of generating an image, outputs information about the
      *    image, in JSON format. The JSON object will contain image size
      *    (before and after resizing), source image’s MIME type, file size, etc.
      */
-    format?: 'webp' | 'json';
+    format?: 'avif' | 'webp' | 'json';
     /**
      * What EXIF data should be preserved in the output image. Note that EXIF
      * rotation and embedded color profiles are always applied ("baked in" into
