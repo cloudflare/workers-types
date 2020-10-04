@@ -2,6 +2,12 @@ interface FetchEvent {
   passThroughOnException: () => void;
 }
 
+interface ScheduledEvent {
+  type: string;
+  scheduledTime: number;
+  waitUntil(promise: Promise<any>): void;
+}
+
 interface BasicImageTransformations {
   /**
    * Maximum width in image pixels. The value must be an integer.
@@ -286,6 +292,7 @@ interface RequestInit {
 }
 
 declare function addEventListener(type: 'fetch', handler: (event: FetchEvent) => void): void;
+declare function addEventListener(type: 'scheduled', handler: (event: ScheduledEvent) => void): void;
 
 interface Request {
   cf: IncomingRequestCfProperties;
