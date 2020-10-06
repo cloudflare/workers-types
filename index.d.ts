@@ -626,3 +626,49 @@ interface KVNamespace {
     cursor: string;
   }>;
 }
+
+interface DurableObjectEntries<T> {
+  [key: string]: T;
+}
+
+interface DurableObjectListOptions {
+  start: string;
+  end: string;
+  reverse: boolean;
+  limit: number;
+}
+
+interface DurableObjectStorage {
+  get<ExpectedValue = unknown>(key: string): Promise<ExpectedValue>;
+  get<ExpectedValue = unknown>(keys: Array<string>): Promise<Map<string, ExpectedValue>>;
+  put<GivenValue = unknown>(key: string, value: GivenValue): Promise<void>;
+  put<GivenValue = unknown>(entries: DurableObjectEntries<GivenValue>): Promise<void>;
+  delete(key: string): Promise<boolean>;
+  delete(keys: Array<string>): Promise<boolean>;
+  list<ExpectedValue = unknown>(
+    options?: DurableObjectListOptions
+  ): Promise<Map<string, ExpectedValue>>;
+  transaction<ExpectedValue = unknown>(
+    closure: (txn: DurableObjectStorage) => Promise<void>
+  ): Promise<Map<string, ExpectedValue>>;
+}
+
+interface DurableObjectState {
+  storage: DurableObjectStorage;
+}
+
+interface DurableObject {
+  fetch: (request: Request, init?: RequestInit) => Promise<Response>;
+}
+
+interface DurableObjectId {
+  toString: () => string;
+}
+
+interface DurableObjectNamespace {
+  newUniqueId: () => DurableObjectId;
+  idFromName: (name: string) => DurableObjectId;
+  idFromString: (hexId: string) => DurableObjectId;
+
+  get: (id: DurableObjectId) => DurableObject;
+}
