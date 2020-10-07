@@ -639,18 +639,16 @@ interface DurableObjectListOptions {
 }
 
 interface DurableObjectStorage {
-  get<ExpectedValue = unknown>(key: string): Promise<ExpectedValue>;
-  get<ExpectedValue = unknown>(keys: Array<string>): Promise<Map<string, ExpectedValue>>;
-  put<GivenValue = unknown>(key: string, value: GivenValue): Promise<void>;
-  put<GivenValue = unknown>(entries: DurableObjectEntries<GivenValue>): Promise<void>;
+  get<T = unknown>(key: string): Promise<T>;
+  get<T = unknown>(keys: Array<string>): Promise<Map<string, T>>;
+  put<T = unknown>(key: string, value: T): Promise<void>;
+  put<T = unknown>(entries: DurableObjectEntries<T>): Promise<void>;
   delete(key: string): Promise<boolean>;
   delete(keys: Array<string>): Promise<boolean>;
-  list<ExpectedValue = unknown>(
-    options?: DurableObjectListOptions
-  ): Promise<Map<string, ExpectedValue>>;
-  transaction<ExpectedValue = unknown>(
+  list<T = unknown>(options?: DurableObjectListOptions): Promise<Map<string, T>>;
+  transaction<T = unknown>(
     closure: (txn: DurableObjectStorage) => Promise<void>
-  ): Promise<Map<string, ExpectedValue>>;
+  ): Promise<Map<string, T>>;
 }
 
 interface DurableObjectState {
@@ -658,6 +656,10 @@ interface DurableObjectState {
 }
 
 interface DurableObject {
+  fetch: (request: Request, init?: RequestInit) => Promise<Response>;
+}
+
+interface DurableObjectStub {
   fetch: (request: Request, init?: RequestInit) => Promise<Response>;
 }
 
@@ -670,5 +672,5 @@ interface DurableObjectNamespace {
   idFromName: (name: string) => DurableObjectId;
   idFromString: (hexId: string) => DurableObjectId;
 
-  get: (id: DurableObjectId) => DurableObject;
+  get: (id: DurableObjectId) => DurableObjectStub;
 }
