@@ -679,6 +679,7 @@ interface DurableObjectStub {
 }
 
 interface DurableObjectId {
+  name?: string;
   toString: () => string;
 }
 
