@@ -18,6 +18,7 @@
   [pull/61]: https://github.com/cloudflare/workers-types/pull/61
 
 - **Add AVIF Format for Image Resizing - [@GregBrimble], [pull/59]**
+
   [@GregBrimble]: https://github.com/GregBrimble
   [pull/59]: https://github.com/cloudflare/workers-types/pull/59
 
@@ -62,11 +63,13 @@
   [@jeremistadler]: https://github.com/jeremistadler
   [pull/60]: https://github.com/cloudflare/workers-types/pull/60
 
-- **Add a GitHub action to lint the Markdown - [@jbampton],[pull/51] **
+- **Add a GitHub action to lint the Markdown - [@jbampton],[pull/51]**
+
   [@jbampton]: https://github.com/jbampton
   [pull/51]: https://github.com/cloudflare/workers-types/pull/51
 
-- **Fix spelling - [@jbampton],[pull/50] **
+- **Fix spelling - [@jbampton],[pull/50]**
+
   [@jbampton]: https://github.com/jbampton
   [pull/50]: https://github.com/cloudflare/workers-types/pull/50
 
@@ -77,7 +80,6 @@
   [pull/48]: https://github.com/cloudflare/workers-types/pull/48
 
 - **Add prettier and typescript as devDependencies - [@1000hz], [pull/46]**
-
   Automated formatting via prettier
 
   [@1000hz]: https://github.com/1000hz
