@@ -1,5 +1,88 @@
 # Changelog
 
+## 2.0.1
+
+### Features
+
+- **Add types for Durable Objects - [@mathew-cf], [pull/63], [issue/64]**
+  Types for [Durable Objects Beta](https://developers.cloudflare.com/workers/runtime-apis/durable-objects), subject to change.
+
+  [@mathew-cf]: https://github.com/mathew-cf
+  [pull/63]: https://github.com/cloudflare/workers-types/pull/63
+  [issue/64]: https://github.com/cloudflare/workers-types/issues/64
+
+- **Add ScheduledEvent - [@qwtel], [pull/61]**
+  Types for [Scheduled Events](https://developers.cloudflare.com/workers/runtime-apis/scheduled-event)
+
+  [@qwtel]: https://github.com/qwtel
+  [pull/61]: https://github.com/cloudflare/workers-types/pull/61
+
+- **Add AVIF Format for Image Resizing - [@GregBrimble], [pull/59]**
+  [@GregBrimble]: https://github.com/GregBrimble
+  [pull/59]: https://github.com/cloudflare/workers-types/pull/59
+
+- **Add metadata typings for KV - [@GregBrimble], [pull/54]**
+  Adds the [new metadata](https://developers.cloudflare.com/workers/runtime-apis/kv#metadata) types to the getWithMetadata, put and list methods on a KV namespace.
+
+  [@GregBrimble]: https://github.com/GregBrimble
+  [pull/54]: https://github.com/cloudflare/workers-types/pull/54
+
+- **Complete Image Resizing properties - [@GregBrimble], [pull/50]**
+  Adds missing options for the Image Resizing API.
+
+  [@GregBrimble]: https://github.com/GregBrimble
+  [pull/50]: https://github.com/cloudflare/workers-types/pull/50
+
+- **Add API for async handlers and end handler - [@ObsidianMinor], [pull/48]**
+  Types for [HTML Rewriter](https://developers.cloudflare.com/workers/runtime-apis/html-rewriter#end) end of document append method
+
+  [@ObsidianMinor]: https://github.com/ObsidianMinor
+  [pull/48]: https://github.com/cloudflare/workers-types/pull/48
+
+### Bugfixes
+
+- **Make Element.attributes iterable - [@jdanyow], [pull/47]**
+
+  Fixing a bug in the type definitions that prevents writing valid code like this:
+
+  ```typescript
+  rewriter.on('bla', {
+    element: element => {
+      for (const [name, value] of element.attributes) {
+  ```
+
+  [@jdanyow]: https://github.com/jdanyow
+  [pull/47]: https://github.com/cloudflare/workers-types/pull/47
+
+### Maintenance
+
+- **Update README.md instructions to avoid typescript error - [@jeremistadler], [pull/60]**
+  Add empty export to bindings.d.ts example to avoid an typescript error
+
+  [@jeremistadler]: https://github.com/jeremistadler
+  [pull/60]: https://github.com/cloudflare/workers-types/pull/60
+
+- **Add a GitHub action to lint the Markdown - [@jbampton],[pull/51] **
+  [@jbampton]: https://github.com/jbampton
+  [pull/51]: https://github.com/cloudflare/workers-types/pull/51
+
+- **Fix spelling - [@jbampton],[pull/50] **
+  [@jbampton]: https://github.com/jbampton
+  [pull/50]: https://github.com/cloudflare/workers-types/pull/50
+
+- **Add CODEOWNERS - [@ispivey], [pull/49]**
+  This will ensure we have default reviewers.
+
+  [@ispivey]: https://github.com/ispivey
+  [pull/48]: https://github.com/cloudflare/workers-types/pull/48
+
+- **Add prettier and typescript as devDependencies - [@1000hz], [pull/46]**
+
+  Automated formatting via prettier
+
+  [@1000hz]: https://github.com/1000hz
+  [pull/46]: https://github.com/cloudflare/workers-types/pull/46
+
 ## ⌨️ 2.0.0
 
 ### Breaking Changes
