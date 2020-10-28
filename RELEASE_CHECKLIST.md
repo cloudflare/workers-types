@@ -49,11 +49,11 @@ Full releases are tagged `latest`. If for some reason you mix up the commands be
 1. `cd npm && npm publish`.
 1. Tweet.
 
-# Troubleshooting a release
+## Troubleshooting a release
 
 Mistakes happen. Most of these release steps are recoverable if you mess up. The goal is not to, but if you find yourself cursing a fat fingered command, here are some troubleshooting tips. Please feel free to add to this guide.
 
-## I pushed the wrong tag
+### I pushed the wrong tag
 
 Tags and releases can be removed in GitHub. First, [remove the remote tag](https://stackoverflow.com/questions/5480258/how-to-delete-a-remote-tag):
 
