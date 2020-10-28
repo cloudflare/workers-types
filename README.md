@@ -32,6 +32,8 @@ It's recommended that you create an ambient type file for any bindings your Work
 **`bindings.d.ts`**
 
 ```typescript
+export {};
+
 declare global {
   const MY_ENV_VAR: string
   const MY_SECRET: string
