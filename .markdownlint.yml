@@ -3,3 +3,7 @@ MD013: false
 
 # MD014/commands-show-output Dollar signs used before commands without showing output
 MD014: false
+
+# heading duplication is allowed for non-sibling headings (common in change logs)
+MD024:
+  siblings_only: true
