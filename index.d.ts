@@ -246,8 +246,8 @@ interface IncomingRequestCfProperties {
    */
   country: string;
   httpProtocol: string;
-  latitude?: number;
-  longitude?: number;
+  latitude?: string;
+  longitude?: string;
   /**
    * DMA metro code from which the request was issued, e.g. "635"
    */
