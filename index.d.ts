@@ -623,7 +623,7 @@ interface KVNamespace {
   }): Promise<{
     keys: { name: string; expiration?: number; metadata?: unknown }[];
     list_complete: boolean;
-    cursor: string;
+    cursor?: string;
   }>;
 }
 
