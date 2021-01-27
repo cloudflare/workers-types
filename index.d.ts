@@ -660,6 +660,11 @@ interface DurableObjectStorage extends DurableObjectOperator {
 
 interface DurableObjectState {
   storage: DurableObjectStorage;
+  /**
+   * Use this method to notify the runtime to wait for asynchronous tasks
+   * (e.g. logging, analytics to third-party services, streaming and caching).
+   */
+  waitUntil(promise: Promise<any>): void;
 }
 
 /**
