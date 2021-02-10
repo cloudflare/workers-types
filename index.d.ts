@@ -636,6 +636,7 @@ interface DurableObjectListOptions {
   end?: string;
   reverse?: boolean;
   limit?: number;
+  prefix?: string;                     
 }
 
 interface DurableObjectOperator {
@@ -644,7 +645,7 @@ interface DurableObjectOperator {
   put<T = unknown>(key: string, value: T): Promise<void>;
   put<T = unknown>(entries: DurableObjectEntries<T>): Promise<void>;
   delete(key: string): Promise<boolean>;
-  delete(keys: Array<string>): Promise<boolean>;
+  delete(keys: Array<string>): Promise<number>;
   list<T = unknown>(options?: DurableObjectListOptions): Promise<Map<string, T>>;
 }
 
