@@ -35,3 +35,15 @@ function handle(request: Request) {
   if (!request.cf) return new Response('hi')
   return new Response(request.cf.colo)
 }
+
+class MyDurableObject implements DurableObject {
+  async fetch(input: RequestInfo, init?: RequestInit | undefined) {
+    return new Response("Hello, world!")
+  }
+}
+
+type MyDurableObjectNamespace = DurableObjectNamespace
+
+const MyDurableObjectNamespace: DurableObjectNamespace = undefined as any
+const myDurableObjectStub = MyDurableObjectNamespace.get(MyDurableObjectNamespace.newUniqueId())
+myDurableObjectStub.fetch('/', { method: 'POST' })
