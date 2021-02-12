@@ -672,7 +672,7 @@ interface DurableObjectState {
  * DurableObject is a class that defines a template for creating Durable Objects
  */
 interface DurableObject {
-  fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+  fetch: (request: Request) => Promise<Response>;
 }
 
 /**

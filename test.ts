@@ -37,7 +37,7 @@ function handle(request: Request) {
 }
 
 class MyDurableObject implements DurableObject {
-  async fetch(input: RequestInfo, init?: RequestInit | undefined) {
+  async fetch(request: Request) {
     return new Response("Hello, world!")
   }
 }
