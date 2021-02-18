@@ -660,6 +660,7 @@ interface DurableObjectStorage extends DurableObjectOperator {
 }
 
 interface DurableObjectState {
+  id: DurableObjectId;
   storage: DurableObjectStorage;
   /**
    * Use this method to notify the runtime to wait for asynchronous tasks
