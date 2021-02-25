@@ -646,6 +646,7 @@ interface DurableObjectOperator {
   put<T = unknown>(entries: DurableObjectEntries<T>): Promise<void>;
   delete(key: string): Promise<boolean>;
   delete(keys: Array<string>): Promise<number>;
+  deleteAll(): Promise<void>;
   list<T = unknown>(options?: DurableObjectListOptions): Promise<Map<string, T>>;
 }
 
