@@ -660,6 +660,7 @@ interface DurableObjectStorage extends DurableObjectOperator {
 }
 
 interface DurableObjectState {
+  id: DurableObjectId;
   storage: DurableObjectStorage;
   /**
    * Use this method to notify the runtime to wait for asynchronous tasks
@@ -672,7 +673,7 @@ interface DurableObjectState {
  * DurableObject is a class that defines a template for creating Durable Objects
  */
 interface DurableObject {
-  fetch: (request: Request, init?: RequestInfo) => Promise<Response>;
+  fetch: (request: Request) => Promise<Response>;
 }
 
 /**
@@ -681,7 +682,7 @@ interface DurableObject {
 interface DurableObjectStub {
   name?: string;
   id: DurableObjectId;
-  fetch: (request: Request, init?: RequestInfo) => Promise<Response>;
+  fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }
 
 interface DurableObjectId {
