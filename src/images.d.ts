@@ -1,0 +1,189 @@
+interface BasicImageTransformations {
+  /**
+   * Maximum width in image pixels. The value must be an integer.
+   */
+  width?: number
+  /**
+   * Maximum height in image pixels. The value must be an integer.
+   */
+  height?: number
+  /**
+   * Resizing mode as a string. It affects interpretation of width and height
+   * options:
+   *  - scale-down: Similar to contain, but the image is never enlarged. If
+   *    the image is larger than given width or height, it will be resized.
+   *    Otherwise its original size will be kept.
+   *  - contain: Resizes to maximum size that fits within the given width and
+   *    height. If only a single dimension is given (e.g. only width), the
+   *    image will be shrunk or enlarged to exactly match that dimension.
+   *    Aspect ratio is always preserved.
+   *  - cover: Resizes (shrinks or enlarges) to fill the entire area of width
+   *    and height. If the image has an aspect ratio different from the ratio
+   *    of width and height, it will be cropped to fit.
+   *  - crop: The image will shrunk and cropped to fit within the area
+   *    specified by width and height. The image won’t be enlarged. For images
+   *    smaller than the given dimensions it’s the same as scale-down. For
+   *    images larger than the given dimensions, it’s the same as cover.
+   *  - pad: Resizes to the maximum size that fits within the given width and
+   *    height, and then fills the remaining area with a background color
+   *    (white by default). Use of this mode is not recommended, as the same
+   *    effect can be more efficiently achieved with the contain mode and the
+   *    CSS object-fit: contain property.
+   */
+  fit?: 'scale-down' | 'contain' | 'cover' | 'crop' | 'pad'
+  /**
+   * When cropping with fit: "cover", this defines the side or point that should
+   * be left uncropped. The value is either a string
+   * "left", "right", "top", "bottom" or "center" (the default),
+   * or an object {x, y} containing focal point coordinates in the original
+   * image expressed as fractions ranging from 0.0 (top or left) to 1.0
+   * (bottom or right), 0.5 being the center. {fit: "cover", gravity: "top"} will
+   * crop bottom or left and right sides as necessary, but won’t crop anything
+   * from the top. {fit: "cover", gravity: {x:0.5, y:0.2}} will crop each side to
+   * preserve as much as possible around a point at 20% of the height of the
+   * source image.
+   */
+  gravity?: 'left' | 'right' | 'top' | 'bottom' | 'center' | { x: number; y: number }
+  /**
+   * Background color to add underneath the image. Applies only to images with
+   * transparency (such as PNG). Accepts any CSS color (#RRGGBB, rgba(…),
+   * hsl(…), etc.)
+   */
+  background?: string
+  /**
+   * Number of degrees (90, 180, 270) to rotate the image by. width and height
+   * options refer to axes after rotation.
+   */
+  rotate?: 0 | 90 | 180 | 270 | 360
+}
+
+interface RequestInitCfProperties {
+  /**
+   * In addition to the properties you can set in the RequestInit dict
+   * that you pass as an argument to the Request constructor, you can
+   * set certain properties of a `cf` object to control how Cloudflare
+   * features are applied to that new Request.
+   *
+   * Note: Currently, these properties cannot be tested in the
+   * playground.
+   */
+  cacheEverything?: boolean
+  /**
+   * A request's cache key is what determines if two requests are
+   * "the same" for caching purposes. If a request has the same cache key
+   * as some previous request, then we can serve the same cached response for
+   * both. (e.g. 'some-key')
+   *
+   * Only available for Enterprise customers.
+   */
+  cacheKey?: string
+  /**
+   * Force response to be cached for a given number of seconds. (e.g. 300)
+   */
+  cacheTtl?: number
+  /**
+   * Force response to be cached for a given number of seconds based on the Origin status code.
+   * (e.g. { '200-299': 86400, '404': 1, '500-599': 0 })
+   */
+  cacheTtlByStatus?: { [key: string]: number }
+  scrapeShield?: boolean
+  apps?: boolean
+  image?: BasicImageTransformations & {
+    /**
+     * Device Pixel Ratio. Default 1. Multiplier for width/height that makes it
+     * easier to specify higher-DPI sizes in <img srcset>.
+     */
+    dpr?: number
+    /**
+     * Quality setting from 1-100 (useful values are in 60-90 range). Lower values
+     * make images look worse, but load faster. The default is 85. It applies only
+     * to JPEG and WebP images. It doesn’t have any effect on PNG.
+     */
+    quality?: number
+    /**
+     * Output format to generate. It can be:
+     *  - avif: generate images in AVIF format.
+     *  - webp: generate images in Google WebP format. Set quality to 100 to get
+     *    the WebP-lossless format.
+     *  - json: instead of generating an image, outputs information about the
+     *    image, in JSON format. The JSON object will contain image size
+     *    (before and after resizing), source image’s MIME type, file size, etc.
+     */
+    format?: 'avif' | 'webp' | 'json'
+    /**
+     * What EXIF data should be preserved in the output image. Note that EXIF
+     * rotation and embedded color profiles are always applied ("baked in" into
+     * the image), and aren't affected by this option. Note that if the Polish
+     * feature is enabled, all metadata may have been removed already and this
+     * option may have no effect.
+     *  - keep: Preserve most of EXIF metadata, including GPS location if there's
+     *    any.
+     *  - copyright: Only keep the copyright tag, and discard everything else.
+     *    This is the default behavior for JPEG files.
+     *  - none: Discard all invisible EXIF metadata. Currently WebP and PNG
+     *    output formats always discard metadata.
+     */
+    metadata?: 'keep' | 'copyright' | 'none'
+    /**
+     * Overlays are drawn in the order they appear in the array (last array
+     * entry is the topmost layer).
+     */
+    draw?: (BasicImageTransformations & {
+      /**
+       * Absolute URL of the image file to use for the drawing. It can be any of
+       * the supported file formats. For drawing of watermarks or non-rectangular
+       * overlays we recommend using PNG or WebP images.
+       */
+      url: string
+      /**
+       * Floating-point number between 0 (transparent) and 1 (opaque).
+       * For example, opacity: 0.5 makes overlay semitransparent.
+       */
+      opacity?: number
+      /**
+       * - If set to true, the overlay image will be tiled to cover the entire
+       *   area. This is useful for stock-photo-like watermarks.
+       * - If set to "x", the overlay image will be tiled horizontally only
+       *   (form a line).
+       * - If set to "y", the overlay image will be tiled vertically only
+       *   (form a line).
+       */
+      repeat?: true | 'x' | 'y'
+      /**
+       * Position of the overlay image relative to a given edge. Each property is
+       * an offset in pixels. 0 aligns exactly to the edge. For example, left: 10
+       * positions left side of the overlay 10 pixels from the left edge of the
+       * image it's drawn over. bottom: 0 aligns bottom of the overlay with bottom
+       * of the background image.
+       *
+       * Setting both left & right, or both top & bottom is an error.
+       *
+       * If no position is specified, the image will be centered.
+       */
+      top?: number
+      left?: number
+      bottom?: number
+      right?: number
+    })[]
+  }
+  minify?: {
+    javascript?: boolean
+    css?: boolean
+    html?: boolean
+  }
+  mirage?: boolean
+  /**
+   * Redirects the request to an alternate origin server. You can use this,
+   * for example, to implement load balancing across several origins.
+   * (e.g.us-east.example.com)
+   *
+   * Note - For security reasons, the hostname set in resolveOverride must
+   * be proxied on the same Cloudflare zone of the incoming request.
+   * Otherwise, the setting is ignored. CNAME hosts are allowed, so to
+   * resolve to a host under a different domain or a DNS only domain first
+   * declare a CNAME record within your own zone’s DNS mapping to the
+   * external hostname, set proxy on Cloudflare, then set resolveOverride
+   * to point to that CNAME record.
+   */
+  resolveOverride?: string
+}
