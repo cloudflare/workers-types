@@ -251,7 +251,7 @@ interface IncomingRequestCfProperties {
   /**
    * DMA metro code from which the request was issued, e.g. "635"
    */
-  metroCode?: number;
+  metroCode?: string;
   postalCode?: string;
   /**
    * e.g. "Texas"
