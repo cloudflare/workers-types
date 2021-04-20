@@ -4,6 +4,10 @@ interface FetchEvent {
 
 interface ScheduledEvent {
   /**
+   * The value of the cron trigger that started the the `ScheduledEvent`.
+   */
+  cron: string;
+  /**
    * The type of event. This will always return `"scheduled"`.
    */
   type: string;
