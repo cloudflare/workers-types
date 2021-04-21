@@ -8,16 +8,16 @@ interface ScheduledEvent {
    */
   type: string;
   /**
-   * The time the `ScheduledEvent` was scheduled to be executed in 
-   * milliseconds since January 1, 1970, UTC. 
+   * The time the `ScheduledEvent` was scheduled to be executed in
+   * milliseconds since January 1, 1970, UTC.
    * It can be parsed as `new Date(event.scheduledTime)`
    */
   scheduledTime: number;
   /**
-   * Use this method to notify the runtime to wait for asynchronous tasks 
-   * (e.g. logging, analytics to third-party services, streaming and caching). 
-   * The first `event.waitUntil` to fail will be observed and recorded as the 
-   * status in the Cron Trigger Past Events table. Otherwise, it will be 
+   * Use this method to notify the runtime to wait for asynchronous tasks
+   * (e.g. logging, analytics to third-party services, streaming and caching).
+   * The first `event.waitUntil` to fail will be observed and recorded as the
+   * status in the Cron Trigger Past Events table. Otherwise, it will be
    * reported as a Success.
    */
   waitUntil(promise: Promise<any>): void;
@@ -580,11 +580,27 @@ type KVValueWithMetadata<Value, Metadata> = Promise<{
 }>;
 
 interface KVNamespace {
-  get(key: string): KVValue<string>;
+  get(key: string, options?: {cacheTtl?: number;}): KVValue<string>;
   get(key: string, type: 'text'): KVValue<string>;
   get<ExpectedValue = unknown>(key: string, type: 'json'): KVValue<ExpectedValue>;
   get(key: string, type: 'arrayBuffer'): KVValue<ArrayBuffer>;
   get(key: string, type: 'stream'): KVValue<ReadableStream>;
+  get(key: string, options?: {
+    type: 'text',
+    cacheTtl?: number;
+  }): KVValue<string>;
+  get<ExpectedValue = unknown>(key: string, options?: {
+    type: 'json',
+    cacheTtl?: number;
+  }): KVValue<ExpectedValue>;
+  get(key: string, options?: {
+    type: 'arrayBuffer',
+    cacheTtl?: number;
+  }): KVValue<ArrayBuffer>;
+  get(key: string, options?: {
+    type: 'stream',
+    cacheTtl?: number;
+  }): KVValue<ReadableStream>;
 
   getWithMetadata<Metadata = unknown>(key: string): KVValueWithMetadata<string, Metadata>;
   getWithMetadata<Metadata = unknown>(
@@ -636,7 +652,7 @@ interface DurableObjectListOptions {
   end?: string;
   reverse?: boolean;
   limit?: number;
-  prefix?: string;                     
+  prefix?: string;
 }
 
 interface DurableObjectOperator {
