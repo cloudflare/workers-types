@@ -672,7 +672,7 @@ interface DurableObjectTransaction extends DurableObjectOperator {
 
 interface DurableObjectStorage extends DurableObjectOperator {
   transaction(
-    closure: (txn: DurableObjectStorage) => Promise<void>
+    closure: (txn: DurableObjectTransaction) => Promise<void>
   ): Promise<void>;
 }
 
