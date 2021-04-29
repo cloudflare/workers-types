@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.2.2
+
+### Features
+
+- **Add KVNamespace.get options parameter, with cacheTtl - [@bretthoerner], [pull/87]**
+
+### Bugfixes
+
+- **fix DurableObjectStorage transaction method signature - [@sbfaulkner], [pull/89]**
+
 ## 2.1.0
 
 ### Features
