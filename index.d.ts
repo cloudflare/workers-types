@@ -622,7 +622,7 @@ interface KVNamespace {
 
   put(
     key: string,
-    value: string | ReadableStream | ArrayBuffer | FormData,
+    value: string | ReadableStream | ArrayBuffer,
     options?: {
       expiration?: string | number;
       expirationTtl?: string | number;
