@@ -543,7 +543,7 @@ type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyo
 
 type ElementHandler = RequireAtLeastOne<ElementHandlerOptionals, 'element' | 'comments' | 'text'>;
 
-interface DocumentHandler {
+interface DocumentHandlerOptionals {
   /**
    * An incoming doctype, such as <!DOCTYPE html>
    */
@@ -561,6 +561,8 @@ interface DocumentHandler {
    */
   end(end: DocumentEnd): void | Promise<void>;
 }
+
+type DocumentHandler = RequireAtLeastOne<DocumentHandlerOptionals, 'doctype' | 'comments' | 'text' | 'end'>;
 
 declare class HTMLRewriter {
   constructor();
