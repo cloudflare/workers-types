@@ -671,9 +671,9 @@ interface DurableObjectTransaction extends DurableObjectOperator {
 }
 
 interface DurableObjectStorage extends DurableObjectOperator {
-  transaction(
-    closure: (txn: DurableObjectTransaction) => Promise<void>
-  ): Promise<void>;
+  transaction<T>(
+    closure: (txn: DurableObjectTransaction) => Promise<T>
+  ): Promise<T>;
 }
 
 interface DurableObjectState {
