@@ -59,3 +59,50 @@ myKVNamespace.get("foo", {cacheTtl: 60, type: "arrayBuffer"});
 myKVNamespace.get("foo", {type: "arrayBuffer"});
 myKVNamespace.get("foo", {cacheTtl: 60, type: "stream"});
 myKVNamespace.get("foo", {type: "stream"});
+
+interface Env extends ModuleWorker.Bindings {
+  Clients: KVNamespace;
+  Workers: DurableObjectNamespace;
+  API_TOKEN: string;
+}
+
+const worker: ModuleWorker<Env> = {
+  async fetch(req, env, ctx) {
+    let { cf } = req;
+
+    let userid: string | null = null;
+    let ip = req.headers.get('cf-connecting-ip');
+
+    if (ip) {
+      userid = await env.Clients.get(`ip:${ip}`, 'text');
+    }
+
+    ctx.waitUntil(
+      fetch('/logs', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${env.API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          colo: cf.colo,
+          country: cf.country,
+          userid: userid || '',
+          ip: ip || '',
+        })
+      })
+    );
+
+    return new Response('OK');
+  },
+
+  scheduled(event, env, ctx) {
+    ctx.waitUntil(
+      fetch('/cleanup', {
+        headers: {
+          'Authorization': `Bearer ${env.API_TOKEN}`
+        }
+      })
+    );
+  }
+};
