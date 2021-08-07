@@ -26,7 +26,20 @@ addEventListener('fetch', (event: FetchEvent) => {
   event.request.cf.cacheEverything
   // request from FetchEvent is assignable within request
   // constructor as RequestInit
-  new Request('hi', event.request)
+  new Request(event.request, { cf: { cacheEverything: true } })
+  fetch('hello', event.request)
+  fetch('bye', { cf: { cacheTtl: 1 } })
+
+  // We used to support the code below, but it's just not worth it.
+  // It bloats the `cf` object when making requests. Since
+  // `new Request()` is defined using `var`, there is no way
+  // to edit its easure.
+  //
+  //   new Request('hi', event.request)
+  //
+  // Below is the workaround, which is mentioned in the README.
+  new Request('hi', event.request as RequestInit)
+  
   // request from FetchEvent works with handle function
   event.respondWith(handle(event.request))
 })

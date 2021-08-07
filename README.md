@@ -4,7 +4,8 @@
 
 ```bash
 npm install @cloudflare/workers-types
--- Or
+```
+```
 yarn add @cloudflare/workers-types
 ```
 
@@ -17,9 +18,9 @@ The following is a minimal `tsconfig.json` for use alongside this package:
 ```json
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "lib": ["ES2020", "WebWorker"],
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["esnext", "webworker"],
     "types": ["@cloudflare/workers-types"]
   }
 }
@@ -35,8 +36,23 @@ It's recommended that you create an ambient type file for any bindings your Work
 export {};
 
 declare global {
-  const MY_ENV_VAR: string
+  const MY_ENV: string
   const MY_SECRET: string
-  const myKVNamespace: KVNamespace
+  const KV_NAMESPACE: KVNamespace
+  const DO_NAMESPACE: DurableObjectNamespace
 }
+```
+
+### Known issues
+
+Due to limitations in TypeScript, there are a few known issues that don't have an easy fix.
+
+```typescript
+let request: Request
+
+// Does not work.
+new Request('https://example.com', request)
+
+// Works.
+new Request('https://example.com', request as RequestInit)
 ```
