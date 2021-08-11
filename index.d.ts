@@ -719,7 +719,7 @@ interface WebSocket {
   accept(): void;
 }
 
-declare class WebSocketPair {
+declare class WebSocketPair extends Array {
   0: WebSocket;
   1: WebSocket;
 }
