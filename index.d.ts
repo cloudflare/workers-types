@@ -57,18 +57,23 @@ interface BasicImageTransformations {
    */
   fit?: 'scale-down' | 'contain' | 'cover' | 'crop' | 'pad';
   /**
-   * When cropping with fit: "cover", this defines the side or point that should
-   * be left uncropped. The value is either a string
-   * "left", "right", "top", "bottom" or "center" (the default),
-   * or an object {x, y} containing focal point coordinates in the original
-   * image expressed as fractions ranging from 0.0 (top or left) to 1.0
-   * (bottom or right), 0.5 being the center. {fit: "cover", gravity: "top"} will
-   * crop bottom or left and right sides as necessary, but won’t crop anything
-   * from the top. {fit: "cover", gravity: {x:0.5, y:0.2}} will crop each side to
-   * preserve as much as possible around a point at 20% of the height of the
-   * source image.
+   * When cropping with fit: "cover" and fit: "crop", this defines the side or
+   * point that should be left uncropped.
+   *
+   * There are three ways of specifying gravity:
+   *  - A string "left", "right", "top", "bottom" or "center" (the default).
+   *    {fit: "cover", gravity: "top"} will crop bottom or left and right
+   *    sides as necessary, but won’t crop anything from the top.
+   *  - "auto", which selects focal point based on saliency detection
+   *    (using maximum symmetric surround algorithm),
+   *  - An object {x, y} containing focal point coordinates in the original
+   *    image expressed as fractions ranging from 0.0 (top or left) to 1.0
+   *    (bottom or right), 0.5 being the center.
+   *    {fit: "cover", gravity: {x:0.5, y:0.2}} will crop each side to
+   *    preserve as much as possible around a point at 20% of the height of
+   *    the source image.
    */
-  gravity?: 'left' | 'right' | 'top' | 'bottom' | 'center' | { x: number; y: number };
+  gravity?: 'left' | 'right' | 'top' | 'bottom' | 'center' | 'auto' | { x: number; y: number };
   /**
    * Background color to add underneath the image. Applies only to images with
    * transparency (such as PNG). Accepts any CSS color (#RRGGBB, rgba(…),
@@ -120,6 +125,13 @@ interface RequestInitCfProperties {
      */
     dpr?: number;
     /**
+     * An object with four properties `{left, top, right, bottom}` that specify a
+     * number of pixels to cut off on each side. Allows removal of borders or
+     * cutting out a specific fragment of an image. Trimming is performed before
+     * resizing or rotation. Takes `dpr` into account.
+     */
+    trim?: { left?: number; top?: number; right?: number; bottom?: number };
+    /**
      * Quality setting from 1-100 (useful values are in 60-90 range). Lower values
      * make images look worse, but load faster. The default is 85. It applies only
      * to JPEG and WebP images. It doesn’t have any effect on PNG.
@@ -136,6 +148,13 @@ interface RequestInitCfProperties {
      */
     format?: 'avif' | 'webp' | 'json';
     /**
+     * Whether to preserve animation frames from input files (default `true`).
+     * Setting it to `false` reduces animations to still images. This setting is
+     * recommended when enlarging images or processing arbitrary user content,
+     * because large GIF animations can weigh tens or even hundreds of megabytes.
+     */
+    anim?: boolean;
+    /**
      * What EXIF data should be preserved in the output image. Note that EXIF
      * rotation and embedded color profiles are always applied ("baked in" into
      * the image), and aren't affected by this option. Note that if the Polish
@@ -149,6 +168,12 @@ interface RequestInitCfProperties {
      *    output formats always discard metadata.
      */
     metadata?: 'keep' | 'copyright' | 'none';
+    /**
+     * Strength of sharpening filter to apply to the image. Floating-point number
+     * between `0` (no sharpening, default) and `10` (max). `1.0` is a
+     * recommended value for downscaled images.
+     */
+    sharpen?: number;
     /**
      * Overlays are drawn in the order they appear in the array (last array
      * entry is the topmost layer).
@@ -307,7 +332,10 @@ interface RequestInit {
 }
 
 declare function addEventListener(type: 'fetch', handler: (event: FetchEvent) => void): void;
-declare function addEventListener(type: 'scheduled', handler: (event: ScheduledEvent) => void): void;
+declare function addEventListener(
+  type: 'scheduled',
+  handler: (event: ScheduledEvent) => void
+): void;
 
 interface Request {
   cf: IncomingRequestCfProperties;
@@ -580,27 +608,39 @@ type KVValueWithMetadata<Value, Metadata> = Promise<{
 }>;
 
 interface KVNamespace {
-  get(key: string, options?: {cacheTtl?: number;}): KVValue<string>;
+  get(key: string, options?: { cacheTtl?: number }): KVValue<string>;
   get(key: string, type: 'text'): KVValue<string>;
   get<ExpectedValue = unknown>(key: string, type: 'json'): KVValue<ExpectedValue>;
   get(key: string, type: 'arrayBuffer'): KVValue<ArrayBuffer>;
   get(key: string, type: 'stream'): KVValue<ReadableStream>;
-  get(key: string, options?: {
-    type: 'text',
-    cacheTtl?: number;
-  }): KVValue<string>;
-  get<ExpectedValue = unknown>(key: string, options?: {
-    type: 'json',
-    cacheTtl?: number;
-  }): KVValue<ExpectedValue>;
-  get(key: string, options?: {
-    type: 'arrayBuffer',
-    cacheTtl?: number;
-  }): KVValue<ArrayBuffer>;
-  get(key: string, options?: {
-    type: 'stream',
-    cacheTtl?: number;
-  }): KVValue<ReadableStream>;
+  get(
+    key: string,
+    options?: {
+      type: 'text';
+      cacheTtl?: number;
+    }
+  ): KVValue<string>;
+  get<ExpectedValue = unknown>(
+    key: string,
+    options?: {
+      type: 'json';
+      cacheTtl?: number;
+    }
+  ): KVValue<ExpectedValue>;
+  get(
+    key: string,
+    options?: {
+      type: 'arrayBuffer';
+      cacheTtl?: number;
+    }
+  ): KVValue<ArrayBuffer>;
+  get(
+    key: string,
+    options?: {
+      type: 'stream';
+      cacheTtl?: number;
+    }
+  ): KVValue<ReadableStream>;
 
   getWithMetadata<Metadata = unknown>(key: string): KVValueWithMetadata<string, Metadata>;
   getWithMetadata<Metadata = unknown>(
@@ -671,9 +711,7 @@ interface DurableObjectTransaction extends DurableObjectOperator {
 }
 
 interface DurableObjectStorage extends DurableObjectOperator {
-  transaction(
-    closure: (txn: DurableObjectTransaction) => Promise<void>
-  ): Promise<void>;
+  transaction(closure: (txn: DurableObjectTransaction) => Promise<void>): Promise<void>;
 }
 
 interface DurableObjectState {
