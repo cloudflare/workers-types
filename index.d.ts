@@ -718,7 +718,7 @@ interface DurableObjectState {
   id: DurableObjectId;
   storage: DurableObjectStorage;
   /**
-   * While `waitUntil` is available within a Durable Object, it has no effect.
+   * @deprecated While `waitUntil` is available within a Durable Object, it has no effect.
    * Refer to Durable Object Lifespan for more information.
    * (https://developers.cloudflare.com/workers/runtime-apis/durable-objects#durable-object-lifespan)
    */
