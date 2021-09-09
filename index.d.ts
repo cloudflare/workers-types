@@ -746,7 +746,7 @@ interface DurableObjectId {
 }
 
 interface DurableObjectNamespace {
-  newUniqueId: () => DurableObjectId;
+  newUniqueId: (options?: { jurisdiction?: 'eu' }) => DurableObjectId;
   idFromName: (name: string) => DurableObjectId;
   idFromString: (hexId: string) => DurableObjectId;
 
