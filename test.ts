@@ -33,7 +33,9 @@ addEventListener('fetch', (event: FetchEvent) => {
 
 function handle(request: Request) {
   if (!request.cf) return new Response('hi')
-  return new Response(request.cf.colo)
+  return new Response(request.cf.colo, {
+    encodeBody: "manual",
+  })
 }
 
 class MyDurableObject implements DurableObject {

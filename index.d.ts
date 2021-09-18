@@ -724,6 +724,25 @@ interface DurableObjectState {
   waitUntil(promise: Promise<any>): void;
 }
 
+interface ResponseInit {
+  /**
+   * Workers have to compress data according to the content-encoding header
+   * when transmitting, to serve data that is already compressed, this
+   * property has to be set to "manual", otherwise the default is "auto".
+   */
+  encodeBody?: "auto" | "manual";
+}
+
+interface Response {
+  /**
+   * Determines if the response already handled compression. Null
+   * is equivalent to "auto".
+   * 
+   * @see {@link ResponseInit#encodeBody}
+   */
+  encodeBody: "auto" | "manual" | null;
+}
+
 /**
  * DurableObject is a class that defines a template for creating Durable Objects
  */
