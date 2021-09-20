@@ -248,9 +248,14 @@ interface IncomingRequestCfProperties {
    * playground.
    */
   /**
-   *  (e.g. 395747)
+   * (e.g. 395747)
    */
   asn: number;
+  /**
+   * The organisation which owns the ASN of the incoming request.
+   * (e.g. Google Cloud)
+   */
+  asOrganization: string;
   botManagement?: {
     score: number;
     staticResource: boolean;
