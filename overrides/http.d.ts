@@ -46,4 +46,12 @@ declare type URLSearchParamsInitializer =
   | Record<string, string>
   | [key: string, value: string][];
 
+interface CfRequestInitializerDict extends Omit<RequestInitializerDict, "cf"> {
+  cf?: RequestInitCfProperties;
+}
+
+declare class FetchEvent extends Event {
+  respondWith(promise: Response | Promise<Response>): void;
+}
+
 export {};

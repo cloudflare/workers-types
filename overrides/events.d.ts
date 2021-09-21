@@ -1,12 +1,25 @@
-declare type EventListener<EventType extends Event> = (event: EventType) => void;
+declare type EventListener<EventType extends Event = Event> = (event: EventType) => void;
 
-declare abstract class EventTarget<EventMap extends Record<string, Event> = Record<string, Event>> {
+interface EventListenerObject<EventType extends Event = Event> {
+  handleEvent(event: EventType): void;
+}
+
+declare type EventListenerOrEventListenerObject<EventType extends Event = Event> =
+  | EventListener<EventType>
+  | EventListenerObject<EventType>;
+
+declare class EventTarget<EventMap extends Record<string, Event> = Record<string, Event>> {
+  constructor();
   addEventListener<Type extends keyof EventMap>(
     type: Type,
-    handler: EventListener<EventMap[Type]>,
-    options?: boolean
+    handler: EventListenerOrEventListenerObject<EventMap[Type]>,
+    options?: EventTargetAddEventListenerOptions | boolean
   ): void;
-  removeEventListener<Type extends keyof EventMap>(type: Type, handler: EventListener<EventMap[Type]>): void;
+  removeEventListener<Type extends keyof EventMap>(
+    type: Type,
+    handler: EventListenerOrEventListenerObject<EventMap[Type]>,
+    options?: EventTargetEventListenerOptions | boolean
+  ): void;
   dispatchEvent(event: EventMap[keyof EventMap]): boolean;
 }
 
@@ -21,13 +34,13 @@ declare type ExportedHandlerFetchHandler<Env = unknown> = (
   request: Request,
   env: Env,
   ctx: ExecutionContext
-) => Promise<Response>;
+) => Response | Promise<Response>;
 
 declare type ExportedHandlerScheduledHandler<Env = unknown> = (
   controller: ScheduledController,
   env: Env,
   ctx: ExecutionContext
-) => Promise<void>;
+) => void | Promise<void>;
 
 declare type WorkerGlobalScopeEventMap = {
   fetch: FetchEvent;

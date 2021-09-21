@@ -21,7 +21,7 @@ interface KVNamespaceListResult<Metadata> {
 }
 
 declare class KVNamespace {
-  get(key: string, options?: KVNamespaceGetOptions<undefined>): Promise<string | null>;
+  get(key: string, options?: Partial<KVNamespaceGetOptions<undefined>>): Promise<string | null>;
   get(key: string, type: "text"): Promise<string | null>;
   get<ExpectedValue = unknown>(key: string, type: "json"): Promise<ExpectedValue | null>;
   get(key: string, type: "arrayBuffer"): Promise<ArrayBuffer | null>;
@@ -34,7 +34,7 @@ declare class KVNamespace {
 
   getWithMetadata<Metadata = unknown>(
     key: string,
-    options?: KVNamespaceGetOptions<undefined>
+    options?: Partial<KVNamespaceGetOptions<undefined>>
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
   getWithMetadata<Metadata = unknown>(
     key: string,
@@ -70,7 +70,7 @@ declare class KVNamespace {
     options: KVNamespaceGetOptions<"stream">
   ): Promise<KVNamespaceGetWithMetadataResult<ReadableStream, Metadata>>;
 
-  put(name: string, value: string | ArrayBuffer | ArrayBufferView | ReadableStream, options?: KVNamespacePutOptions): Promise<void>;
+  put(key: string, value: string | ArrayBuffer | ArrayBufferView | ReadableStream, options?: KVNamespacePutOptions): Promise<void>;
 
   list<Metadata = unknown>(options?: KVNamespaceListOptions): Promise<KVNamespaceListResult<Metadata>>;
 }
