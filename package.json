@@ -1,6 +1,6 @@
 {
   "name": "@cloudflare/workers-types",
-  "version": "2.2.2",
+  "version": "3.0.0",
   "description": "TypeScript typings for Cloudflare Workers",
   "repository": {
     "type": "git",
@@ -9,12 +9,19 @@
   "main": "index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "export:docs": "node -r esbuild-register export/docs.ts",
+    "export:overrides": "node -r esbuild-register export/overrides.ts",
+    "test": "tsc"
   },
-  "author": "John Fawcett",
+  "author": "Brendan Coll",
   "license": "BSD-3-Clause",
   "devDependencies": {
+    "@types/marked": "^3.0.0",
+    "@types/node": "^16.6.1",
+    "esbuild": "^0.12.22",
+    "esbuild-register": "^3.0.0",
+    "marked": "^3.0.2",
     "prettier": "2.0.5",
-    "typescript": "^3.9.5"
+    "typescript": "^4.3.5"
   }
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.0.0
+
+### Features
+
+- **Types are automatically generated from the runtime - [@mrbbot], [pull/112]**
+  Types now match exactly what's defined in the runtime source code, meaning `webworker` should be removed from users' `tsconfig.json`s
+
+  [@mrbbot]: https://github.com/mrbbot
+  [pull/112]: https://github.com/cloudflare/workers-types/pull/112
+
 ## 2.2.2
 
 ### Features

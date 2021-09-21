@@ -3,9 +3,9 @@
 ## Install
 
 ```bash
-npm install @cloudflare/workers-types
+npm install -D @cloudflare/workers-types
 -- Or
-yarn add @cloudflare/workers-types
+yarn add -D @cloudflare/workers-types
 ```
 
 ## Usage
@@ -19,7 +19,7 @@ The following is a minimal `tsconfig.json` for use alongside this package:
   "compilerOptions": {
     "target": "ES2020",
     "module": "CommonJS",
-    "lib": ["ES2020", "WebWorker"],
+    "lib": ["ES2020"],
     "types": ["@cloudflare/workers-types"]
   }
 }
