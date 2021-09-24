@@ -718,10 +718,30 @@ interface DurableObjectState {
   id: DurableObjectId;
   storage: DurableObjectStorage;
   /**
-   * Use this method to notify the runtime to wait for asynchronous tasks
-   * (e.g. logging, analytics to third-party services, streaming and caching).
+   * @deprecated While `waitUntil` is available within a Durable Object, it has no effect.
+   * Refer to Durable Object Lifespan for more information.
+   * (https://developers.cloudflare.com/workers/runtime-apis/durable-objects#durable-object-lifespan)
    */
   waitUntil(promise: Promise<any>): void;
+  /**
+   * Executes `callback()` (which may be `async`) while blocking any other events from
+   * being delivered to the object until the callback completes.
+   * This allows you to execute some code that performs I/O (such as a `fetch()`)
+   * with the guarantee that the object's state will not unexpectedly change as a result of concurrent events.
+   * All events that were not explicitly initiated as part of the callback itself will be blocked.
+   * This includes not only new incoming requests, but also responses to outgoing requests (such as `fetch()`)
+   * that were initiated outside of the callback. Once the callback completes, these events will be delivered.
+   * 
+   * `state.blockConcurrencyWhile()` is especially useful inside the constructor of your object,
+   * to perform initialization that must occur before any requests are delivered.
+   * 
+   * If the callback throws an exception, the object will be terminated and reset.
+   * This ensures that the object cannot be left stuck in an uninitialized state if something fails unexpectedly.
+   * To avoid this behavior, wrap the body of your callback in a `try`/`catch` block to ensure it cannot throw an exception.
+   * 
+   * The value returned by the callback becomes the value returned by `blockConcurrencyWhile()` itself.
+   */
+  blockConcurrencyWhile<T>(callback: () => Promise<T>): Promise<T>;
 }
 
 /**
