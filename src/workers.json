@@ -1,5 +1,5 @@
 {
-  "$schema": "./schema.json",
+  "$schema": "schema.json",
   "AbortController": {
     "name": "AbortController",
     "members": [
@@ -5497,9 +5497,7 @@
           ],
           "returns": "Returns a `Promise` that you should `await` on in order to verify a successful update.",
           "examples": {
-            "typescript": [
-              "await NAMESPACE.put(key, value)"
-            ]
+            "typescript": ["await NAMESPACE.put(key, value)"]
           }
         }
       },
