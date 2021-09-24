@@ -1,4 +1,4 @@
-name: Lint Markdown
+name: Check Docs & Overrides
 
 on: [push, pull_request]
 
@@ -11,5 +11,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16'
-      - run: npm install -g markdownlint-cli@0.23.2
-      - run: markdownlint '**/*.md' --ignore node_modules
+      - run: npm install
+      - name: Check Docs
+        run: npm run export:docs
+      - name: Check Overrides
+        run: npm run export:overrides

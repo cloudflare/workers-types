@@ -1,3 +1,5 @@
+# KV
+
 ## `KVNamespace`
 
 Workers KV is a global, low-latency, key-value data store. It supports exceptionally high read volumes with low-latency,
