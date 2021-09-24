@@ -741,7 +741,7 @@ interface DurableObjectState {
    * 
    * The value returned by the callback becomes the value returned by `blockConcurrencyWhile()` itself.
    */
-  blockConcurrencyWhile(callback: () => Promise<any>): Promise<any>;
+  blockConcurrencyWhile<T>(callback: () => Promise<T>): Promise<T>;
 }
 
 /**
