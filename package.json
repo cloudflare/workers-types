@@ -8,6 +8,9 @@
   },
   "main": "index.js",
   "types": "./index.d.ts",
+  "files": [
+    "index.d.ts"
+  ],
   "scripts": {
     "export:docs": "node -r esbuild-register export/docs.ts",
     "export:overrides": "node -r esbuild-register export/overrides.ts",
