@@ -6,7 +6,6 @@
     "type": "git",
     "url": "https://github.com/cloudflare/workers-types"
   },
-  "main": "index.js",
   "types": "./index.d.ts",
   "files": [
     "index.d.ts"
