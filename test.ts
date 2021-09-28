@@ -60,3 +60,11 @@ myKVNamespace.get('foo', { type: 'arrayBuffer' });
 myKVNamespace.get('foo', { cacheTtl: 60, type: 'stream' });
 myKVNamespace.get('foo', { type: 'stream' });
 
+// One can narrow down the possible set of keys in KVNamespace
+const settings: KVNamespace<'enabled'> = undefined as any;
+
+settings.get('enabled');
+
+// We get an TypeScript error when we misspell a keys
+// @ts-expect-error
+settings.get('ennabled');

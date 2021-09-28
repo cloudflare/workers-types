@@ -607,61 +607,52 @@ type KVValueWithMetadata<Value, Metadata> = Promise<{
   metadata: Metadata | null;
 }>;
 
-interface KVNamespace {
-  get(key: string, options?: { cacheTtl?: number }): KVValue<string>;
-  get(key: string, type: 'text'): KVValue<string>;
-  get<ExpectedValue = unknown>(key: string, type: 'json'): KVValue<ExpectedValue>;
-  get(key: string, type: 'arrayBuffer'): KVValue<ArrayBuffer>;
-  get(key: string, type: 'stream'): KVValue<ReadableStream>;
-  get(
-    key: string,
-    options?: {
-      type: 'text';
-      cacheTtl?: number;
-    }
-  ): KVValue<string>;
+interface KVNamespace<K = string> {
+  get(key: K, options?: { cacheTtl?: number }): KVValue<string>;
+  get(key: K, type: 'text'): KVValue<string>;
+  get<ExpectedValue = unknown>(key: K, type: 'json'): KVValue<ExpectedValue>;
+  get(key: K, type: 'arrayBuffer'): KVValue<ArrayBuffer>;
+  get(key: K, type: 'stream'): KVValue<ReadableStream>;
+  get(key: K, options?: { type: 'text'; cacheTtl?: number }): KVValue<string>;
   get<ExpectedValue = unknown>(
-    key: string,
+    key: K,
     options?: {
       type: 'json';
       cacheTtl?: number;
     }
   ): KVValue<ExpectedValue>;
   get(
-    key: string,
+    key: K,
     options?: {
       type: 'arrayBuffer';
       cacheTtl?: number;
     }
   ): KVValue<ArrayBuffer>;
   get(
-    key: string,
+    key: K,
     options?: {
       type: 'stream';
       cacheTtl?: number;
     }
   ): KVValue<ReadableStream>;
 
-  getWithMetadata<Metadata = unknown>(key: string): KVValueWithMetadata<string, Metadata>;
-  getWithMetadata<Metadata = unknown>(
-    key: string,
-    type: 'text'
-  ): KVValueWithMetadata<string, Metadata>;
+  getWithMetadata<Metadata = unknown>(key: K): KVValueWithMetadata<string, Metadata>;
+  getWithMetadata<Metadata = unknown>(key: K, type: 'text'): KVValueWithMetadata<string, Metadata>;
   getWithMetadata<ExpectedValue = unknown, Metadata = unknown>(
-    key: string,
+    key: K,
     type: 'json'
   ): KVValueWithMetadata<ExpectedValue, Metadata>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     type: 'arrayBuffer'
   ): KVValueWithMetadata<ArrayBuffer, Metadata>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     type: 'stream'
   ): KVValueWithMetadata<ReadableStream, Metadata>;
 
   put(
-    key: string,
+    key: K,
     value: string | ReadableStream | ArrayBuffer,
     options?: {
       expiration?: string | number;
@@ -670,14 +661,14 @@ interface KVNamespace {
     }
   ): Promise<void>;
 
-  delete(key: string): Promise<void>;
+  delete(key: K): Promise<void>;
 
   list(options?: {
     prefix?: string;
     limit?: number;
     cursor?: string;
   }): Promise<{
-    keys: { name: string; expiration?: number; metadata?: unknown }[];
+    keys: { name: K; expiration?: number; metadata?: unknown }[];
     list_complete: boolean;
     cursor?: string;
   }>;
@@ -731,14 +722,14 @@ interface DurableObjectState {
    * All events that were not explicitly initiated as part of the callback itself will be blocked.
    * This includes not only new incoming requests, but also responses to outgoing requests (such as `fetch()`)
    * that were initiated outside of the callback. Once the callback completes, these events will be delivered.
-   * 
+   *
    * `state.blockConcurrencyWhile()` is especially useful inside the constructor of your object,
    * to perform initialization that must occur before any requests are delivered.
-   * 
+   *
    * If the callback throws an exception, the object will be terminated and reset.
    * This ensures that the object cannot be left stuck in an uninitialized state if something fails unexpectedly.
    * To avoid this behavior, wrap the body of your callback in a `try`/`catch` block to ensure it cannot throw an exception.
-   * 
+   *
    * The value returned by the callback becomes the value returned by `blockConcurrencyWhile()` itself.
    */
   blockConcurrencyWhile<T>(callback: () => Promise<T>): Promise<T>;
