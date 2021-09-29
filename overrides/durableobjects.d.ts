@@ -31,8 +31,8 @@ declare abstract class DurableObjectStorage {
 }
 
 declare abstract class DurableObjectTransaction {
-  get<T = unknown>(key: string): Promise<T>;
-  get<T = unknown>(keys: string[]): Promise<Map<string, T>>;
+  get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T>;
+  get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
 
   list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
 

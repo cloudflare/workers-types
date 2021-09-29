@@ -322,8 +322,8 @@ declare abstract class DurableObjectStub extends Fetcher {
 }
 
 declare abstract class DurableObjectTransaction {
-  get<T = unknown>(key: string): Promise<T>;
-  get<T = unknown>(keys: string[]): Promise<Map<string, T>>;
+  get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T>;
+  get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
   list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
   put<T>(key: string, value: T, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
   put<T>(entries: Record<string, T>, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
@@ -505,7 +505,7 @@ declare type HeadersInitializer = Headers | Record<string, string> | ([key: stri
  * In addition to the properties on the standard Request object,
  * the cf object contains extra information about the request provided
  * by Cloudflare's edge.
- * 
+ *
  * Note: Currently, settings in the cf object cannot be accessed in the
  * playground.
  */
@@ -718,7 +718,7 @@ declare class Request extends Body {
  * that you pass as an argument to the Request constructor, you can
  * set certain properties of a `cf` object to control how Cloudflare
  * features are applied to that new Request.
- * 
+ *
  * Note: Currently, these properties cannot be tested in the
  * playground.
  */
@@ -729,7 +729,7 @@ interface RequestInitCfProperties {
    * "the same" for caching purposes. If a request has the same cache key
    * as some previous request, then we can serve the same cached response for
    * both. (e.g. 'some-key')
-   * 
+   *
    * Only available for Enterprise customers.
    */
   cacheKey?: string;
@@ -751,7 +751,7 @@ interface RequestInitCfProperties {
    * Redirects the request to an alternate origin server. You can use this,
    * for example, to implement load balancing across several origins.
    * (e.g.us-east.example.com)
-   * 
+   *
    * Note - For security reasons, the hostname set in resolveOverride must
    * be proxied on the same Cloudflare zone of the incoming request.
    * Otherwise, the setting is ignored. CNAME hosts are allowed, so to
@@ -833,9 +833,9 @@ interface RequestInitCfPropertiesImageDraw extends BasicImageTransformations {
    * positions left side of the overlay 10 pixels from the left edge of the
    * image it's drawn over. bottom: 0 aligns bottom of the overlay with bottom
    * of the background image.
-   * 
+   *
    * Setting both left & right, or both top & bottom is an error.
-   * 
+   *
    * If no position is specified, the image will be centered.
    */
   top?: number;
@@ -859,10 +859,10 @@ interface RequestInitializerDict {
   /**
    * cf is a union of these two types because there are multiple
    * scenarios in which it might be one or the other.
-   * 
+   *
    * IncomingRequestCfProperties is required to allow
    *   new Request(someUrl, event.request)
-   * 
+   *
    * RequestInitCfProperties is required to allow
    *   new Request(event.request, {cf: { ... } })
    *   fetch(someUrl, {cf: { ... } })
@@ -1193,4 +1193,3 @@ declare const self: ServiceWorkerGlobalScope;
 declare function setInterval<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
 
 declare function setTimeout<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
-
