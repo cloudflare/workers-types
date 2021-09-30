@@ -1,0 +1,272 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "./schema.json",
+  "title": "Intermediate Representation",
+  "type": "object",
+  "additionalProperties": {
+    "oneOf": [
+      { "$ref": "#/$defs/class" },
+      { "$ref": "#/$defs/struct" },
+      { "$ref": "#/$defs/typeDef" },
+      { "$ref": "#/$defs/function" },
+      { "$ref": "#/$defs/variable" }
+    ]
+  },
+  "$defs": {
+    "typeNamed": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[^\\[\\(\\|]"
+        },
+        "args": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/type" }
+        },
+        "index": { "$ref": "#/$defs/type" },
+        "optional": { "type": "boolean" },
+        "variadic": { "type": "boolean" }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "typeArray": {
+      "type": "object",
+      "properties": {
+        "name": { "enum": ["[]"] },
+        "args": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/type" },
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "optional": { "type": "boolean" },
+        "variadic": { "type": "boolean" }
+      },
+      "required": ["name", "args"],
+      "additionalProperties": false
+    },
+    "typeTuple": {
+      "type": "object",
+      "properties": {
+        "name": { "enum": ["()"] },
+        "params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/param" },
+          "minItems": 1
+        },
+        "optional": { "type": "boolean" },
+        "variadic": { "type": "boolean" }
+      },
+      "required": ["name", "params"],
+      "additionalProperties": false
+    },
+    "typeUnion": {
+      "type": "object",
+      "properties": {
+        "name": { "enum": ["|"] },
+        "args": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/type" },
+          "minItems": 2,
+          "uniqueItems": true
+        },
+        "optional": { "type": "boolean" },
+        "variadic": { "type": "boolean" }
+      },
+      "required": ["name", "args"],
+      "additionalProperties": false
+    },
+    "typeFunction": {
+      "type": "object",
+      "properties": {
+        "params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/param" }
+        },
+        "returns": { "$ref": "#/$defs/type" },
+        "optional": { "type": "boolean" }
+      },
+      "required": ["params"],
+      "additionalProperties": false
+    },
+    "typeLiteral": {
+      "type": "object",
+      "properties": {
+        "members": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/field" }
+        },
+        "optional": { "type": "boolean" }
+      },
+      "required": ["members"],
+      "additionalProperties": false
+    },
+    "type": {
+      "oneOf": [
+        { "$ref": "#/$defs/typeNamed" },
+        { "$ref": "#/$defs/typeArray" },
+        { "$ref": "#/$defs/typeTuple" },
+        { "$ref": "#/$defs/typeUnion" },
+        { "$ref": "#/$defs/typeFunction" },
+        { "$ref": "#/$defs/typeLiteral" }
+      ]
+    },
+    "typeParam": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "constraint": { "$ref": "#/$defs/type" },
+        "default": { "$ref": "#/$defs/type" }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "commentParam": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "text": { "type": "string" }
+      },
+      "required": ["name", "text"],
+      "additionalProperties": false
+    },
+    "comment": {
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/commentParam" }
+        },
+        "returns": { "type": "string" },
+        "examples": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "required": ["text"],
+      "additionalProperties": false
+    },
+    "field": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "$ref": "#/$defs/type" },
+        "static": { "type": "boolean" },
+        "readonly": { "type": "boolean" },
+        "typeparams": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/typeParam" }
+        },
+        "comment": { "$ref": "#/$defs/comment" },
+        "throws": { "type": "boolean" }
+      },
+      "required": ["name", "type"],
+      "additionalProperties": false
+    },
+    "param": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "$ref": "#/$defs/type" }
+      },
+      "required": ["name", "type"],
+      "additionalProperties": false
+    },
+    "class": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "typeparams": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/typeParam" }
+        },
+        "comment": { "$ref": "#/$defs/comment" },
+        "kind": { "enum": ["class"] },
+        "members": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/field" }
+        },
+        "extends": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/typeNamed" }
+        },
+        "implements": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/typeNamed" }
+        }
+      },
+      "required": ["name", "kind", "members"],
+      "additionalProperties": false
+    },
+    "struct": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "typeparams": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/typeParam" }
+        },
+        "comment": { "$ref": "#/$defs/comment" },
+        "kind": { "enum": ["struct"] },
+        "members": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/field" }
+        },
+        "extends": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/typeNamed" }
+        }
+      },
+      "required": ["name", "kind", "members"],
+      "additionalProperties": false
+    },
+    "typeDef": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "typeparams": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/typeParam" }
+        },
+        "comment": { "$ref": "#/$defs/comment" },
+        "kind": { "enum": ["typedef"] },
+        "type": { "$ref": "#/$defs/type" }
+      },
+      "required": ["name", "kind", "type"],
+      "additionalProperties": false
+    },
+    "function": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "typeparams": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/typeParam" }
+        },
+        "comment": { "$ref": "#/$defs/comment" },
+        "kind": { "enum": ["function"] },
+        "throws": { "type": "boolean" },
+        "type": { "$ref": "#/$defs/typeFunction" }
+      },
+      "required": ["name", "kind", "type"],
+      "additionalProperties": false
+    },
+    "variable": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "comment": { "$ref": "#/$defs/comment" },
+        "kind": { "enum": ["variable"] },
+        "type": { "$ref": "#/$defs/type" }
+      },
+      "required": ["name", "kind", "type"],
+      "additionalProperties": false
+    }
+  }
+}
