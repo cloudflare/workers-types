@@ -1,6 +1,6 @@
 {
   "name": "@cloudflare/workers-types",
-  "version": "2021.9.24",
+  "version": "3.0.0",
   "description": "TypeScript typings for Cloudflare Workers",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "export:overrides": "node -r esbuild-register export/overrides.ts",
     "test": "tsc"
   },
-  "author": "Brendan Coll",
+  "author": "Cloudflare Workers Team <workers@cloudflare.com> (https://workers.cloudflare.com)",
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@types/marked": "^3.0.0",
