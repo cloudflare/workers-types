@@ -514,11 +514,6 @@ interface IncomingRequestCfProperties {
    * (e.g. 395747)
    */
   asn: number;
-  /**
-    * The organisation which owns the ASN of the incoming request.
-    * (e.g. Google Cloud)
-    */
-  asOrganization: string;
   botManagement?: IncomingRequestCfPropertiesBotManagement;
   city?: string;
   clientTcpRtt: number;
