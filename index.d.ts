@@ -514,6 +514,7 @@ interface IncomingRequestCfProperties {
    * (e.g. 395747)
    */
   asn: number;
+  asOrganization: string;
   botManagement?: IncomingRequestCfPropertiesBotManagement;
   city?: string;
   clientTcpRtt: number;
