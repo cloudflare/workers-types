@@ -45,6 +45,8 @@ declare type ExportedHandlerScheduledHandler<Env = unknown> = (
 declare type WorkerGlobalScopeEventMap = {
   fetch: FetchEvent;
   scheduled: ScheduledEvent;
+  unhandledrejection: PromiseRejectionEvent;
+  rejectionhandled: PromiseRejectionEvent;
 };
 
 declare abstract class WorkerGlobalScope extends EventTarget<WorkerGlobalScopeEventMap> {}
