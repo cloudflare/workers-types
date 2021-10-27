@@ -1,5 +1,5 @@
 {
-  "$schema": "schema.json",
+  "$schema": "./schema.json",
   "AbortController": {
     "name": "AbortController",
     "members": [
@@ -1765,8 +1765,7 @@
       {
         "name": "storage",
         "type": {
-          "name": "DurableObjectStorage",
-          "optional": true
+          "name": "DurableObjectStorage"
         },
         "readonly": true
       },
@@ -2288,6 +2287,13 @@
               "type": {
                 "name": "string"
               }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "DurableObjectStorageOperationsGetOptions",
+                "optional": true
+              }
             }
           ],
           "returns": {
@@ -2321,6 +2327,13 @@
                     "name": "string"
                   }
                 ]
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "DurableObjectStorageOperationsGetOptions",
+                "optional": true
               }
             }
           ],
@@ -3326,6 +3339,13 @@
         "name": "once",
         "type": {
           "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "signal",
+        "type": {
+          "name": "AbortSignal",
           "optional": true
         }
       }
@@ -5036,6 +5056,193 @@
     ],
     "kind": "struct"
   },
+  "InternalActorAPI": {
+    "name": "InternalActorAPI",
+    "members": [
+      {
+        "name": "listActors",
+        "type": {
+          "params": [
+            {
+              "name": "ownerId",
+              "type": {
+                "name": "integer"
+              }
+            },
+            {
+              "name": "namespaceId",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "limit",
+              "type": {
+                "name": "integer"
+              }
+            },
+            {
+              "name": "cursor",
+              "type": {
+                "name": "InternalActorAPIListActorCursor",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "InternalActorAPIListActorResponse"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "getActorStorageUsage",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "InternalActorAPIActorStorageUsageResponse"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "ownerId",
+        "type": {
+          "name": "integer"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
+  "InternalActorAPIActorAccountStorage": {
+    "name": "InternalActorAPIActorAccountStorage",
+    "members": [
+      {
+        "name": "ownerId",
+        "type": {
+          "name": "integer"
+        }
+      },
+      {
+        "name": "bytesStored",
+        "type": {
+          "name": "double"
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "InternalActorAPIActorStorageUsageInColo": {
+    "name": "InternalActorAPIActorStorageUsageInColo",
+    "members": [
+      {
+        "name": "coloId",
+        "type": {
+          "name": "integer"
+        }
+      },
+      {
+        "name": "storagePerAccount",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "InternalActorAPIActorAccountStorage"
+            }
+          ]
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "InternalActorAPIActorStorageUsageResponse": {
+    "name": "InternalActorAPIActorStorageUsageResponse",
+    "members": [
+      {
+        "name": "results",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "InternalActorAPIActorStorageUsageInColo"
+            }
+          ]
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "InternalActorAPIListActorCursor": {
+    "name": "InternalActorAPIListActorCursor",
+    "members": [
+      {
+        "name": "lastKey",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "coloId",
+        "type": {
+          "name": "integer",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "InternalActorAPIListActorResponse": {
+    "name": "InternalActorAPIListActorResponse",
+    "members": [
+      {
+        "name": "results",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "InternalActorAPIListActorResult"
+            }
+          ]
+        }
+      },
+      {
+        "name": "cursor",
+        "type": {
+          "name": "InternalActorAPIListActorCursor",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "InternalActorAPIListActorResult": {
+    "name": "InternalActorAPIListActorResult",
+    "members": [
+      {
+        "name": "id",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "hasData",
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "KVNamespace": {
     "name": "KVNamespace",
     "members": [
@@ -5497,7 +5704,9 @@
           ],
           "returns": "Returns a `Promise` that you should `await` on in order to verify a successful update.",
           "examples": {
-            "typescript": ["await NAMESPACE.put(key, value)"]
+            "typescript": [
+              "await NAMESPACE.put(key, value)"
+            ]
           }
         }
       },
@@ -6238,6 +6447,90 @@
     ],
     "kind": "struct"
   },
+  "PipeToOptions": {
+    "name": "PipeToOptions",
+    "members": [
+      {
+        "name": "preventClose",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "preventAbort",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "preventCancel",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "PromiseRejectionEvent": {
+    "name": "PromiseRejectionEvent",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "type",
+              "type": {
+                "name": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "promise",
+        "type": {
+          "name": "Promise"
+        },
+        "readonly": true
+      },
+      {
+        "name": "reason",
+        "type": {
+          "name": "any"
+        },
+        "readonly": true
+      }
+    ],
+    "extends": [
+      {
+        "name": "Event"
+      }
+    ],
+    "kind": "class"
+  },
+  "ReadResult": {
+    "name": "ReadResult",
+    "members": [
+      {
+        "name": "value",
+        "type": {
+          "name": "any",
+          "optional": true
+        }
+      },
+      {
+        "name": "done",
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "ReadableStream": {
     "name": "ReadableStream",
     "members": [
@@ -6261,12 +6554,7 @@
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -6283,7 +6571,15 @@
             }
           ],
           "returns": {
-            "name": "ReadableStreamReader"
+            "name": "|",
+            "args": [
+              {
+                "name": "ReadableStreamReadableStreamDefaultReader"
+              },
+              {
+                "name": "ReadableStreamReadableStreamBYOBReader"
+              }
+            ]
           }
         }
       },
@@ -6300,7 +6596,7 @@
             {
               "name": "options",
               "type": {
-                "name": "ReadableStreamPipeToOptions",
+                "name": "PipeToOptions",
                 "optional": true
               }
             }
@@ -6323,18 +6619,13 @@
             {
               "name": "options",
               "type": {
-                "name": "ReadableStreamPipeToOptions",
+                "name": "PipeToOptions",
                 "optional": true
               }
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -6377,45 +6668,26 @@
     ],
     "kind": "struct"
   },
-  "ReadableStreamPipeToOptions": {
-    "name": "ReadableStreamPipeToOptions",
+  "ReadableStreamReadableStreamBYOBReader": {
+    "name": "ReadableStreamReadableStreamBYOBReader",
     "members": [
       {
-        "name": "preventClose",
+        "name": "constructor",
         "type": {
-          "name": "boolean",
-          "optional": true
+          "params": [
+            {
+              "name": "stream",
+              "type": {
+                "name": "ReadableStream"
+              }
+            }
+          ]
         }
       },
-      {
-        "name": "preventAbort",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "preventCancel",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
-  },
-  "ReadableStreamReader": {
-    "name": "ReadableStreamReader",
-    "members": [
       {
         "name": "closed",
         "type": {
-          "name": "Promise",
-          "args": [
-            {
-              "name": "void"
-            }
-          ]
+          "name": "Promise"
         },
         "readonly": true
       },
@@ -6432,12 +6704,7 @@
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -6448,18 +6715,95 @@
             {
               "name": "byobBuffer",
               "type": {
-                "name": "ArrayBufferView",
+                "name": "ArrayBufferView"
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise"
+          }
+        }
+      },
+      {
+        "name": "releaseLock",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "readAtLeast",
+        "type": {
+          "params": [
+            {
+              "name": "minBytes",
+              "type": {
+                "name": "integer"
+              }
+            },
+            {
+              "name": "byobBuffer",
+              "type": {
+                "name": "ArrayBufferView"
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "ReadableStreamReadableStreamDefaultReader": {
+    "name": "ReadableStreamReadableStreamDefaultReader",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "stream",
+              "type": {
+                "name": "ReadableStream"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "closed",
+        "type": {
+          "name": "Promise"
+        },
+        "readonly": true
+      },
+      {
+        "name": "cancel",
+        "type": {
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any",
                 "optional": true
               }
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "ReadableStreamReaderReadResult"
-              }
-            ]
+            "name": "Promise"
+          }
+        }
+      },
+      {
+        "name": "read",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise"
           }
         }
       },
@@ -6474,25 +6818,6 @@
       }
     ],
     "kind": "class"
-  },
-  "ReadableStreamReaderReadResult": {
-    "name": "ReadableStreamReaderReadResult",
-    "members": [
-      {
-        "name": "value",
-        "type": {
-          "name": "any",
-          "optional": true
-        }
-      },
-      {
-        "name": "done",
-        "type": {
-          "name": "boolean"
-        }
-      }
-    ],
-    "kind": "struct"
   },
   "ReadableStreamTransform": {
     "name": "ReadableStreamTransform",
@@ -7442,7 +7767,7 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "integer"
+                    "name": "TimeoutIdNumberType"
                   },
                   {
                     "name": "null"
@@ -7520,7 +7845,7 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "integer"
+                    "name": "TimeoutIdNumberType"
                   },
                   {
                     "name": "null"
@@ -7629,6 +7954,19 @@
         "readonly": true
       },
       {
+        "name": "PromiseRejectionEvent",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "PromiseRejectionEvent"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
         "name": "FetchEvent",
         "type": {
           "name": "typeof",
@@ -7681,6 +8019,32 @@
         "readonly": true
       },
       {
+        "name": "ReadableStreamDefaultReader",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "ReadableStreamDefaultReader"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "ReadableStreamBYOBReader",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "ReadableStreamBYOBReader"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
         "name": "ReadableStream",
         "type": {
           "name": "typeof",
@@ -7700,6 +8064,19 @@
           "args": [
             {
               "name": "WritableStream"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "WritableStreamDefaultWriter",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "WritableStreamDefaultWriter"
             }
           ]
         },
@@ -8026,23 +8403,15 @@
       {
         "name": "highWaterMark",
         "type": {
-          "name": "integer"
+          "name": "integer",
+          "optional": true
         }
       },
       {
         "name": "size",
         "type": {
-          "params": [
-            {
-              "name": "arg1",
-              "type": {
-                "name": "any"
-              }
-            }
-          ],
-          "returns": {
-            "name": "integer"
-          }
+          "name": "Function",
+          "optional": true
         }
       }
     ],
@@ -9875,6 +10244,88 @@
     },
     "kind": "typedef"
   },
+  "UnderlyingSink": {
+    "name": "UnderlyingSink",
+    "members": [
+      {
+        "name": "type",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "start",
+        "type": {
+          "name": "Function",
+          "optional": true
+        }
+      },
+      {
+        "name": "write",
+        "type": {
+          "name": "Function",
+          "optional": true
+        }
+      },
+      {
+        "name": "abort",
+        "type": {
+          "name": "Function",
+          "optional": true
+        }
+      },
+      {
+        "name": "cancel",
+        "type": {
+          "name": "Function",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "UnderlyingSource": {
+    "name": "UnderlyingSource",
+    "members": [
+      {
+        "name": "type",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "autoAllocateChunkSize",
+        "type": {
+          "name": "integer",
+          "optional": true
+        }
+      },
+      {
+        "name": "start",
+        "type": {
+          "name": "Function",
+          "optional": true
+        }
+      },
+      {
+        "name": "pull",
+        "type": {
+          "name": "Function",
+          "optional": true
+        }
+      },
+      {
+        "name": "cancel",
+        "type": {
+          "name": "Function",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "WebSocket": {
     "name": "WebSocket",
     "members": [
@@ -10075,12 +10526,16 @@
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
+          }
+        }
+      },
+      {
+        "name": "close",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise"
           }
         }
       },
@@ -10089,25 +10544,33 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "WritableStreamWriter"
+            "name": "WritableStreamWritableStreamDefaultWriter"
           }
         }
       }
     ],
     "kind": "class"
   },
-  "WritableStreamWriter": {
-    "name": "WritableStreamWriter",
+  "WritableStreamWritableStreamDefaultWriter": {
+    "name": "WritableStreamWritableStreamDefaultWriter",
     "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "stream",
+              "type": {
+                "name": "WritableStream"
+              }
+            }
+          ]
+        }
+      },
       {
         "name": "closed",
         "type": {
-          "name": "Promise",
-          "args": [
-            {
-              "name": "void"
-            }
-          ]
+          "name": "Promise"
         },
         "readonly": true
       },
@@ -10138,12 +10601,7 @@
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -10152,12 +10610,7 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -10173,12 +10626,7 @@
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -10304,7 +10752,7 @@
             "name": "|",
             "args": [
               {
-                "name": "integer"
+                "name": "TimeoutIdNumberType"
               },
               {
                 "name": "null"
@@ -10329,7 +10777,7 @@
             "name": "|",
             "args": [
               {
-                "name": "integer"
+                "name": "TimeoutIdNumberType"
               },
               {
                 "name": "null"
