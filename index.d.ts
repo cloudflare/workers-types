@@ -100,6 +100,8 @@ declare abstract class Body {
   blob(): Promise<Blob>;
 }
 
+declare type BodyInit = BodyInitializer;
+
 declare type BodyInitializer = ReadableStream | string | ArrayBuffer | Blob | URLSearchParams | FormData;
 
 declare abstract class Cache {
@@ -134,7 +136,7 @@ interface CloseEventInitializer {
   wasClean?: boolean;
 }
 
-declare abstract class Comment {
+interface Comment {
   text: string;
   readonly removed: boolean;
   before(content: Content, options?: ContentOptions): Comment;
@@ -245,13 +247,13 @@ declare class DOMException extends Error {
   static readonly DATA_CLONE_ERR: number;
 }
 
-declare abstract class Doctype {
+interface Doctype {
   readonly name: string | null;
   readonly publicId: string | null;
   readonly systemId: string | null;
 }
 
-declare abstract class DocumentEnd {
+interface DocumentEnd {
   append(content: Content, options?: ContentOptions): DocumentEnd;
 }
 
@@ -259,13 +261,13 @@ interface DurableObject {
   fetch(request: Request): Promise<Response>;
 }
 
-declare abstract class DurableObjectId {
+interface DurableObjectId {
   toString(): string;
   equals(other: DurableObjectId): boolean;
   readonly name?: string;
 }
 
-declare abstract class DurableObjectNamespace {
+interface DurableObjectNamespace {
   newUniqueId(options?: DurableObjectNamespaceNewUniqueIdOptions): DurableObjectId;
   idFromName(name: string): DurableObjectId;
   idFromString(id: string): DurableObjectId;
@@ -276,14 +278,14 @@ interface DurableObjectNamespaceNewUniqueIdOptions {
   jurisdiction?: string;
 }
 
-declare abstract class DurableObjectState {
-  waitUntil(promise: Promise<void>): void;
+interface DurableObjectState {
+  waitUntil(promise: Promise<any>): void;
   readonly id: DurableObjectId | string;
-  readonly storage?: DurableObjectStorage;
+  readonly storage: DurableObjectStorage;
   blockConcurrencyWhile<T>(callback: () => Promise<T>): Promise<T>;
 }
 
-declare abstract class DurableObjectStorage {
+interface DurableObjectStorage {
   get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T | undefined>;
   get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
   list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
@@ -316,12 +318,12 @@ interface DurableObjectStorageOperationsPutOptions {
   noCache?: boolean;
 }
 
-declare abstract class DurableObjectStub extends Fetcher {
+interface DurableObjectStub extends Fetcher {
   readonly id: DurableObjectId;
   readonly name?: string;
 }
 
-declare abstract class DurableObjectTransaction {
+interface DurableObjectTransaction {
   get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T>;
   get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
   list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
@@ -332,7 +334,7 @@ declare abstract class DurableObjectTransaction {
   rollback(): void;
 }
 
-declare abstract class Element {
+interface Element {
   tagName: string;
   readonly attributes: IterableIterator<string[]>;
   readonly removed: boolean;
@@ -400,14 +402,15 @@ interface EventTargetAddEventListenerOptions {
   capture?: boolean;
   passive?: boolean;
   once?: boolean;
+  signal?: AbortSignal;
 }
 
 interface EventTargetEventListenerOptions {
   capture?: boolean;
 }
 
-declare abstract class ExecutionContext {
-  waitUntil(promise: Promise<void>): void;
+interface ExecutionContext {
+  waitUntil(promise: Promise<any>): void;
   passThroughOnException(): void;
 }
 
@@ -425,7 +428,7 @@ declare class FetchEvent extends Event {
   readonly request: Request;
   respondWith(promise: Response | Promise<Response>): void;
   passThroughOnException(): void;
-  waitUntil(promise: Promise<void>): void;
+  waitUntil(promise: Promise<any>): void;
 }
 
 declare abstract class Fetcher {
@@ -505,7 +508,7 @@ declare type HeadersInitializer = Headers | Record<string, string> | ([key: stri
  * In addition to the properties on the standard Request object,
  * the cf object contains extra information about the request provided
  * by Cloudflare's edge.
- *
+ * 
  * Note: Currently, settings in the cf object cannot be accessed in the
  * playground.
  */
@@ -590,7 +593,7 @@ interface IncomingRequestCfPropertiesTLSClientAuth {
  * Workers KV is a global, low-latency, key-value data store. It supports exceptionally high read volumes with low-latency,
  * making it possible to build highly dynamic APIs and websites which respond as quickly as a cached static file would.
  */
-declare abstract class KVNamespace {
+interface KVNamespace {
   get(key: string, options?: Partial<KVNamespaceGetOptions<undefined>>): Promise<string | null>;
   get(key: string, type: "text"): Promise<string | null>;
   get<ExpectedValue = unknown>(key: string, type: "json"): Promise<ExpectedValue | null>;
@@ -665,12 +668,29 @@ interface MessageEventInitializer {
   data: ArrayBuffer | string;
 }
 
+interface PipeToOptions {
+  preventClose?: boolean;
+  preventAbort?: boolean;
+  preventCancel?: boolean;
+}
+
+declare class PromiseRejectionEvent extends Event {
+  constructor(type: string);
+  readonly promise: Promise;
+  readonly reason: any;
+}
+
+interface ReadResult {
+  value?: any;
+  done: boolean;
+}
+
 declare abstract class ReadableStream {
   readonly locked: boolean;
-  cancel(reason?: any): Promise<void>;
-  getReader(options?: ReadableStreamGetReaderOptions): ReadableStreamReader;
-  pipeThrough(transform: ReadableStreamTransform, options?: ReadableStreamPipeToOptions): ReadableStream;
-  pipeTo(destination: WritableStream, options?: ReadableStreamPipeToOptions): Promise<void>;
+  cancel(reason?: any): Promise;
+  getReader(options?: ReadableStreamGetReaderOptions): ReadableStreamReadableStreamDefaultReader | ReadableStreamReadableStreamBYOBReader;
+  pipeThrough(transform: ReadableStreamTransform, options?: PipeToOptions): ReadableStream;
+  pipeTo(destination: WritableStream, options?: PipeToOptions): Promise;
   tee(): [ReadableStream, ReadableStream];
 }
 
@@ -678,22 +698,23 @@ interface ReadableStreamGetReaderOptions {
   mode?: string;
 }
 
-interface ReadableStreamPipeToOptions {
-  preventClose?: boolean;
-  preventAbort?: boolean;
-  preventCancel?: boolean;
-}
+declare type ReadableStreamPipeToOptions = PipeToOptions;
 
-declare abstract class ReadableStreamReader {
-  readonly closed: Promise<void>;
-  cancel(reason?: any): Promise<void>;
-  read(byobBuffer?: ArrayBufferView): Promise<ReadableStreamReaderReadResult>;
+declare class ReadableStreamReadableStreamBYOBReader {
+  constructor(stream: ReadableStream);
+  readonly closed: Promise;
+  cancel(reason?: any): Promise;
+  read(byobBuffer: ArrayBufferView): Promise;
   releaseLock(): void;
+  readAtLeast(minBytes: number, byobBuffer: ArrayBufferView): Promise;
 }
 
-interface ReadableStreamReaderReadResult {
-  value?: any;
-  done: boolean;
+declare class ReadableStreamReadableStreamDefaultReader {
+  constructor(stream: ReadableStream);
+  readonly closed: Promise;
+  cancel(reason?: any): Promise;
+  read(): Promise;
+  releaseLock(): void;
 }
 
 interface ReadableStreamTransform {
@@ -713,12 +734,14 @@ declare class Request extends Body {
   readonly cf?: IncomingRequestCfProperties;
 }
 
+declare type RequestInit = RequestInitializerDict;
+
 /**
  * In addition to the properties you can set in the RequestInit dict
  * that you pass as an argument to the Request constructor, you can
  * set certain properties of a `cf` object to control how Cloudflare
  * features are applied to that new Request.
- *
+ * 
  * Note: Currently, these properties cannot be tested in the
  * playground.
  */
@@ -729,7 +752,7 @@ interface RequestInitCfProperties {
    * "the same" for caching purposes. If a request has the same cache key
    * as some previous request, then we can serve the same cached response for
    * both. (e.g. 'some-key')
-   *
+   * 
    * Only available for Enterprise customers.
    */
   cacheKey?: string;
@@ -751,7 +774,7 @@ interface RequestInitCfProperties {
    * Redirects the request to an alternate origin server. You can use this,
    * for example, to implement load balancing across several origins.
    * (e.g.us-east.example.com)
-   *
+   * 
    * Note - For security reasons, the hostname set in resolveOverride must
    * be proxied on the same Cloudflare zone of the incoming request.
    * Otherwise, the setting is ignored. CNAME hosts are allowed, so to
@@ -833,9 +856,9 @@ interface RequestInitCfPropertiesImageDraw extends BasicImageTransformations {
    * positions left side of the overlay 10 pixels from the left edge of the
    * image it's drawn over. bottom: 0 aligns bottom of the overlay with bottom
    * of the background image.
-   *
+   * 
    * Setting both left & right, or both top & bottom is an error.
-   *
+   * 
    * If no position is specified, the image will be centered.
    */
   top?: number;
@@ -859,10 +882,10 @@ interface RequestInitializerDict {
   /**
    * cf is a union of these two types because there are multiple
    * scenarios in which it might be one or the other.
-   *
+   * 
    * IncomingRequestCfProperties is required to allow
    *   new Request(someUrl, event.request)
-   *
+   * 
    * RequestInitCfProperties is required to allow
    *   new Request(event.request, {cf: { ... } })
    *   fetch(someUrl, {cf: { ... } })
@@ -894,7 +917,7 @@ interface ResponseInitializerDict {
   encodeBody?: string;
 }
 
-declare abstract class ScheduledController {
+interface ScheduledController {
   readonly scheduledTime: number;
   readonly cron: string;
   noRetry(): void;
@@ -905,7 +928,7 @@ declare class ScheduledEvent extends Event {
   readonly scheduledTime: number;
   readonly cron: string;
   noRetry(): void;
-  waitUntil(promise: Promise<void>): void;
+  waitUntil(promise: Promise<any>): void;
 }
 
 declare class ServiceWorkerGlobalScope extends WorkerGlobalScope {
@@ -924,12 +947,16 @@ declare class ServiceWorkerGlobalScope extends WorkerGlobalScope {
   readonly crypto: Crypto;
   readonly caches: CacheStorage;
   static readonly Event: typeof Event;
+  static readonly PromiseRejectionEvent: typeof PromiseRejectionEvent;
   static readonly FetchEvent: typeof FetchEvent;
   static readonly ScheduledEvent: typeof ScheduledEvent;
   static readonly MessageEvent: typeof MessageEvent;
   static readonly CloseEvent: typeof CloseEvent;
+  static readonly ReadableStreamDefaultReader: typeof ReadableStreamDefaultReader;
+  static readonly ReadableStreamBYOBReader: typeof ReadableStreamBYOBReader;
   static readonly ReadableStream: typeof ReadableStream;
   static readonly WritableStream: typeof WritableStream;
+  static readonly WritableStreamDefaultWriter: typeof WritableStreamDefaultWriter;
   static readonly TransformStream: typeof TransformStream;
   static readonly Headers: typeof Headers;
   static readonly Body: typeof Body;
@@ -956,9 +983,11 @@ declare class ServiceWorkerGlobalScope extends WorkerGlobalScope {
   readonly console: Console;
 }
 
+declare type StreamPipeOptions = PipeToOptions;
+
 interface StreamQueuingStrategy {
-  highWaterMark: number;
-  size(arg1: any): number;
+  highWaterMark?: number;
+  size(chunk: ArrayBuffer): number;
 }
 
 declare abstract class SubtleCrypto {
@@ -1050,7 +1079,7 @@ interface SubtleCryptoSignAlgorithm {
   saltLength?: number;
 }
 
-declare abstract class Text {
+interface Text {
   readonly text: string;
   readonly lastInTextNode: boolean;
   readonly removed: boolean;
@@ -1147,20 +1176,22 @@ declare class WorkerGlobalScope extends EventTarget<WorkerGlobalScopeEventMap> {
   static readonly EventTarget: typeof EventTarget;
 }
 
-declare type WorkerGlobalScopeEventMap = { fetch: FetchEvent; scheduled: ScheduledEvent; };
+declare type WorkerGlobalScopeEventMap = { fetch: FetchEvent; scheduled: ScheduledEvent; unhandledrejection: PromiseRejectionEvent; rejectionhandled: PromiseRejectionEvent; };
 
 declare abstract class WritableStream {
   readonly locked: boolean;
-  abort(reason: any): Promise<void>;
-  getWriter(): WritableStreamWriter;
+  abort(reason: any): Promise;
+  close(): Promise;
+  getWriter(): WritableStreamWritableStreamDefaultWriter;
 }
 
-declare abstract class WritableStreamWriter {
-  readonly closed: Promise<void>;
+declare class WritableStreamWritableStreamDefaultWriter {
+  constructor(stream: WritableStream);
+  readonly closed: Promise;
   readonly desiredSize: number | null;
-  abort(reason: any): Promise<void>;
-  close(): Promise<void>;
-  write(chunk: any): Promise<void>;
+  abort(reason: any): Promise;
+  close(): Promise;
+  write(chunk: any): Promise;
   releaseLock(): void;
 }
 
@@ -1193,3 +1224,4 @@ declare const self: ServiceWorkerGlobalScope;
 declare function setInterval<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
 
 declare function setTimeout<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
+
