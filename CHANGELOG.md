@@ -1,6 +1,6 @@
 # Changelog
 
-## 2021.9.24
+## 3.0.0
 
 ### Features
 

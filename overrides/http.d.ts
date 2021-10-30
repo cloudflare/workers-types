@@ -54,4 +54,8 @@ declare class FetchEvent extends Event {
   respondWith(promise: Response | Promise<Response>): void;
 }
 
+// Map internal runtime names for standard conformance.
+type RequestInit = RequestInitializerDict;
+type BodyInit = BodyInitializer;
+
 export {};
