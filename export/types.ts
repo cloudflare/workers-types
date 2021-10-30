@@ -24,6 +24,7 @@ export interface CommentParam {
 
 export interface Comment {
   text: string;
+  deprecated?: string;
   params?: CommentParam[];
   returns?: string;
   examples?: { [language: string]: string[] };
