@@ -1224,3 +1224,4 @@ declare const self: ServiceWorkerGlobalScope;
 declare function setInterval<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
 
 declare function setTimeout<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
+
