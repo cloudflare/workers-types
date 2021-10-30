@@ -2,7 +2,7 @@ declare class MessageEvent extends Event {
   readonly data: ArrayBuffer | string;
 }
 
-interface MessageEventInitializer {
+interface MessageEventInit {
   data: ArrayBuffer | string;
 }
 

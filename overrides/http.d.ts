@@ -28,7 +28,9 @@ declare class Headers {
   ): void;
 }
 
-declare type HeadersInitializer = Headers | Record<string, string> | [key: string, value: string][];
+// This override provides the typing over the tuples as a nicety.
+// The inner array is required to have exactly two elements.
+declare type HeadersInit = Headers | Record<string, string> | [key: string, value: string][];
 
 declare class URLSearchParams {
   entries(): IterableIterator<[key: string, value: string]>;
@@ -40,22 +42,16 @@ declare class URLSearchParams {
   ): void;
 }
 
-declare type URLSearchParamsInitializer =
+// This override provides the typing over the tuples as a nicety.
+// The inner array is required to have exactly two elements.
+declare type URLSearchParamsInit =
   | URLSearchParams
   | string
   | Record<string, string>
   | [key: string, value: string][];
 
-interface CfRequestInitializerDict extends Omit<RequestInitializerDict, "cf"> {
-  cf?: RequestInitCfProperties;
-}
-
 declare class FetchEvent extends Event {
   respondWith(promise: Response | Promise<Response>): void;
 }
-
-// Map internal runtime names for standard conformance.
-type RequestInit = RequestInitializerDict;
-type BodyInit = BodyInitializer;
 
 export {};
