@@ -46,7 +46,9 @@ removeEventListener("close", (event) => {});
 
 self.addEventListener("fetch", (event: FetchEvent) => {});
 
+// @ts-expect-error
 dispatchEvent(new FetchEvent("fetch"));
+// @ts-expect-error
 dispatchEvent(new ScheduledEvent("scheduled"));
 // @ts-expect-error
 dispatchEvent(new CloseEvent("close"));
