@@ -4,7 +4,7 @@ declare class Request extends Body {
   readonly cf?: IncomingRequestCfProperties;
 }
 
-interface RequestInitializerDict {
+interface RequestInit {
   /**
    * cf is a union of these two types because there are multiple
    * scenarios in which it might be one or the other.
@@ -18,6 +18,17 @@ interface RequestInitializerDict {
    */
   cf?: IncomingRequestCfProperties | RequestInitCfProperties;
 }
+
+interface CfRequestInit extends Omit<RequestInit, "cf"> {
+  cf?: RequestInitCfProperties;
+}
+
+/**
+ * Back compat support with older types.
+ * @deprecated Use CfRequestInit instead.
+ */
+type CfRequestInitializerDict = CfRequestInit
+
 
 interface BasicImageTransformations {
   /**

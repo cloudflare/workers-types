@@ -141,6 +141,8 @@ for (const filePath of filePaths) {
         });
       } else if (ts.isJSDocReturnTag(tag)) {
         comment.returns = convertCommentText(tag.comment);
+      } else if (ts.isJSDocDeprecatedTag(tag)) {
+        comment.deprecated = convertCommentText(tag.comment);
       }
     }
     return comment;
