@@ -1,3 +1,6 @@
+// This file is auto-generated. DO NOT MODIFY.
+// Please refer to the Auto-Generation section of the README.md.
+
 declare class AbortController {
   constructor();
   readonly signal: AbortSignal;
@@ -100,9 +103,13 @@ declare abstract class Body {
   blob(): Promise<Blob>;
 }
 
-declare type BodyInit = BodyInitializer;
+declare type BodyInit = ReadableStream | string | ArrayBuffer | Blob | URLSearchParams | FormData;
 
-declare type BodyInitializer = ReadableStream | string | ArrayBuffer | Blob | URLSearchParams | FormData;
+/**
+ * Back compat for code migrating to older definitions.
+ * @deprecated Use BodyInit instead.
+ */
+declare type BodyInitializer = BodyInit;
 
 declare abstract class Cache {
   delete(request: Request | string, options?: CacheQueryOptions): Promise<boolean>;
@@ -119,22 +126,34 @@ declare abstract class CacheStorage {
   readonly default: Cache;
 }
 
-interface CfRequestInitializerDict extends Omit<RequestInitializerDict, "cf"> {
+interface CfRequestInit extends Omit<RequestInit, "cf"> {
   cf?: RequestInitCfProperties;
 }
 
+/**
+ * Back compat support with older types.
+ * @deprecated Use CfRequestInit instead.
+ */
+declare type CfRequestInitializerDict = CfRequestInit;
+
 declare class CloseEvent extends Event {
-  constructor(type: string, initializer: CloseEventInitializer);
+  constructor(type: string, initializer: CloseEventInit);
   readonly code: number;
   readonly reason: string;
   readonly wasClean: boolean;
 }
 
-interface CloseEventInitializer {
+interface CloseEventInit {
   code?: number;
   reason?: string;
   wasClean?: boolean;
 }
+
+/**
+ * Back compat for code migrating from older definitions.
+ * @deprecated Use CloseEventInit instead.
+ */
+declare type CloseEventInitializer = CloseEventInit;
 
 interface Comment {
   text: string;
@@ -423,8 +442,7 @@ declare type ExportedHandlerFetchHandler<Env = unknown> = (request: Request, env
 
 declare type ExportedHandlerScheduledHandler<Env = unknown> = (controller: ScheduledController, env: Env, ctx: ExecutionContext) => void | Promise<void>;
 
-declare class FetchEvent extends Event {
-  constructor(type: string);
+declare abstract class FetchEvent extends Event {
   readonly request: Request;
   respondWith(promise: Response | Promise<Response>): void;
   passThroughOnException(): void;
@@ -432,7 +450,7 @@ declare class FetchEvent extends Event {
 }
 
 declare abstract class Fetcher {
-  fetch(requestOrUrl: Request | string, requestInit?: RequestInitializerDict | Request): Promise<Response>;
+  fetch(requestOrUrl: Request | string, requestInit?: RequestInit | Request): Promise<Response>;
 }
 
 declare class File extends Blob {
@@ -488,7 +506,7 @@ interface HTMLRewriterElementContentHandlers {
 }
 
 declare class Headers {
-  constructor(init?: HeadersInitializer);
+  constructor(init?: HeadersInit);
   get(name: string): string | null;
   getAll(name: string): string[];
   has(name: string): boolean;
@@ -502,7 +520,13 @@ declare class Headers {
   [Symbol.iterator](): IterableIterator<[key: string, value: string]>;
 }
 
-declare type HeadersInitializer = Headers | Record<string, string> | ([key: string, value: string])[];
+declare type HeadersInit = Headers | Record<string, string> | ([key: string, value: string])[];
+
+/**
+ * Back compat for code migrating to older definitions.
+ * @deprecated Use HeadersInit instead.
+ */
+declare type HeadersInitializer = HeadersInit;
 
 /**
  * In addition to the properties on the standard Request object,
@@ -517,6 +541,11 @@ interface IncomingRequestCfProperties {
    * (e.g. 395747)
    */
   asn: number;
+  /**
+   * The organisation which owns the ASN of the incoming request.
+   * (e.g. Google Cloud)
+   */
+  asOrganization: string;
   botManagement?: IncomingRequestCfPropertiesBotManagement;
   city?: string;
   clientTcpRtt: number;
@@ -660,23 +689,32 @@ interface KVNamespacePutOptions {
 }
 
 declare class MessageEvent extends Event {
-  constructor(type: string, initializer: MessageEventInitializer);
+  constructor(type: string, initializer: MessageEventInit);
   readonly data: ArrayBuffer | string;
 }
 
-interface MessageEventInitializer {
+interface MessageEventInit {
   data: ArrayBuffer | string;
 }
 
+/**
+ * Back compat for code migrating from older definitions.
+ * @deprecated Use MessageEventInit instead.
+ */
+declare type MessageEventInitializer = MessageEventInit;
+
+/**
+ * Transitionary name.
+ * @deprecated Use StreamPipeOptions
+ */
 interface PipeToOptions {
   preventClose?: boolean;
   preventAbort?: boolean;
   preventCancel?: boolean;
 }
 
-declare class PromiseRejectionEvent extends Event {
-  constructor(type: string);
-  readonly promise: Promise;
+declare abstract class PromiseRejectionEvent extends Event {
+  readonly promise: Promise<any>;
   readonly reason: any;
 }
 
@@ -687,35 +725,54 @@ interface ReadResult {
 
 declare abstract class ReadableStream {
   readonly locked: boolean;
-  cancel(reason?: any): Promise;
-  getReader(options?: ReadableStreamGetReaderOptions): ReadableStreamReadableStreamDefaultReader | ReadableStreamReadableStreamBYOBReader;
+  cancel(reason?: any): Promise<void>;
+  getReader(options: ReadableStreamGetReaderOptions): ReadableStreamBYOBReader;
+  getReader(): ReadableStreamDefaultReader;
   pipeThrough(transform: ReadableStreamTransform, options?: PipeToOptions): ReadableStream;
-  pipeTo(destination: WritableStream, options?: PipeToOptions): Promise;
+  pipeTo(destination: WritableStream, options?: PipeToOptions): Promise<void>;
   tee(): [ReadableStream, ReadableStream];
 }
 
-interface ReadableStreamGetReaderOptions {
-  mode?: string;
+declare class ReadableStreamBYOBReader {
+  constructor(stream: ReadableStream);
+  readonly closed: Promise<void>;
+  cancel(reason?: any): Promise<void>;
+  read<T extends ArrayBufferView>(view: T): Promise<ReadableStreamReadResult<T>>;
+  releaseLock(): void;
+  readAtLeast(minBytes: number, view: Uint8Array): Promise<ReadableStreamReadResult<Uint8Array>>;
 }
 
+declare class ReadableStreamDefaultReader {
+  constructor(stream: ReadableStream);
+  readonly closed: Promise<void>;
+  cancel(reason?: any): Promise<void>;
+  read(): Promise<ReadableStreamReadResult<any>>;
+  releaseLock(): void;
+}
+
+interface ReadableStreamGetReaderOptions {
+  mode: string;
+}
+
+/**
+ * Back-compat alias.
+ * @deprecated Use StreamPipeOptions
+ */
 declare type ReadableStreamPipeToOptions = PipeToOptions;
 
-declare class ReadableStreamReadableStreamBYOBReader {
-  constructor(stream: ReadableStream);
-  readonly closed: Promise;
-  cancel(reason?: any): Promise;
-  read(byobBuffer: ArrayBufferView): Promise;
-  releaseLock(): void;
-  readAtLeast(minBytes: number, byobBuffer: ArrayBufferView): Promise;
-}
+declare type ReadableStreamReadResult<T = any> = { done: true; value: undefined; } | { done: false; value: T; };
 
-declare class ReadableStreamReadableStreamDefaultReader {
-  constructor(stream: ReadableStream);
-  readonly closed: Promise;
-  cancel(reason?: any): Promise;
-  read(): Promise;
-  releaseLock(): void;
-}
+/**
+ * Back-compat alias.
+ * @deprecated Use ReadableStreamBYOBReader
+ */
+declare type ReadableStreamReadableStreamBYOBReader = ReadableStreamBYOBReader;
+
+/**
+ * Back-compat alias.
+ * @deprecated Use ReadableStreamDefaultReader
+ */
+declare type ReadableStreamReadableStreamDefaultReader = ReadableStreamDefaultReader;
 
 interface ReadableStreamTransform {
   writable: WritableStream;
@@ -723,7 +780,7 @@ interface ReadableStreamTransform {
 }
 
 declare class Request extends Body {
-  constructor(input: Request | string, init?: RequestInitializerDict | Request);
+  constructor(input: Request | string, init?: RequestInit | Request);
   clone(): Request;
   readonly method: string;
   readonly url: string;
@@ -734,7 +791,26 @@ declare class Request extends Body {
   readonly cf?: IncomingRequestCfProperties;
 }
 
-declare type RequestInit = RequestInitializerDict;
+interface RequestInit {
+  method?: string;
+  headers?: HeadersInit;
+  body?: BodyInit | null;
+  redirect?: string;
+  fetcher?: Fetcher | null;
+  /**
+   * cf is a union of these two types because there are multiple
+   * scenarios in which it might be one or the other.
+   * 
+   * IncomingRequestCfProperties is required to allow
+   *   new Request(someUrl, event.request)
+   * 
+   * RequestInitCfProperties is required to allow
+   *   new Request(event.request, {cf: { ... } })
+   *   fetch(someUrl, {cf: { ... } })
+   */
+  cf?: IncomingRequestCfProperties | RequestInitCfProperties;
+  signal?: AbortSignal | null;
+}
 
 /**
  * In addition to the properties you can set in the RequestInit dict
@@ -873,29 +949,14 @@ interface RequestInitCfPropertiesImageMinify {
   html?: boolean;
 }
 
-interface RequestInitializerDict {
-  method?: string;
-  headers?: HeadersInitializer;
-  body?: BodyInitializer | null;
-  redirect?: string;
-  fetcher?: Fetcher | null;
-  /**
-   * cf is a union of these two types because there are multiple
-   * scenarios in which it might be one or the other.
-   * 
-   * IncomingRequestCfProperties is required to allow
-   *   new Request(someUrl, event.request)
-   * 
-   * RequestInitCfProperties is required to allow
-   *   new Request(event.request, {cf: { ... } })
-   *   fetch(someUrl, {cf: { ... } })
-   */
-  cf?: IncomingRequestCfProperties | RequestInitCfProperties;
-  signal?: AbortSignal | null;
-}
+/**
+ * Back compat for code migrating from older definitions.
+ * @deprecated Use RequestInit instead.
+ */
+declare type RequestInitializerDict = RequestInit;
 
 declare class Response extends Body {
-  constructor(bodyInit?: BodyInitializer | null, maybeInit?: ResponseInitializerDict | Response);
+  constructor(bodyInit?: BodyInit | null, maybeInit?: ResponseInit | Response);
   static redirect(url: string, status?: number): Response;
   clone(): Response;
   readonly status: number;
@@ -908,14 +969,20 @@ declare class Response extends Body {
   readonly cf?: Object;
 }
 
-interface ResponseInitializerDict {
+interface ResponseInit {
   status?: number;
   statusText?: string;
-  headers?: HeadersInitializer;
+  headers?: HeadersInit;
   cf?: Object;
   webSocket?: WebSocket | null;
   encodeBody?: string;
 }
+
+/**
+ * Back compat for code migrating from older definitions.
+ * @deprecated Use ResponseInit instead.
+ */
+declare type ResponseInitializerDict = ResponseInit;
 
 interface ScheduledController {
   readonly scheduledTime: number;
@@ -923,18 +990,14 @@ interface ScheduledController {
   noRetry(): void;
 }
 
-declare class ScheduledEvent extends Event {
-  constructor(type: string);
+declare abstract class ScheduledEvent extends Event {
   readonly scheduledTime: number;
   readonly cron: string;
   noRetry(): void;
   waitUntil(promise: Promise<any>): void;
 }
 
-declare class ServiceWorkerGlobalScope extends WorkerGlobalScope {
-  constructor();
-  static readonly DOMException: typeof DOMException;
-  static readonly WorkerGlobalScope: typeof WorkerGlobalScope;
+interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
   btoa(data: string): string;
   atob(data: string): string;
   setTimeout<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
@@ -942,44 +1005,10 @@ declare class ServiceWorkerGlobalScope extends WorkerGlobalScope {
   setInterval<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
   clearInterval(timeoutId: number | null): void;
   queueMicrotask(task: Function): void;
-  fetch(request: Request | string, requestInitr?: RequestInitializerDict | Request): Promise<Response>;
+  fetch(request: Request | string, requestInitr?: RequestInit | Request): Promise<Response>;
   readonly self: ServiceWorkerGlobalScope;
   readonly crypto: Crypto;
   readonly caches: CacheStorage;
-  static readonly Event: typeof Event;
-  static readonly PromiseRejectionEvent: typeof PromiseRejectionEvent;
-  static readonly FetchEvent: typeof FetchEvent;
-  static readonly ScheduledEvent: typeof ScheduledEvent;
-  static readonly MessageEvent: typeof MessageEvent;
-  static readonly CloseEvent: typeof CloseEvent;
-  static readonly ReadableStreamDefaultReader: typeof ReadableStreamDefaultReader;
-  static readonly ReadableStreamBYOBReader: typeof ReadableStreamBYOBReader;
-  static readonly ReadableStream: typeof ReadableStream;
-  static readonly WritableStream: typeof WritableStream;
-  static readonly WritableStreamDefaultWriter: typeof WritableStreamDefaultWriter;
-  static readonly TransformStream: typeof TransformStream;
-  static readonly Headers: typeof Headers;
-  static readonly Body: typeof Body;
-  static readonly Request: typeof Request;
-  static readonly Response: typeof Response;
-  static readonly WebSocket: typeof WebSocket;
-  static readonly WebSocketPair: typeof WebSocketPair;
-  static readonly AbortController: typeof AbortController;
-  static readonly AbortSignal: typeof AbortSignal;
-  static readonly TextDecoder: typeof TextDecoder;
-  static readonly TextEncoder: typeof TextEncoder;
-  static readonly URL: typeof URL;
-  static readonly URLSearchParams: typeof URLSearchParams;
-  static readonly Blob: typeof Blob;
-  static readonly File: typeof File;
-  static readonly FormData: typeof FormData;
-  static readonly Crypto: typeof Crypto;
-  static readonly SubtleCrypto: typeof SubtleCrypto;
-  static readonly CryptoKey: typeof CryptoKey;
-  static readonly CacheStorage: typeof CacheStorage;
-  static readonly Cache: typeof Cache;
-  static readonly FixedLengthStream: typeof FixedLengthStream;
-  static readonly HTMLRewriter: typeof HTMLRewriter;
   readonly console: Console;
 }
 
@@ -1143,7 +1172,7 @@ declare class URL {
 }
 
 declare class URLSearchParams {
-  constructor(init?: URLSearchParamsInitializer);
+  constructor(init?: URLSearchParamsInit);
   append(name: string, value: string): void;
   delete(name: string): void;
   get(name: string): string | null;
@@ -1159,7 +1188,15 @@ declare class URLSearchParams {
   toString(): string;
 }
 
-declare type URLSearchParamsInitializer = URLSearchParams | string | Record<string, string> | ([key: string, value: string])[];
+declare type URLSearchParamsInit = URLSearchParams | string | Record<string, string> | ([key: string, value: string])[];
+
+/**
+ * Back compat for code migrating to older definitions.
+ * This technically isn't part of a standard either way, but the naming
+ * is more consistent.
+ * @deprecated Use URLSearchParamsInit instead.
+ */
+declare type URLSearchParamsInitializer = URLSearchParamsInit;
 
 declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {
   accept(): void;
@@ -1171,29 +1208,34 @@ declare type WebSocketEventMap = { close: CloseEvent; message: MessageEvent; };
 
 declare const WebSocketPair: { new(): { 0: WebSocket; 1: WebSocket; }; };
 
-declare class WorkerGlobalScope extends EventTarget<WorkerGlobalScopeEventMap> {
-  constructor();
-  static readonly EventTarget: typeof EventTarget;
+declare abstract class WorkerGlobalScope extends EventTarget<WorkerGlobalScopeEventMap> {
+
 }
 
 declare type WorkerGlobalScopeEventMap = { fetch: FetchEvent; scheduled: ScheduledEvent; unhandledrejection: PromiseRejectionEvent; rejectionhandled: PromiseRejectionEvent; };
 
 declare abstract class WritableStream {
   readonly locked: boolean;
-  abort(reason: any): Promise;
-  close(): Promise;
-  getWriter(): WritableStreamWritableStreamDefaultWriter;
+  abort(reason: any): Promise<void>;
+  close(): Promise<void>;
+  getWriter(): WritableStreamDefaultWriter;
 }
 
-declare class WritableStreamWritableStreamDefaultWriter {
+declare class WritableStreamDefaultWriter {
   constructor(stream: WritableStream);
-  readonly closed: Promise;
+  readonly closed: Promise<void>;
   readonly desiredSize: number | null;
-  abort(reason: any): Promise;
-  close(): Promise;
-  write(chunk: any): Promise;
+  abort(reason: any): Promise<void>;
+  close(): Promise<void>;
+  write(chunk: any): Promise<void>;
   releaseLock(): void;
 }
+
+/**
+ * Back-compat alias.
+ * @deprecated Use WritableStreamDefaultWriter
+ */
+declare type WritableStreamWritableStreamDefaultWriter = WritableStreamDefaultWriter;
 
 declare function addEventListener<Type extends keyof WorkerGlobalScopeEventMap>(type: Type, handler: EventListenerOrEventListenerObject<WorkerGlobalScopeEventMap[Type]>, options?: EventTargetAddEventListenerOptions | boolean): void;
 
@@ -1213,7 +1255,7 @@ declare const crypto: Crypto;
 
 declare function dispatchEvent(event: WorkerGlobalScopeEventMap[keyof WorkerGlobalScopeEventMap]): boolean;
 
-declare function fetch(request: Request | string, requestInitr?: RequestInitializerDict | Request): Promise<Response>;
+declare function fetch(request: Request | string, requestInitr?: RequestInit | Request): Promise<Response>;
 
 declare function queueMicrotask(task: Function): void;
 

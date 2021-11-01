@@ -451,13 +451,6 @@
   "BodyInit": {
     "name": "BodyInit",
     "type": {
-      "name": "BodyInitializer"
-    },
-    "kind": "typedef"
-  },
-  "BodyInitializer": {
-    "name": "BodyInitializer",
-    "type": {
       "name": "|",
       "args": [
         {
@@ -479,6 +472,17 @@
           "name": "FormData"
         }
       ]
+    },
+    "kind": "typedef"
+  },
+  "BodyInitializer": {
+    "name": "BodyInitializer",
+    "type": {
+      "name": "BodyInit"
+    },
+    "comment": {
+      "text": "Back compat for code migrating to older definitions.",
+      "deprecated": "Use BodyInit instead."
     },
     "kind": "typedef"
   },
@@ -643,8 +647,8 @@
     ],
     "kind": "class"
   },
-  "CfRequestInitializerDict": {
-    "name": "CfRequestInitializerDict",
+  "CfRequestInit": {
+    "name": "CfRequestInit",
     "members": [
       {
         "name": "cf",
@@ -659,7 +663,7 @@
         "name": "Omit",
         "args": [
           {
-            "name": "RequestInitializerDict"
+            "name": "RequestInit"
           },
           {
             "name": "\"cf\""
@@ -668,6 +672,17 @@
       }
     ],
     "kind": "struct"
+  },
+  "CfRequestInitializerDict": {
+    "name": "CfRequestInitializerDict",
+    "type": {
+      "name": "CfRequestInit"
+    },
+    "comment": {
+      "text": "Back compat support with older types.",
+      "deprecated": "Use CfRequestInit instead."
+    },
+    "kind": "typedef"
   },
   "CloseEvent": {
     "name": "CloseEvent",
@@ -685,7 +700,7 @@
             {
               "name": "initializer",
               "type": {
-                "name": "CloseEventInitializer"
+                "name": "CloseEventInit"
               }
             }
           ]
@@ -720,8 +735,8 @@
     ],
     "kind": "class"
   },
-  "CloseEventInitializer": {
-    "name": "CloseEventInitializer",
+  "CloseEventInit": {
+    "name": "CloseEventInit",
     "members": [
       {
         "name": "code",
@@ -746,6 +761,17 @@
       }
     ],
     "kind": "struct"
+  },
+  "CloseEventInitializer": {
+    "name": "CloseEventInitializer",
+    "type": {
+      "name": "CloseEventInit"
+    },
+    "comment": {
+      "text": "Back compat for code migrating from older definitions.",
+      "deprecated": "Use CloseEventInit instead."
+    },
+    "kind": "typedef"
   },
   "Comment": {
     "name": "Comment",
@@ -3550,19 +3576,6 @@
     "name": "FetchEvent",
     "members": [
       {
-        "name": "constructor",
-        "type": {
-          "params": [
-            {
-              "name": "type",
-              "type": {
-                "name": "string"
-              }
-            }
-          ]
-        }
-      },
-      {
         "name": "request",
         "type": {
           "name": "Request"
@@ -3663,7 +3676,7 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "RequestInitializerDict"
+                    "name": "RequestInit"
                   },
                   {
                     "name": "Request"
@@ -4473,7 +4486,7 @@
             {
               "name": "init",
               "type": {
-                "name": "HeadersInitializer",
+                "name": "HeadersInit",
                 "optional": true
               }
             }
@@ -4747,8 +4760,8 @@
     ],
     "kind": "class"
   },
-  "HeadersInitializer": {
-    "name": "HeadersInitializer",
+  "HeadersInit": {
+    "name": "HeadersInit",
     "type": {
       "name": "|",
       "args": [
@@ -4792,6 +4805,17 @@
     },
     "kind": "typedef"
   },
+  "HeadersInitializer": {
+    "name": "HeadersInitializer",
+    "type": {
+      "name": "HeadersInit"
+    },
+    "comment": {
+      "text": "Back compat for code migrating to older definitions.",
+      "deprecated": "Use HeadersInit instead."
+    },
+    "kind": "typedef"
+  },
   "IncomingRequestCfProperties": {
     "name": "IncomingRequestCfProperties",
     "members": [
@@ -4802,6 +4826,15 @@
         },
         "comment": {
           "text": "(e.g. 395747)"
+        }
+      },
+      {
+        "name": "asOrganization",
+        "type": {
+          "name": "string"
+        },
+        "comment": {
+          "text": "The organisation which owns the ASN of the incoming request.\n(e.g. Google Cloud)"
         }
       },
       {
@@ -6218,7 +6251,7 @@
             {
               "name": "initializer",
               "type": {
-                "name": "MessageEventInitializer"
+                "name": "MessageEventInit"
               }
             }
           ]
@@ -6247,8 +6280,8 @@
     ],
     "kind": "class"
   },
-  "MessageEventInitializer": {
-    "name": "MessageEventInitializer",
+  "MessageEventInit": {
+    "name": "MessageEventInit",
     "members": [
       {
         "name": "data",
@@ -6266,6 +6299,17 @@
       }
     ],
     "kind": "struct"
+  },
+  "MessageEventInitializer": {
+    "name": "MessageEventInitializer",
+    "type": {
+      "name": "MessageEventInit"
+    },
+    "comment": {
+      "text": "Back compat for code migrating from older definitions.",
+      "deprecated": "Use MessageEventInit instead."
+    },
+    "kind": "typedef"
   },
   "PipeToOptions": {
     "name": "PipeToOptions",
@@ -6292,28 +6336,24 @@
         }
       }
     ],
+    "comment": {
+      "text": "Transitionary name.",
+      "deprecated": "Use StreamPipeOptions"
+    },
     "kind": "struct"
   },
   "PromiseRejectionEvent": {
     "name": "PromiseRejectionEvent",
     "members": [
       {
-        "name": "constructor",
-        "type": {
-          "params": [
-            {
-              "name": "type",
-              "type": {
-                "name": "string"
-              }
-            }
-          ]
-        }
-      },
-      {
         "name": "promise",
         "type": {
-          "name": "Promise"
+          "name": "Promise",
+          "args": [
+            {
+              "name": "any"
+            }
+          ]
         },
         "readonly": true
       },
@@ -6374,7 +6414,12 @@
             }
           ],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       },
@@ -6385,21 +6430,21 @@
             {
               "name": "options",
               "type": {
-                "name": "ReadableStreamGetReaderOptions",
-                "optional": true
+                "name": "ReadableStreamGetReaderOptions"
               }
             }
           ],
           "returns": {
-            "name": "|",
-            "args": [
-              {
-                "name": "ReadableStreamReadableStreamDefaultReader"
-              },
-              {
-                "name": "ReadableStreamReadableStreamBYOBReader"
-              }
-            ]
+            "name": "ReadableStreamBYOBReader"
+          }
+        }
+      },
+      {
+        "name": "getReader",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "ReadableStreamDefaultReader"
           }
         }
       },
@@ -6445,7 +6490,12 @@
             }
           ],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       },
@@ -6475,28 +6525,8 @@
     ],
     "kind": "class"
   },
-  "ReadableStreamGetReaderOptions": {
-    "name": "ReadableStreamGetReaderOptions",
-    "members": [
-      {
-        "name": "mode",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
-  },
-  "ReadableStreamPipeToOptions": {
-    "name": "ReadableStreamPipeToOptions",
-    "type": {
-      "name": "PipeToOptions"
-    },
-    "kind": "typedef"
-  },
-  "ReadableStreamReadableStreamBYOBReader": {
-    "name": "ReadableStreamReadableStreamBYOBReader",
+  "ReadableStreamBYOBReader": {
+    "name": "ReadableStreamBYOBReader",
     "members": [
       {
         "name": "constructor",
@@ -6514,7 +6544,12 @@
       {
         "name": "closed",
         "type": {
-          "name": "Promise"
+          "name": "Promise",
+          "args": [
+            {
+              "name": "void"
+            }
+          ]
         },
         "readonly": true
       },
@@ -6531,7 +6566,12 @@
             }
           ],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       },
@@ -6540,16 +6580,34 @@
         "type": {
           "params": [
             {
-              "name": "byobBuffer",
+              "name": "view",
               "type": {
-                "name": "ArrayBufferView"
+                "name": "T"
               }
             }
           ],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "ReadableStreamReadResult",
+                "args": [
+                  {
+                    "name": "T"
+                  }
+                ]
+              }
+            ]
           }
-        }
+        },
+        "typeparams": [
+          {
+            "name": "T",
+            "constraint": {
+              "name": "ArrayBufferView"
+            }
+          }
+        ]
       },
       {
         "name": "releaseLock",
@@ -6567,26 +6625,36 @@
             {
               "name": "minBytes",
               "type": {
-                "name": "integer"
+                "name": "number"
               }
             },
             {
-              "name": "byobBuffer",
+              "name": "view",
               "type": {
-                "name": "ArrayBufferView"
+                "name": "Uint8Array"
               }
             }
           ],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "ReadableStreamReadResult",
+                "args": [
+                  {
+                    "name": "Uint8Array"
+                  }
+                ]
+              }
+            ]
           }
         }
       }
     ],
     "kind": "class"
   },
-  "ReadableStreamReadableStreamDefaultReader": {
-    "name": "ReadableStreamReadableStreamDefaultReader",
+  "ReadableStreamDefaultReader": {
+    "name": "ReadableStreamDefaultReader",
     "members": [
       {
         "name": "constructor",
@@ -6604,7 +6672,12 @@
       {
         "name": "closed",
         "type": {
-          "name": "Promise"
+          "name": "Promise",
+          "args": [
+            {
+              "name": "void"
+            }
+          ]
         },
         "readonly": true
       },
@@ -6621,7 +6694,12 @@
             }
           ],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       },
@@ -6630,7 +6708,17 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "ReadableStreamReadResult",
+                "args": [
+                  {
+                    "name": "any"
+                  }
+                ]
+              }
+            ]
           }
         }
       },
@@ -6645,6 +6733,100 @@
       }
     ],
     "kind": "class"
+  },
+  "ReadableStreamGetReaderOptions": {
+    "name": "ReadableStreamGetReaderOptions",
+    "members": [
+      {
+        "name": "mode",
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "ReadableStreamPipeToOptions": {
+    "name": "ReadableStreamPipeToOptions",
+    "type": {
+      "name": "PipeToOptions"
+    },
+    "comment": {
+      "text": "Back-compat alias.",
+      "deprecated": "Use StreamPipeOptions"
+    },
+    "kind": "typedef"
+  },
+  "ReadableStreamReadResult": {
+    "name": "ReadableStreamReadResult",
+    "type": {
+      "name": "|",
+      "args": [
+        {
+          "members": [
+            {
+              "name": "done",
+              "type": {
+                "name": "true"
+              }
+            },
+            {
+              "name": "value",
+              "type": {
+                "name": "undefined"
+              }
+            }
+          ]
+        },
+        {
+          "members": [
+            {
+              "name": "done",
+              "type": {
+                "name": "false"
+              }
+            },
+            {
+              "name": "value",
+              "type": {
+                "name": "T"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "typeparams": [
+      {
+        "name": "T",
+        "default": {
+          "name": "any"
+        }
+      }
+    ],
+    "kind": "typedef"
+  },
+  "ReadableStreamReadableStreamBYOBReader": {
+    "name": "ReadableStreamReadableStreamBYOBReader",
+    "type": {
+      "name": "ReadableStreamBYOBReader"
+    },
+    "comment": {
+      "text": "Back-compat alias.",
+      "deprecated": "Use ReadableStreamBYOBReader"
+    },
+    "kind": "typedef"
+  },
+  "ReadableStreamReadableStreamDefaultReader": {
+    "name": "ReadableStreamReadableStreamDefaultReader",
+    "type": {
+      "name": "ReadableStreamDefaultReader"
+    },
+    "comment": {
+      "text": "Back-compat alias.",
+      "deprecated": "Use ReadableStreamDefaultReader"
+    },
+    "kind": "typedef"
   },
   "ReadableStreamTransform": {
     "name": "ReadableStreamTransform",
@@ -6691,7 +6873,7 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "RequestInitializerDict"
+                    "name": "RequestInit"
                   },
                   {
                     "name": "Request"
@@ -6780,10 +6962,93 @@
   },
   "RequestInit": {
     "name": "RequestInit",
-    "type": {
-      "name": "RequestInitializerDict"
-    },
-    "kind": "typedef"
+    "members": [
+      {
+        "name": "method",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "headers",
+        "type": {
+          "name": "HeadersInit",
+          "optional": true
+        }
+      },
+      {
+        "name": "body",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "BodyInit"
+            },
+            {
+              "name": "null"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "redirect",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "fetcher",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "Fetcher"
+            },
+            {
+              "name": "null"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "cf",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "IncomingRequestCfProperties"
+            },
+            {
+              "name": "RequestInitCfProperties"
+            }
+          ],
+          "optional": true
+        },
+        "comment": {
+          "text": "cf is a union of these two types because there are multiple\nscenarios in which it might be one or the other.\n\nIncomingRequestCfProperties is required to allow\n  new Request(someUrl, event.request)\n\nRequestInitCfProperties is required to allow\n  new Request(event.request, {cf: { ... } })\n  fetch(someUrl, {cf: { ... } })"
+        }
+      },
+      {
+        "name": "signal",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "AbortSignal"
+            },
+            {
+              "name": "null"
+            }
+          ],
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "RequestInitCfProperties": {
     "name": "RequestInitCfProperties",
@@ -7083,93 +7348,14 @@
   },
   "RequestInitializerDict": {
     "name": "RequestInitializerDict",
-    "members": [
-      {
-        "name": "method",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "headers",
-        "type": {
-          "name": "HeadersInitializer",
-          "optional": true
-        }
-      },
-      {
-        "name": "body",
-        "type": {
-          "name": "|",
-          "args": [
-            {
-              "name": "BodyInitializer"
-            },
-            {
-              "name": "null"
-            }
-          ],
-          "optional": true
-        }
-      },
-      {
-        "name": "redirect",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "fetcher",
-        "type": {
-          "name": "|",
-          "args": [
-            {
-              "name": "Fetcher"
-            },
-            {
-              "name": "null"
-            }
-          ],
-          "optional": true
-        }
-      },
-      {
-        "name": "cf",
-        "type": {
-          "name": "|",
-          "args": [
-            {
-              "name": "IncomingRequestCfProperties"
-            },
-            {
-              "name": "RequestInitCfProperties"
-            }
-          ],
-          "optional": true
-        },
-        "comment": {
-          "text": "cf is a union of these two types because there are multiple\nscenarios in which it might be one or the other.\n\nIncomingRequestCfProperties is required to allow\n  new Request(someUrl, event.request)\n\nRequestInitCfProperties is required to allow\n  new Request(event.request, {cf: { ... } })\n  fetch(someUrl, {cf: { ... } })"
-        }
-      },
-      {
-        "name": "signal",
-        "type": {
-          "name": "|",
-          "args": [
-            {
-              "name": "AbortSignal"
-            },
-            {
-              "name": "null"
-            }
-          ],
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
+    "type": {
+      "name": "RequestInit"
+    },
+    "comment": {
+      "text": "Back compat for code migrating from older definitions.",
+      "deprecated": "Use RequestInit instead."
+    },
+    "kind": "typedef"
   },
   "Response": {
     "name": "Response",
@@ -7184,7 +7370,7 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "BodyInitializer"
+                    "name": "BodyInit"
                   },
                   {
                     "name": "null"
@@ -7199,7 +7385,7 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "ResponseInitializerDict"
+                    "name": "ResponseInit"
                   },
                   {
                     "name": "Response"
@@ -7317,8 +7503,8 @@
     ],
     "kind": "class"
   },
-  "ResponseInitializerDict": {
-    "name": "ResponseInitializerDict",
+  "ResponseInit": {
+    "name": "ResponseInit",
     "members": [
       {
         "name": "status",
@@ -7337,7 +7523,7 @@
       {
         "name": "headers",
         "type": {
-          "name": "HeadersInitializer",
+          "name": "HeadersInit",
           "optional": true
         }
       },
@@ -7373,6 +7559,17 @@
     ],
     "kind": "struct"
   },
+  "ResponseInitializerDict": {
+    "name": "ResponseInitializerDict",
+    "type": {
+      "name": "ResponseInit"
+    },
+    "comment": {
+      "text": "Back compat for code migrating from older definitions.",
+      "deprecated": "Use ResponseInit instead."
+    },
+    "kind": "typedef"
+  },
   "ScheduledController": {
     "name": "ScheduledController",
     "members": [
@@ -7405,19 +7602,6 @@
   "ScheduledEvent": {
     "name": "ScheduledEvent",
     "members": [
-      {
-        "name": "constructor",
-        "type": {
-          "params": [
-            {
-              "name": "type",
-              "type": {
-                "name": "string"
-              }
-            }
-          ]
-        }
-      },
       {
         "name": "scheduledTime",
         "type": {
@@ -7473,12 +7657,6 @@
   "ServiceWorkerGlobalScope": {
     "name": "ServiceWorkerGlobalScope",
     "members": [
-      {
-        "name": "constructor",
-        "type": {
-          "params": []
-        }
-      },
       {
         "name": "DOMException",
         "type": {
@@ -7733,7 +7911,7 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "RequestInitializerDict"
+                    "name": "RequestInit"
                   },
                   {
                     "name": "Request"
@@ -9754,7 +9932,7 @@
             {
               "name": "init",
               "type": {
-                "name": "URLSearchParamsInitializer",
+                "name": "URLSearchParamsInit",
                 "optional": true
               }
             }
@@ -10046,8 +10224,8 @@
     ],
     "kind": "class"
   },
-  "URLSearchParamsInitializer": {
-    "name": "URLSearchParamsInitializer",
+  "URLSearchParamsInit": {
+    "name": "URLSearchParamsInit",
     "type": {
       "name": "|",
       "args": [
@@ -10091,6 +10269,17 @@
           ]
         }
       ]
+    },
+    "kind": "typedef"
+  },
+  "URLSearchParamsInitializer": {
+    "name": "URLSearchParamsInitializer",
+    "type": {
+      "name": "URLSearchParamsInit"
+    },
+    "comment": {
+      "text": "Back compat for code migrating to older definitions.\nThis technically isn't part of a standard either way, but the naming\nis more consistent.",
+      "deprecated": "Use URLSearchParamsInit instead."
     },
     "kind": "typedef"
   },
@@ -10221,12 +10410,6 @@
     "name": "WorkerGlobalScope",
     "members": [
       {
-        "name": "constructor",
-        "type": {
-          "params": []
-        }
-      },
-      {
         "name": "EventTarget",
         "type": {
           "name": "typeof",
@@ -10306,7 +10489,12 @@
             }
           ],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       },
@@ -10315,7 +10503,12 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       },
@@ -10324,15 +10517,15 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "WritableStreamWritableStreamDefaultWriter"
+            "name": "WritableStreamDefaultWriter"
           }
         }
       }
     ],
     "kind": "class"
   },
-  "WritableStreamWritableStreamDefaultWriter": {
-    "name": "WritableStreamWritableStreamDefaultWriter",
+  "WritableStreamDefaultWriter": {
+    "name": "WritableStreamDefaultWriter",
     "members": [
       {
         "name": "constructor",
@@ -10350,7 +10543,12 @@
       {
         "name": "closed",
         "type": {
-          "name": "Promise"
+          "name": "Promise",
+          "args": [
+            {
+              "name": "void"
+            }
+          ]
         },
         "readonly": true
       },
@@ -10381,7 +10579,12 @@
             }
           ],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       },
@@ -10390,7 +10593,12 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       },
@@ -10406,7 +10614,12 @@
             }
           ],
           "returns": {
-            "name": "Promise"
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       },
@@ -10421,6 +10634,17 @@
       }
     ],
     "kind": "class"
+  },
+  "WritableStreamWritableStreamDefaultWriter": {
+    "name": "WritableStreamWritableStreamDefaultWriter",
+    "type": {
+      "name": "WritableStreamDefaultWriter"
+    },
+    "comment": {
+      "text": "Back-compat alias.",
+      "deprecated": "Use WritableStreamDefaultWriter"
+    },
+    "kind": "typedef"
   },
   "addEventListener": {
     "name": "addEventListener",
@@ -10635,7 +10859,7 @@
             "name": "|",
             "args": [
               {
-                "name": "RequestInitializerDict"
+                "name": "RequestInit"
               },
               {
                 "name": "Request"
