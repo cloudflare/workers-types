@@ -32,7 +32,8 @@ const keywordTypes = new Set<ts.SyntaxKind>([
   ts.SyntaxKind.UnknownKeyword,
 ]);
 
-const declarations: Record<string, Class | Struct | TypeDef | Function | Variable> = {};
+type Declaration = Class | Struct | TypeDef | Function | Variable;
+const declarations: Record<string, Declaration> = {};
 
 for (const filePath of filePaths) {
   const sourceFile = program.getSourceFile(filePath);
@@ -324,7 +325,7 @@ for (const filePath of filePaths) {
     return node.declarationList.declarations.map(convertVariableDeclaration);
   }
 
-  function convertStatement(node: ts.Statement): (Class | Struct | TypeDef | Function | Variable)[] {
+  function convertStatement(node: ts.Statement): Declaration[] {
     if (ts.isClassDeclaration(node)) {
       return [convertClass(node)];
     } else if (ts.isInterfaceDeclaration(node)) {
@@ -339,6 +340,47 @@ for (const filePath of filePaths) {
     throw new TypeError(`unrecognised statement at ${getPos(node.pos)}: ${node.getText(sourceFile)}`);
   }
 
+  /**
+   * Merge nodes that have the same name.
+   * @param node1: The current node in the overrides.
+   * @param node2: The node with the same name we encountered.
+   * @return True if node2 was merged into node1. False if node1 doesn't exist and thus node2
+   * just needs to be inserted.
+   */
+  function merge(node1: Declaration | undefined, node2: Declaration): boolean {
+    if (node1 === undefined) {
+      return false;
+    }
+
+    assert.strictEqual(node1.name, node2.name);
+
+    if (node1.kind !== node2.kind) {
+      throw new TypeError(`Conflicting types for ${node1.name}: ${node1.kind} vs ${node2.kind}`);
+    }
+    switch (node1.kind) {
+      case "typedef":
+      case "function":
+      case "variable":
+        throw new TypeError(`Two ${node1.kind}s with the same name ${node1.name}`);
+      case "struct":
+      case "class":
+        if (node1.extends !== node2.extends) {
+          throw new TypeError(`Conflicting extends values for multiple overrides of ${node1.name}`);
+        }
+        if (node1.implements !== node2.implements) {
+          throw new TypeError(`Conflicting extends values for multiple overrides of ${node1.name}`);
+        }
+        for (const memberToMerge of node2.members) {
+          node1.members.push(memberToMerge);
+        }
+        return true;
+      default: {
+        const _never: never = node1;
+        throw new TypeError("Unexpected state");
+      }
+    }
+  }
+
   for (const statement of sourceFile.statements) {
     if (ts.isExportDeclaration(statement)) {
       // Ignore "export {}" at the end of files, we use this so TypeScript doesn't think
@@ -348,8 +390,9 @@ for (const filePath of filePaths) {
     const nodes = convertStatement(statement);
     for (const node of nodes) {
       let name = node.name;
-      let number = 2;
-      while (name in declarations) name = `${node.name}${number++}`;
+      if (merge(declarations[name], node)) {
+        continue;
+      }
       declarations[name] = node;
     }
   }
