@@ -128,6 +128,7 @@ interface RequestInitCfProperties {
   image?: RequestInitCfPropertiesImage;
   minify?: RequestInitCfPropertiesImageMinify;
   mirage?: boolean;
+  polish?: 'lossy' | 'lossless' | 'off'; 
   /**
    * Redirects the request to an alternate origin server. You can use this,
    * for example, to implement load balancing across several origins.
