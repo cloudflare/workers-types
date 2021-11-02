@@ -46,7 +46,7 @@ Draft a new release on the [releases page](https://github.com/cloudflare/workers
 
 Full releases are tagged `latest`. If for some reason you mix up the commands below, follow the troubleshooting guide.
 
-1. `cd npm && npm publish`.
+1. `npm publish`.
 1. Tweet.
 
 ## Troubleshooting a release
