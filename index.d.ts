@@ -1,6 +1,3 @@
-// This file is auto-generated. DO NOT MODIFY.
-// Please refer to the Auto-Generation section of the README.md.
-
 declare class AbortController {
   constructor();
   readonly signal: AbortSignal;
@@ -725,12 +722,21 @@ interface ReadResult {
 
 declare abstract class ReadableStream {
   readonly locked: boolean;
-  cancel(reason?: any): Promise<void>;
+  cancel(reason?: any): Promise;
+  getReader(options?: ReadableStreamGetReaderOptions): ReadableStreamDefaultReader | ReadableStreamBYOBReader;
+  pipeThrough(transform: ReadableStreamTransform, options?: PipeToOptions): ReadableStream;
+  pipeTo(destination: WritableStream, options?: PipeToOptions): Promise;
+  tee(): [ReadableStream, ReadableStream];
+}
+
+declare abstract class ReadableStream {
   getReader(options: ReadableStreamGetReaderOptions): ReadableStreamBYOBReader;
   getReader(): ReadableStreamDefaultReader;
-  pipeThrough(transform: ReadableStreamTransform, options?: PipeToOptions): ReadableStream;
+}
+
+declare abstract class ReadableStream {
+  cancel(reason?: any): Promise<void>;
   pipeTo(destination: WritableStream, options?: PipeToOptions): Promise<void>;
-  tee(): [ReadableStream, ReadableStream];
 }
 
 declare class ReadableStreamBYOBReader {
@@ -998,6 +1004,8 @@ declare abstract class ScheduledEvent extends Event {
 }
 
 interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
+  static readonly DOMException: typeof DOMException;
+  static readonly WorkerGlobalScope: typeof WorkerGlobalScope;
   btoa(data: string): string;
   atob(data: string): string;
   setTimeout<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
@@ -1009,6 +1017,40 @@ interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
   readonly self: ServiceWorkerGlobalScope;
   readonly crypto: Crypto;
   readonly caches: CacheStorage;
+  static readonly Event: typeof Event;
+  static readonly PromiseRejectionEvent: typeof PromiseRejectionEvent;
+  static readonly FetchEvent: typeof FetchEvent;
+  static readonly ScheduledEvent: typeof ScheduledEvent;
+  static readonly MessageEvent: typeof MessageEvent;
+  static readonly CloseEvent: typeof CloseEvent;
+  static readonly ReadableStreamDefaultReader: typeof ReadableStreamDefaultReader;
+  static readonly ReadableStreamBYOBReader: typeof ReadableStreamBYOBReader;
+  static readonly ReadableStream: typeof ReadableStream;
+  static readonly WritableStream: typeof WritableStream;
+  static readonly WritableStreamDefaultWriter: typeof WritableStreamDefaultWriter;
+  static readonly TransformStream: typeof TransformStream;
+  static readonly Headers: typeof Headers;
+  static readonly Body: typeof Body;
+  static readonly Request: typeof Request;
+  static readonly Response: typeof Response;
+  static readonly WebSocket: typeof WebSocket;
+  static readonly WebSocketPair: typeof WebSocketPair;
+  static readonly AbortController: typeof AbortController;
+  static readonly AbortSignal: typeof AbortSignal;
+  static readonly TextDecoder: typeof TextDecoder;
+  static readonly TextEncoder: typeof TextEncoder;
+  static readonly URL: typeof URL;
+  static readonly URLSearchParams: typeof URLSearchParams;
+  static readonly Blob: typeof Blob;
+  static readonly File: typeof File;
+  static readonly FormData: typeof FormData;
+  static readonly Crypto: typeof Crypto;
+  static readonly SubtleCrypto: typeof SubtleCrypto;
+  static readonly CryptoKey: typeof CryptoKey;
+  static readonly CacheStorage: typeof CacheStorage;
+  static readonly Cache: typeof Cache;
+  static readonly FixedLengthStream: typeof FixedLengthStream;
+  static readonly HTMLRewriter: typeof HTMLRewriter;
   readonly console: Console;
 }
 
@@ -1209,7 +1251,7 @@ declare type WebSocketEventMap = { close: CloseEvent; message: MessageEvent; };
 declare const WebSocketPair: { new(): { 0: WebSocket; 1: WebSocket; }; };
 
 declare abstract class WorkerGlobalScope extends EventTarget<WorkerGlobalScopeEventMap> {
-
+  static readonly EventTarget: typeof EventTarget;
 }
 
 declare type WorkerGlobalScopeEventMap = { fetch: FetchEvent; scheduled: ScheduledEvent; unhandledrejection: PromiseRejectionEvent; rejectionhandled: PromiseRejectionEvent; };
@@ -1218,10 +1260,10 @@ declare abstract class WritableStream {
   readonly locked: boolean;
   abort(reason: any): Promise<void>;
   close(): Promise<void>;
-  getWriter(): WritableStreamDefaultWriter;
+  getWriter(): WritableStreamWritableStreamDefaultWriter;
 }
 
-declare class WritableStreamDefaultWriter {
+declare class WritableStreamWritableStreamDefaultWriter {
   constructor(stream: WritableStream);
   readonly closed: Promise<void>;
   readonly desiredSize: number | null;
@@ -1230,12 +1272,6 @@ declare class WritableStreamDefaultWriter {
   write(chunk: any): Promise<void>;
   releaseLock(): void;
 }
-
-/**
- * Back-compat alias.
- * @deprecated Use WritableStreamDefaultWriter
- */
-declare type WritableStreamWritableStreamDefaultWriter = WritableStreamDefaultWriter;
 
 declare function addEventListener<Type extends keyof WorkerGlobalScopeEventMap>(type: Type, handler: EventListenerOrEventListenerObject<WorkerGlobalScopeEventMap[Type]>, options?: EventTargetAddEventListenerOptions | boolean): void;
 

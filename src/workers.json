@@ -6414,12 +6414,7 @@
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -6430,21 +6425,21 @@
             {
               "name": "options",
               "type": {
-                "name": "ReadableStreamGetReaderOptions"
+                "name": "ReadableStreamGetReaderOptions",
+                "optional": true
               }
             }
           ],
           "returns": {
-            "name": "ReadableStreamBYOBReader"
-          }
-        }
-      },
-      {
-        "name": "getReader",
-        "type": {
-          "params": [],
-          "returns": {
-            "name": "ReadableStreamDefaultReader"
+            "name": "|",
+            "args": [
+              {
+                "name": "ReadableStreamDefaultReader"
+              },
+              {
+                "name": "ReadableStreamBYOBReader"
+              }
+            ]
           }
         }
       },
@@ -6490,12 +6485,7 @@
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -6517,6 +6507,93 @@
                 "type": {
                   "name": "ReadableStream"
                 }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "ReadableStream2": {
+    "name": "ReadableStream",
+    "members": [
+      {
+        "name": "getReader",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "ReadableStreamGetReaderOptions"
+              }
+            }
+          ],
+          "returns": {
+            "name": "ReadableStreamBYOBReader"
+          }
+        }
+      },
+      {
+        "name": "getReader",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "ReadableStreamDefaultReader"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "ReadableStream3": {
+    "name": "ReadableStream",
+    "members": [
+      {
+        "name": "cancel",
+        "type": {
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "pipeTo",
+        "type": {
+          "params": [
+            {
+              "name": "destination",
+              "type": {
+                "name": "WritableStream"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "PipeToOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
               }
             ]
           }
@@ -10517,15 +10594,15 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "WritableStreamDefaultWriter"
+            "name": "WritableStreamWritableStreamDefaultWriter"
           }
         }
       }
     ],
     "kind": "class"
   },
-  "WritableStreamDefaultWriter": {
-    "name": "WritableStreamDefaultWriter",
+  "WritableStreamWritableStreamDefaultWriter": {
+    "name": "WritableStreamWritableStreamDefaultWriter",
     "members": [
       {
         "name": "constructor",
@@ -10634,17 +10711,6 @@
       }
     ],
     "kind": "class"
-  },
-  "WritableStreamWritableStreamDefaultWriter": {
-    "name": "WritableStreamWritableStreamDefaultWriter",
-    "type": {
-      "name": "WritableStreamDefaultWriter"
-    },
-    "comment": {
-      "text": "Back-compat alias.",
-      "deprecated": "Use WritableStreamDefaultWriter"
-    },
-    "kind": "typedef"
   },
   "addEventListener": {
     "name": "addEventListener",
