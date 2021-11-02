@@ -66,7 +66,7 @@ interface BasicImageTransformations {
   /**
    * When cropping with fit: "cover", this defines the side or point that should
    * be left uncropped. The value is either a string
-   * "left", "right", "top", "bottom" or "center" (the default),
+   * "left", "right", "top", "bottom", "auto", or "center" (the default),
    * or an object {x, y} containing focal point coordinates in the original
    * image expressed as fractions ranging from 0.0 (top or left) to 1.0
    * (bottom or right), 0.5 being the center. {fit: "cover", gravity: "top"} will
@@ -75,7 +75,7 @@ interface BasicImageTransformations {
    * preserve as much as possible around a point at 20% of the height of the
    * source image.
    */
-  gravity?: "left" | "right" | "top" | "bottom" | "center" | BasicImageTransformationsGravityCoordinates;
+  gravity?: "left" | "right" | "top" | "bottom" | "center" | "auto" | BasicImageTransformationsGravityCoordinates;
   /**
    * Background color to add underneath the image. Applies only to images with
    * transparency (such as PNG). Accepts any CSS color (#RRGGBB, rgba(…),
