@@ -49,7 +49,7 @@ interface BasicImageTransformations {
   /**
    * When cropping with fit: "cover", this defines the side or point that should
    * be left uncropped. The value is either a string
-   * "left", "right", "top", "bottom" or "center" (the default),
+   * "left", "right", "top", "bottom", "auto", or "center" (the default),
    * or an object {x, y} containing focal point coordinates in the original
    * image expressed as fractions ranging from 0.0 (top or left) to 1.0
    * (bottom or right), 0.5 being the center. {fit: "cover", gravity: "top"} will
@@ -58,7 +58,7 @@ interface BasicImageTransformations {
    * preserve as much as possible around a point at 20% of the height of the
    * source image.
    */
-  gravity?: "left" | "right" | "top" | "bottom" | "center" | BasicImageTransformationsGravityCoordinates;
+  gravity?: "left" | "right" | "top" | "bottom" | "center" | "auto" | BasicImageTransformationsGravityCoordinates;
   /**
    * Background color to add underneath the image. Applies only to images with
    * transparency (such as PNG). Accepts any CSS color (#RRGGBB, rgba(…),
@@ -280,10 +280,25 @@ interface DurableObject {
   fetch(request: Request): Promise<Response>;
 }
 
+interface DurableObjectGetOptions {
+  allowConcurrency?: boolean;
+  noCache?: boolean;
+}
+
 interface DurableObjectId {
   toString(): string;
   equals(other: DurableObjectId): boolean;
   readonly name?: string;
+}
+
+interface DurableObjectListOptions {
+  start?: string;
+  end?: string;
+  prefix?: string;
+  reverse?: boolean;
+  limit?: number;
+  allowConcurrency?: boolean;
+  noCache?: boolean;
 }
 
 interface DurableObjectNamespace {
@@ -297,6 +312,12 @@ interface DurableObjectNamespaceNewUniqueIdOptions {
   jurisdiction?: string;
 }
 
+interface DurableObjectPutOptions {
+  allowConcurrency?: boolean;
+  allowUnconfirmed?: boolean;
+  noCache?: boolean;
+}
+
 interface DurableObjectState {
   waitUntil(promise: Promise<any>): void;
   readonly id: DurableObjectId | string;
@@ -305,37 +326,34 @@ interface DurableObjectState {
 }
 
 interface DurableObjectStorage {
-  get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T | undefined>;
-  get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
-  list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
-  put<T>(key: string, value: T, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
-  put<T>(entries: Record<string, T>, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
-  delete(key: string, options?: DurableObjectStorageOperationsPutOptions): Promise<boolean>;
-  delete(keys: string[], options?: DurableObjectStorageOperationsPutOptions): Promise<number>;
-  deleteAll(options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
+  get<T = unknown>(key: string, options?: DurableObjectGetOptions): Promise<T | undefined>;
+  get<T = unknown>(keys: string[], options?: DurableObjectGetOptions): Promise<Map<string, T>>;
+  list<T = unknown>(options?: DurableObjectListOptions): Promise<Map<string, T>>;
+  put<T>(key: string, value: T, options?: DurableObjectPutOptions): Promise<void>;
+  put<T>(entries: Record<string, T>, options?: DurableObjectPutOptions): Promise<void>;
+  delete(key: string, options?: DurableObjectPutOptions): Promise<boolean>;
+  delete(keys: string[], options?: DurableObjectPutOptions): Promise<number>;
+  deleteAll(options?: DurableObjectPutOptions): Promise<void>;
   transaction<T>(closure: (txn: DurableObjectTransaction) => Promise<T>): Promise<T>;
 }
 
-interface DurableObjectStorageOperationsGetOptions {
-  allowConcurrency?: boolean;
-  noCache?: boolean;
-}
+/**
+ * 
+ * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
+ */
+declare type DurableObjectStorageOperationsGetOptions = DurableObjectGetOptions;
 
-interface DurableObjectStorageOperationsListOptions {
-  start?: string;
-  end?: string;
-  prefix?: string;
-  reverse?: boolean;
-  limit?: number;
-  allowConcurrency?: boolean;
-  noCache?: boolean;
-}
+/**
+ * 
+ * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
+ */
+declare type DurableObjectStorageOperationsListOptions = DurableObjectListOptions;
 
-interface DurableObjectStorageOperationsPutOptions {
-  allowConcurrency?: boolean;
-  allowUnconfirmed?: boolean;
-  noCache?: boolean;
-}
+/**
+ * 
+ * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
+ */
+declare type DurableObjectStorageOperationsPutOptions = DurableObjectPutOptions;
 
 interface DurableObjectStub extends Fetcher {
   readonly id: DurableObjectId;
@@ -343,13 +361,13 @@ interface DurableObjectStub extends Fetcher {
 }
 
 interface DurableObjectTransaction {
-  get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T>;
-  get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
-  list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
-  put<T>(key: string, value: T, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
-  put<T>(entries: Record<string, T>, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
-  delete(key: string, options?: DurableObjectStorageOperationsPutOptions): Promise<boolean>;
-  delete(keys: string[], options?: DurableObjectStorageOperationsPutOptions): Promise<number>;
+  get<T = unknown>(key: string, options?: DurableObjectGetOptions): Promise<T>;
+  get<T = unknown>(keys: string[], options?: DurableObjectGetOptions): Promise<Map<string, T>>;
+  list<T = unknown>(options?: DurableObjectListOptions): Promise<Map<string, T>>;
+  put<T>(key: string, value: T, options?: DurableObjectPutOptions): Promise<void>;
+  put<T>(entries: Record<string, T>, options?: DurableObjectPutOptions): Promise<void>;
+  delete(key: string, options?: DurableObjectPutOptions): Promise<boolean>;
+  delete(keys: string[], options?: DurableObjectPutOptions): Promise<number>;
   rollback(): void;
 }
 
@@ -846,6 +864,7 @@ interface RequestInitCfProperties {
   image?: RequestInitCfPropertiesImage;
   minify?: RequestInitCfPropertiesImageMinify;
   mirage?: boolean;
+  polish?: 'lossy' | 'lossless' | 'off';
   /**
    * Redirects the request to an alternate origin server. You can use this,
    * for example, to implement load balancing across several origins.

@@ -17,31 +17,31 @@ declare abstract class DurableObjectState {
 }
 
 declare abstract class DurableObjectStorage {
-  get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T | undefined>;
-  get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
+  get<T = unknown>(key: string, options?: DurableObjectGetOptions): Promise<T | undefined>;
+  get<T = unknown>(keys: string[], options?: DurableObjectGetOptions): Promise<Map<string, T>>;
 
-  list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
+  list<T = unknown>(options?: DurableObjectListOptions): Promise<Map<string, T>>;
 
-  put<T>(key: string, value: T, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
-  put<T>(entries: Record<string, T>, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
+  put<T>(key: string, value: T, options?: DurableObjectPutOptions): Promise<void>;
+  put<T>(entries: Record<string, T>, options?: DurableObjectPutOptions): Promise<void>;
 
-  delete(key: string, options?: DurableObjectStorageOperationsPutOptions): Promise<boolean>;
-  delete(keys: string[], options?: DurableObjectStorageOperationsPutOptions): Promise<number>;
+  delete(key: string, options?: DurableObjectPutOptions): Promise<boolean>;
+  delete(keys: string[], options?: DurableObjectPutOptions): Promise<number>;
 
   transaction<T>(closure: (txn: DurableObjectTransaction) => Promise<T>): Promise<T>;
 }
 
 declare abstract class DurableObjectTransaction {
-  get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T>;
-  get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
+  get<T = unknown>(key: string, options?: DurableObjectGetOptions): Promise<T>;
+  get<T = unknown>(keys: string[], options?: DurableObjectGetOptions): Promise<Map<string, T>>;
 
-  list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
+  list<T = unknown>(options?: DurableObjectListOptions): Promise<Map<string, T>>;
 
-  put<T>(key: string, value: T, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
-  put<T>(entries: Record<string, T>, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
+  put<T>(key: string, value: T, options?: DurableObjectPutOptions): Promise<void>;
+  put<T>(entries: Record<string, T>, options?: DurableObjectPutOptions): Promise<void>;
 
-  delete(key: string, options?: DurableObjectStorageOperationsPutOptions): Promise<boolean>;
-  delete(keys: string[], options?: DurableObjectStorageOperationsPutOptions): Promise<number>;
+  delete(key: string, options?: DurableObjectPutOptions): Promise<boolean>;
+  delete(keys: string[], options?: DurableObjectPutOptions): Promise<number>;
 
   deleteAll: never;
 

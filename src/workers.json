@@ -133,13 +133,16 @@
               "name": "\"center\""
             },
             {
+              "name": "\"auto\""
+            },
+            {
               "name": "BasicImageTransformationsGravityCoordinates"
             }
           ],
           "optional": true
         },
         "comment": {
-          "text": "When cropping with fit: \"cover\", this defines the side or point that should\nbe left uncropped. The value is either a string\n\"left\", \"right\", \"top\", \"bottom\" or \"center\" (the default),\nor an object {x, y} containing focal point coordinates in the original\nimage expressed as fractions ranging from 0.0 (top or left) to 1.0\n(bottom or right), 0.5 being the center. {fit: \"cover\", gravity: \"top\"} will\ncrop bottom or left and right sides as necessary, but won\u2019t crop anything\nfrom the top. {fit: \"cover\", gravity: {x:0.5, y:0.2}} will crop each side to\npreserve as much as possible around a point at 20% of the height of the\nsource image."
+          "text": "When cropping with fit: \"cover\", this defines the side or point that should\nbe left uncropped. The value is either a string\n\"left\", \"right\", \"top\", \"bottom\", \"auto\", or \"center\" (the default),\nor an object {x, y} containing focal point coordinates in the original\nimage expressed as fractions ranging from 0.0 (top or left) to 1.0\n(bottom or right), 0.5 being the center. {fit: \"cover\", gravity: \"top\"} will\ncrop bottom or left and right sides as necessary, but won\u2019t crop anything\nfrom the top. {fit: \"cover\", gravity: {x:0.5, y:0.2}} will crop each side to\npreserve as much as possible around a point at 20% of the height of the\nsource image."
         }
       },
       {
@@ -1633,6 +1636,26 @@
     ],
     "kind": "struct"
   },
+  "DurableObjectGetOptions": {
+    "name": "DurableObjectGetOptions",
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "noCache",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "DurableObjectId": {
     "name": "DurableObjectId",
     "members": [
@@ -1671,6 +1694,61 @@
       }
     ],
     "kind": "class"
+  },
+  "DurableObjectListOptions": {
+    "name": "DurableObjectListOptions",
+    "members": [
+      {
+        "name": "start",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "end",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "prefix",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "reverse",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "limit",
+        "type": {
+          "name": "integer",
+          "optional": true
+        }
+      },
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "noCache",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "DurableObjectNamespace": {
     "name": "DurableObjectNamespace",
@@ -1750,6 +1828,33 @@
         "name": "jurisdiction",
         "type": {
           "name": "string",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "DurableObjectPutOptions": {
+    "name": "DurableObjectPutOptions",
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "allowUnconfirmed",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "noCache",
+        "type": {
+          "name": "boolean",
           "optional": true
         }
       }
@@ -1855,7 +1960,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsGetOptions",
+                "name": "DurableObjectGetOptions",
                 "optional": true
               }
             }
@@ -1904,7 +2009,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsGetOptions",
+                "name": "DurableObjectGetOptions",
                 "optional": true
               }
             }
@@ -1942,7 +2047,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsListOptions",
+                "name": "DurableObjectListOptions",
                 "optional": true
               }
             }
@@ -1992,7 +2097,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsPutOptions",
+                "name": "DurableObjectPutOptions",
                 "optional": true
               }
             }
@@ -2033,7 +2138,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsPutOptions",
+                "name": "DurableObjectPutOptions",
                 "optional": true
               }
             }
@@ -2066,7 +2171,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsPutOptions",
+                "name": "DurableObjectPutOptions",
                 "optional": true
               }
             }
@@ -2099,7 +2204,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsPutOptions",
+                "name": "DurableObjectPutOptions",
                 "optional": true
               }
             }
@@ -2121,7 +2226,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsPutOptions",
+                "name": "DurableObjectPutOptions",
                 "optional": true
               }
             }
@@ -2182,105 +2287,36 @@
   },
   "DurableObjectStorageOperationsGetOptions": {
     "name": "DurableObjectStorageOperationsGetOptions",
-    "members": [
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "noCache",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
+    "type": {
+      "name": "DurableObjectGetOptions"
+    },
+    "comment": {
+      "text": "",
+      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
+    },
+    "kind": "typedef"
   },
   "DurableObjectStorageOperationsListOptions": {
     "name": "DurableObjectStorageOperationsListOptions",
-    "members": [
-      {
-        "name": "start",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "end",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "prefix",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "reverse",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "limit",
-        "type": {
-          "name": "integer",
-          "optional": true
-        }
-      },
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "noCache",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
+    "type": {
+      "name": "DurableObjectListOptions"
+    },
+    "comment": {
+      "text": "",
+      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
+    },
+    "kind": "typedef"
   },
   "DurableObjectStorageOperationsPutOptions": {
     "name": "DurableObjectStorageOperationsPutOptions",
-    "members": [
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "allowUnconfirmed",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "noCache",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
+    "type": {
+      "name": "DurableObjectPutOptions"
+    },
+    "comment": {
+      "text": "",
+      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
+    },
+    "kind": "typedef"
   },
   "DurableObjectStub": {
     "name": "DurableObjectStub",
@@ -2324,7 +2360,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsGetOptions",
+                "name": "DurableObjectGetOptions",
                 "optional": true
               }
             }
@@ -2365,7 +2401,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsGetOptions",
+                "name": "DurableObjectGetOptions",
                 "optional": true
               }
             }
@@ -2403,7 +2439,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsListOptions",
+                "name": "DurableObjectListOptions",
                 "optional": true
               }
             }
@@ -2453,7 +2489,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsPutOptions",
+                "name": "DurableObjectPutOptions",
                 "optional": true
               }
             }
@@ -2494,7 +2530,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsPutOptions",
+                "name": "DurableObjectPutOptions",
                 "optional": true
               }
             }
@@ -2527,7 +2563,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsPutOptions",
+                "name": "DurableObjectPutOptions",
                 "optional": true
               }
             }
@@ -2560,7 +2596,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsPutOptions",
+                "name": "DurableObjectPutOptions",
                 "optional": true
               }
             }
@@ -7130,6 +7166,24 @@
         "name": "mirage",
         "type": {
           "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "polish",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "'lossy'"
+            },
+            {
+              "name": "'lossless'"
+            },
+            {
+              "name": "'off'"
+            }
+          ],
           "optional": true
         }
       },
