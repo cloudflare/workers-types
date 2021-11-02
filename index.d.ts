@@ -180,7 +180,7 @@ interface ContentOptions {
 
 declare abstract class Crypto {
   readonly subtle: SubtleCrypto;
-  getRandomValues(buffer: ArrayBufferView): ArrayBufferView;
+  getRandomValues<T extends Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array>(buffer: T): T;
   randomUUID(): string;
 }
 
@@ -636,6 +636,27 @@ interface IncomingRequestCfPropertiesTLSClientAuth {
   certVerified: string;
 }
 
+interface JsonWebKey {
+  kty: string;
+  use?: string;
+  key_ops?: string[];
+  alg?: string;
+  ext?: boolean;
+  crv?: string;
+  x?: string;
+  y?: string;
+  d?: string;
+  n?: string;
+  e?: string;
+  p?: string;
+  q?: string;
+  dp?: string;
+  dq?: string;
+  qi?: string;
+  oth?: RsaOtherPrimesInfo[];
+  k?: string;
+}
+
 /**
  * Workers KV is a global, low-latency, key-value data store. It supports exceptionally high read volumes with low-latency,
  * making it possible to build highly dynamic APIs and websites which respond as quickly as a cached static file would.
@@ -1003,6 +1024,12 @@ interface ResponseInit {
  */
 declare type ResponseInitializerDict = ResponseInit;
 
+interface RsaOtherPrimesInfo {
+  r?: string;
+  d?: string;
+  t?: string;
+}
+
 interface ScheduledController {
   readonly scheduledTime: number;
   readonly cron: string;
@@ -1047,8 +1074,8 @@ declare abstract class SubtleCrypto {
   generateKey(algorithm: string | SubtleCryptoGenerateKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey | CryptoKeyPair>;
   deriveKey(algorithm: string | SubtleCryptoDeriveKeyAlgorithm, baseKey: CryptoKey, derivedKeyAlgorithm: string | SubtleCryptoImportKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey>;
   deriveBits(algorithm: string | SubtleCryptoDeriveKeyAlgorithm, baseKey: CryptoKey, length: number | null): Promise<ArrayBuffer>;
-  importKey(format: string, keyData: ArrayBuffer | SubtleCryptoJsonWebKey, algorithm: string | SubtleCryptoImportKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey>;
-  exportKey(format: string, key: CryptoKey): Promise<ArrayBuffer | SubtleCryptoJsonWebKey>;
+  importKey(format: string, keyData: ArrayBuffer | JsonWebKey, algorithm: string | SubtleCryptoImportKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey>;
+  exportKey(format: string, key: CryptoKey): Promise<ArrayBuffer | JsonWebKey>;
   wrapKey(format: string, key: CryptoKey, wrappingKey: CryptoKey, wrapAlgorithm: string | SubtleCryptoEncryptAlgorithm): Promise<ArrayBuffer>;
   unwrapKey(format: string, wrappedKey: ArrayBuffer, unwrappingKey: CryptoKey, unwrapAlgorithm: string | SubtleCryptoEncryptAlgorithm, unwrappedKeyAlgorithm: string | SubtleCryptoImportKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey>;
 }
@@ -1093,32 +1120,17 @@ interface SubtleCryptoImportKeyAlgorithm {
   compressed?: boolean;
 }
 
-interface SubtleCryptoJsonWebKey {
-  kty: string;
-  use?: string;
-  key_ops?: string[];
-  alg?: string;
-  ext?: boolean;
-  crv?: string;
-  x?: string;
-  y?: string;
-  d?: string;
-  n?: string;
-  e?: string;
-  p?: string;
-  q?: string;
-  dp?: string;
-  dq?: string;
-  qi?: string;
-  oth?: SubtleCryptoJsonWebKeyRsaOtherPrimesInfo[];
-  k?: string;
-}
+/**
+ * 
+ * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
+ */
+declare type SubtleCryptoJsonWebKey = JsonWebKey;
 
-interface SubtleCryptoJsonWebKeyRsaOtherPrimesInfo {
-  r?: string;
-  d?: string;
-  t?: string;
-}
+/**
+ * 
+ * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
+ */
+declare type SubtleCryptoJsonWebKeyRsaOtherPrimesInfo = RsaOtherPrimesInfo;
 
 interface SubtleCryptoSignAlgorithm {
   name: string;
