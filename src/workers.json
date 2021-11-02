@@ -133,16 +133,13 @@
               "name": "\"center\""
             },
             {
-              "name": "\"auto\""
-            },
-            {
               "name": "BasicImageTransformationsGravityCoordinates"
             }
           ],
           "optional": true
         },
         "comment": {
-          "text": "When cropping with fit: \"cover\", this defines the side or point that should\nbe left uncropped. The value is either a string\n\"left\", \"right\", \"top\", \"bottom\", \"auto\", or \"center\" (the default),\nor an object {x, y} containing focal point coordinates in the original\nimage expressed as fractions ranging from 0.0 (top or left) to 1.0\n(bottom or right), 0.5 being the center. {fit: \"cover\", gravity: \"top\"} will\ncrop bottom or left and right sides as necessary, but won\u2019t crop anything\nfrom the top. {fit: \"cover\", gravity: {x:0.5, y:0.2}} will crop each side to\npreserve as much as possible around a point at 20% of the height of the\nsource image."
+          "text": "When cropping with fit: \"cover\", this defines the side or point that should\nbe left uncropped. The value is either a string\n\"left\", \"right\", \"top\", \"bottom\" or \"center\" (the default),\nor an object {x, y} containing focal point coordinates in the original\nimage expressed as fractions ranging from 0.0 (top or left) to 1.0\n(bottom or right), 0.5 being the center. {fit: \"cover\", gravity: \"top\"} will\ncrop bottom or left and right sides as necessary, but won\u2019t crop anything\nfrom the top. {fit: \"cover\", gravity: {x:0.5, y:0.2}} will crop each side to\npreserve as much as possible around a point at 20% of the height of the\nsource image."
         }
       },
       {
@@ -1037,42 +1034,14 @@
             {
               "name": "buffer",
               "type": {
-                "name": "T"
+                "name": "ArrayBufferView"
               }
             }
           ],
           "returns": {
-            "name": "T"
+            "name": "ArrayBufferView"
           }
-        },
-        "typeparams": [
-          {
-            "name": "T",
-            "constraint": {
-              "name": "|",
-              "args": [
-                {
-                  "name": "Int8Array"
-                },
-                {
-                  "name": "Uint8Array"
-                },
-                {
-                  "name": "Int16Array"
-                },
-                {
-                  "name": "Uint16Array"
-                },
-                {
-                  "name": "Int32Array"
-                },
-                {
-                  "name": "Uint32Array"
-                }
-              ]
-            }
-          }
-        ]
+        }
       },
       {
         "name": "randomUUID",
@@ -1664,26 +1633,6 @@
     ],
     "kind": "struct"
   },
-  "DurableObjectGetOptions": {
-    "name": "DurableObjectGetOptions",
-    "members": [
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "noCache",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
-  },
   "DurableObjectId": {
     "name": "DurableObjectId",
     "members": [
@@ -1722,61 +1671,6 @@
       }
     ],
     "kind": "class"
-  },
-  "DurableObjectListOptions": {
-    "name": "DurableObjectListOptions",
-    "members": [
-      {
-        "name": "start",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "end",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "prefix",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "reverse",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "limit",
-        "type": {
-          "name": "integer",
-          "optional": true
-        }
-      },
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "noCache",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
   },
   "DurableObjectNamespace": {
     "name": "DurableObjectNamespace",
@@ -1856,33 +1750,6 @@
         "name": "jurisdiction",
         "type": {
           "name": "string",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
-  },
-  "DurableObjectPutOptions": {
-    "name": "DurableObjectPutOptions",
-    "members": [
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "allowUnconfirmed",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "noCache",
-        "type": {
-          "name": "boolean",
           "optional": true
         }
       }
@@ -1988,7 +1855,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectGetOptions",
+                "name": "DurableObjectStorageOperationsGetOptions",
                 "optional": true
               }
             }
@@ -2037,7 +1904,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectGetOptions",
+                "name": "DurableObjectStorageOperationsGetOptions",
                 "optional": true
               }
             }
@@ -2075,7 +1942,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectListOptions",
+                "name": "DurableObjectStorageOperationsListOptions",
                 "optional": true
               }
             }
@@ -2125,7 +1992,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectPutOptions",
+                "name": "DurableObjectStorageOperationsPutOptions",
                 "optional": true
               }
             }
@@ -2166,7 +2033,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectPutOptions",
+                "name": "DurableObjectStorageOperationsPutOptions",
                 "optional": true
               }
             }
@@ -2199,7 +2066,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectPutOptions",
+                "name": "DurableObjectStorageOperationsPutOptions",
                 "optional": true
               }
             }
@@ -2232,7 +2099,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectPutOptions",
+                "name": "DurableObjectStorageOperationsPutOptions",
                 "optional": true
               }
             }
@@ -2254,7 +2121,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectPutOptions",
+                "name": "DurableObjectStorageOperationsPutOptions",
                 "optional": true
               }
             }
@@ -2315,36 +2182,105 @@
   },
   "DurableObjectStorageOperationsGetOptions": {
     "name": "DurableObjectStorageOperationsGetOptions",
-    "type": {
-      "name": "DurableObjectGetOptions"
-    },
-    "comment": {
-      "text": "",
-      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
-    },
-    "kind": "typedef"
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "noCache",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "DurableObjectStorageOperationsListOptions": {
     "name": "DurableObjectStorageOperationsListOptions",
-    "type": {
-      "name": "DurableObjectListOptions"
-    },
-    "comment": {
-      "text": "",
-      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
-    },
-    "kind": "typedef"
+    "members": [
+      {
+        "name": "start",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "end",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "prefix",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "reverse",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "limit",
+        "type": {
+          "name": "integer",
+          "optional": true
+        }
+      },
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "noCache",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "DurableObjectStorageOperationsPutOptions": {
     "name": "DurableObjectStorageOperationsPutOptions",
-    "type": {
-      "name": "DurableObjectPutOptions"
-    },
-    "comment": {
-      "text": "",
-      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
-    },
-    "kind": "typedef"
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "allowUnconfirmed",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "noCache",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "DurableObjectStub": {
     "name": "DurableObjectStub",
@@ -2388,7 +2324,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectGetOptions",
+                "name": "DurableObjectStorageOperationsGetOptions",
                 "optional": true
               }
             }
@@ -2429,7 +2365,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectGetOptions",
+                "name": "DurableObjectStorageOperationsGetOptions",
                 "optional": true
               }
             }
@@ -2467,7 +2403,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectListOptions",
+                "name": "DurableObjectStorageOperationsListOptions",
                 "optional": true
               }
             }
@@ -2517,7 +2453,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectPutOptions",
+                "name": "DurableObjectStorageOperationsPutOptions",
                 "optional": true
               }
             }
@@ -2558,7 +2494,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectPutOptions",
+                "name": "DurableObjectStorageOperationsPutOptions",
                 "optional": true
               }
             }
@@ -2591,7 +2527,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectPutOptions",
+                "name": "DurableObjectStorageOperationsPutOptions",
                 "optional": true
               }
             }
@@ -2624,7 +2560,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectPutOptions",
+                "name": "DurableObjectStorageOperationsPutOptions",
                 "optional": true
               }
             }
@@ -5160,147 +5096,6 @@
     ],
     "kind": "struct"
   },
-  "JsonWebKey": {
-    "name": "JsonWebKey",
-    "members": [
-      {
-        "name": "kty",
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "use",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "key_ops",
-        "type": {
-          "name": "[]",
-          "args": [
-            {
-              "name": "string"
-            }
-          ],
-          "optional": true
-        }
-      },
-      {
-        "name": "alg",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "ext",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "crv",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "x",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "y",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "d",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "n",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "e",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "p",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "q",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "dp",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "dq",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "qi",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "oth",
-        "type": {
-          "name": "[]",
-          "args": [
-            {
-              "name": "RsaOtherPrimesInfo"
-            }
-          ],
-          "optional": true
-        }
-      },
-      {
-        "name": "k",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
-  },
   "KVNamespace": {
     "name": "KVNamespace",
     "members": [
@@ -6619,12 +6414,7 @@
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -6635,21 +6425,21 @@
             {
               "name": "options",
               "type": {
-                "name": "ReadableStreamGetReaderOptions"
+                "name": "ReadableStreamGetReaderOptions",
+                "optional": true
               }
             }
           ],
           "returns": {
-            "name": "ReadableStreamBYOBReader"
-          }
-        }
-      },
-      {
-        "name": "getReader",
-        "type": {
-          "params": [],
-          "returns": {
-            "name": "ReadableStreamDefaultReader"
+            "name": "|",
+            "args": [
+              {
+                "name": "ReadableStreamDefaultReader"
+              },
+              {
+                "name": "ReadableStreamBYOBReader"
+              }
+            ]
           }
         }
       },
@@ -6695,12 +6485,7 @@
             }
           ],
           "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "void"
-              }
-            ]
+            "name": "Promise"
           }
         }
       },
@@ -6722,6 +6507,93 @@
                 "type": {
                   "name": "ReadableStream"
                 }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "ReadableStream2": {
+    "name": "ReadableStream",
+    "members": [
+      {
+        "name": "getReader",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "ReadableStreamGetReaderOptions"
+              }
+            }
+          ],
+          "returns": {
+            "name": "ReadableStreamBYOBReader"
+          }
+        }
+      },
+      {
+        "name": "getReader",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "ReadableStreamDefaultReader"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "ReadableStream3": {
+    "name": "ReadableStream",
+    "members": [
+      {
+        "name": "cancel",
+        "type": {
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "pipeTo",
+        "type": {
+          "params": [
+            {
+              "name": "destination",
+              "type": {
+                "name": "WritableStream"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "PipeToOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
               }
             ]
           }
@@ -7339,24 +7211,6 @@
         }
       },
       {
-        "name": "polish",
-        "type": {
-          "name": "|",
-          "args": [
-            {
-              "name": "'lossy'"
-            },
-            {
-              "name": "'lossless'"
-            },
-            {
-              "name": "'off'"
-            }
-          ],
-          "optional": true
-        }
-      },
-      {
         "name": "resolveOverride",
         "type": {
           "name": "string",
@@ -7792,33 +7646,6 @@
       "deprecated": "Use ResponseInit instead."
     },
     "kind": "typedef"
-  },
-  "RsaOtherPrimesInfo": {
-    "name": "RsaOtherPrimesInfo",
-    "members": [
-      {
-        "name": "r",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "d",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      },
-      {
-        "name": "t",
-        "type": {
-          "name": "string",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
   },
   "ScheduledController": {
     "name": "ScheduledController",
@@ -9091,7 +8918,7 @@
                     "name": "ArrayBuffer"
                   },
                   {
-                    "name": "JsonWebKey"
+                    "name": "SubtleCryptoJsonWebKey"
                   }
                 ]
               }
@@ -9165,7 +8992,7 @@
                     "name": "ArrayBuffer"
                   },
                   {
-                    "name": "JsonWebKey"
+                    "name": "SubtleCryptoJsonWebKey"
                   }
                 ]
               }
@@ -9527,25 +9354,171 @@
   },
   "SubtleCryptoJsonWebKey": {
     "name": "SubtleCryptoJsonWebKey",
-    "type": {
-      "name": "JsonWebKey"
-    },
-    "comment": {
-      "text": "",
-      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
-    },
-    "kind": "typedef"
+    "members": [
+      {
+        "name": "kty",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "use",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "key_ops",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "string"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "alg",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "ext",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "crv",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "x",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "y",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "d",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "n",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "e",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "p",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "q",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "dp",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "dq",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "qi",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "oth",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "SubtleCryptoJsonWebKeyRsaOtherPrimesInfo"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "k",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "SubtleCryptoJsonWebKeyRsaOtherPrimesInfo": {
     "name": "SubtleCryptoJsonWebKeyRsaOtherPrimesInfo",
-    "type": {
-      "name": "RsaOtherPrimesInfo"
-    },
-    "comment": {
-      "text": "",
-      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
-    },
-    "kind": "typedef"
+    "members": [
+      {
+        "name": "r",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "d",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "t",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "SubtleCryptoSignAlgorithm": {
     "name": "SubtleCryptoSignAlgorithm",
@@ -10621,15 +10594,15 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "WritableStreamDefaultWriter"
+            "name": "WritableStreamWritableStreamDefaultWriter"
           }
         }
       }
     ],
     "kind": "class"
   },
-  "WritableStreamDefaultWriter": {
-    "name": "WritableStreamDefaultWriter",
+  "WritableStreamWritableStreamDefaultWriter": {
+    "name": "WritableStreamWritableStreamDefaultWriter",
     "members": [
       {
         "name": "constructor",
@@ -10738,17 +10711,6 @@
       }
     ],
     "kind": "class"
-  },
-  "WritableStreamWritableStreamDefaultWriter": {
-    "name": "WritableStreamWritableStreamDefaultWriter",
-    "type": {
-      "name": "WritableStreamDefaultWriter"
-    },
-    "comment": {
-      "text": "Back-compat alias.",
-      "deprecated": "Use WritableStreamDefaultWriter"
-    },
-    "kind": "typedef"
   },
   "addEventListener": {
     "name": "addEventListener",
