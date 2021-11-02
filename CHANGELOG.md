@@ -1,19 +1,26 @@
 # Changelog
 
+## 3.1.1
+
+- **Add `polish` key to `RequestInitCfProperties` - [@threepointone], [pull/131]**
+- **Added support for gravity: 'auto' to BasicImageTransformations - [@threepointone], [@@jonnedeprez], [pull/132]**
+- **Fixup DurableObject options names - [@vlovich], [pull/136]**
+- **Fixes for some crypto APIs - [@vlovich], [pull/137]**
+
 ## 3.1.0
 
 ### Features
 
-- **Updated types for 2021.10.800 - [autodecl-bot], [pull/120]**
+- **Updated types for 2021.10.800 - [@autodecl-bot], [pull/120]**
 - **Preserve the `@deprecated` tag when generating types - [@vlovich], [pull/123]**
 - **Cleanup unneeded overrides and replace with standard names - [@vlovich], [pull/123]**
 - **Support merging overrides automatically - [@vlovich], [pull/126]**
-- **Updated types for 2021.11.0 - [autodecl-bot], [pull/128]**
+- **Updated types for 2021.11.0 - [@autodecl-bot], [pull/128]**
 
 ### Bugfixes
 
 - **DurableObjectState storage should not be undefined in practice - [@koeninger], [pull/118]**
-- **Add `asOrganization` to `IncomingRequestCfProperties` - [mrkldshv], [pull/111]**
+- **Add `asOrganization` to `IncomingRequestCfProperties` - [@mrkldshv], [pull/111]**
 
 ## 3.0.0
 
