@@ -1,6 +1,3 @@
-// This file is auto-generated. DO NOT MODIFY.
-// Please refer to the Auto-Generation section of the README.md.
-
 declare class AbortController {
   constructor();
   readonly signal: AbortSignal;
@@ -49,7 +46,7 @@ interface BasicImageTransformations {
   /**
    * When cropping with fit: "cover", this defines the side or point that should
    * be left uncropped. The value is either a string
-   * "left", "right", "top", "bottom", "auto", or "center" (the default),
+   * "left", "right", "top", "bottom" or "center" (the default),
    * or an object {x, y} containing focal point coordinates in the original
    * image expressed as fractions ranging from 0.0 (top or left) to 1.0
    * (bottom or right), 0.5 being the center. {fit: "cover", gravity: "top"} will
@@ -58,7 +55,7 @@ interface BasicImageTransformations {
    * preserve as much as possible around a point at 20% of the height of the
    * source image.
    */
-  gravity?: "left" | "right" | "top" | "bottom" | "center" | "auto" | BasicImageTransformationsGravityCoordinates;
+  gravity?: "left" | "right" | "top" | "bottom" | "center" | BasicImageTransformationsGravityCoordinates;
   /**
    * Background color to add underneath the image. Applies only to images with
    * transparency (such as PNG). Accepts any CSS color (#RRGGBB, rgba(…),
@@ -180,7 +177,7 @@ interface ContentOptions {
 
 declare abstract class Crypto {
   readonly subtle: SubtleCrypto;
-  getRandomValues<T extends Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array>(buffer: T): T;
+  getRandomValues(buffer: ArrayBufferView): ArrayBufferView;
   randomUUID(): string;
 }
 
@@ -280,25 +277,10 @@ interface DurableObject {
   fetch(request: Request): Promise<Response>;
 }
 
-interface DurableObjectGetOptions {
-  allowConcurrency?: boolean;
-  noCache?: boolean;
-}
-
 interface DurableObjectId {
   toString(): string;
   equals(other: DurableObjectId): boolean;
   readonly name?: string;
-}
-
-interface DurableObjectListOptions {
-  start?: string;
-  end?: string;
-  prefix?: string;
-  reverse?: boolean;
-  limit?: number;
-  allowConcurrency?: boolean;
-  noCache?: boolean;
 }
 
 interface DurableObjectNamespace {
@@ -312,12 +294,6 @@ interface DurableObjectNamespaceNewUniqueIdOptions {
   jurisdiction?: string;
 }
 
-interface DurableObjectPutOptions {
-  allowConcurrency?: boolean;
-  allowUnconfirmed?: boolean;
-  noCache?: boolean;
-}
-
 interface DurableObjectState {
   waitUntil(promise: Promise<any>): void;
   readonly id: DurableObjectId | string;
@@ -326,34 +302,37 @@ interface DurableObjectState {
 }
 
 interface DurableObjectStorage {
-  get<T = unknown>(key: string, options?: DurableObjectGetOptions): Promise<T | undefined>;
-  get<T = unknown>(keys: string[], options?: DurableObjectGetOptions): Promise<Map<string, T>>;
-  list<T = unknown>(options?: DurableObjectListOptions): Promise<Map<string, T>>;
-  put<T>(key: string, value: T, options?: DurableObjectPutOptions): Promise<void>;
-  put<T>(entries: Record<string, T>, options?: DurableObjectPutOptions): Promise<void>;
-  delete(key: string, options?: DurableObjectPutOptions): Promise<boolean>;
-  delete(keys: string[], options?: DurableObjectPutOptions): Promise<number>;
-  deleteAll(options?: DurableObjectPutOptions): Promise<void>;
+  get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T | undefined>;
+  get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
+  list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
+  put<T>(key: string, value: T, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
+  put<T>(entries: Record<string, T>, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
+  delete(key: string, options?: DurableObjectStorageOperationsPutOptions): Promise<boolean>;
+  delete(keys: string[], options?: DurableObjectStorageOperationsPutOptions): Promise<number>;
+  deleteAll(options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
   transaction<T>(closure: (txn: DurableObjectTransaction) => Promise<T>): Promise<T>;
 }
 
-/**
- * 
- * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
- */
-declare type DurableObjectStorageOperationsGetOptions = DurableObjectGetOptions;
+interface DurableObjectStorageOperationsGetOptions {
+  allowConcurrency?: boolean;
+  noCache?: boolean;
+}
 
-/**
- * 
- * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
- */
-declare type DurableObjectStorageOperationsListOptions = DurableObjectListOptions;
+interface DurableObjectStorageOperationsListOptions {
+  start?: string;
+  end?: string;
+  prefix?: string;
+  reverse?: boolean;
+  limit?: number;
+  allowConcurrency?: boolean;
+  noCache?: boolean;
+}
 
-/**
- * 
- * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
- */
-declare type DurableObjectStorageOperationsPutOptions = DurableObjectPutOptions;
+interface DurableObjectStorageOperationsPutOptions {
+  allowConcurrency?: boolean;
+  allowUnconfirmed?: boolean;
+  noCache?: boolean;
+}
 
 interface DurableObjectStub extends Fetcher {
   readonly id: DurableObjectId;
@@ -361,13 +340,13 @@ interface DurableObjectStub extends Fetcher {
 }
 
 interface DurableObjectTransaction {
-  get<T = unknown>(key: string, options?: DurableObjectGetOptions): Promise<T>;
-  get<T = unknown>(keys: string[], options?: DurableObjectGetOptions): Promise<Map<string, T>>;
-  list<T = unknown>(options?: DurableObjectListOptions): Promise<Map<string, T>>;
-  put<T>(key: string, value: T, options?: DurableObjectPutOptions): Promise<void>;
-  put<T>(entries: Record<string, T>, options?: DurableObjectPutOptions): Promise<void>;
-  delete(key: string, options?: DurableObjectPutOptions): Promise<boolean>;
-  delete(keys: string[], options?: DurableObjectPutOptions): Promise<number>;
+  get<T = unknown>(key: string, options?: DurableObjectStorageOperationsGetOptions): Promise<T>;
+  get<T = unknown>(keys: string[], options?: DurableObjectStorageOperationsGetOptions): Promise<Map<string, T>>;
+  list<T = unknown>(options?: DurableObjectStorageOperationsListOptions): Promise<Map<string, T>>;
+  put<T>(key: string, value: T, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
+  put<T>(entries: Record<string, T>, options?: DurableObjectStorageOperationsPutOptions): Promise<void>;
+  delete(key: string, options?: DurableObjectStorageOperationsPutOptions): Promise<boolean>;
+  delete(keys: string[], options?: DurableObjectStorageOperationsPutOptions): Promise<number>;
   rollback(): void;
 }
 
@@ -636,27 +615,6 @@ interface IncomingRequestCfPropertiesTLSClientAuth {
   certVerified: string;
 }
 
-interface JsonWebKey {
-  kty: string;
-  use?: string;
-  key_ops?: string[];
-  alg?: string;
-  ext?: boolean;
-  crv?: string;
-  x?: string;
-  y?: string;
-  d?: string;
-  n?: string;
-  e?: string;
-  p?: string;
-  q?: string;
-  dp?: string;
-  dq?: string;
-  qi?: string;
-  oth?: RsaOtherPrimesInfo[];
-  k?: string;
-}
-
 /**
  * Workers KV is a global, low-latency, key-value data store. It supports exceptionally high read volumes with low-latency,
  * making it possible to build highly dynamic APIs and websites which respond as quickly as a cached static file would.
@@ -764,12 +722,21 @@ interface ReadResult {
 
 declare abstract class ReadableStream {
   readonly locked: boolean;
-  cancel(reason?: any): Promise<void>;
+  cancel(reason?: any): Promise;
+  getReader(options?: ReadableStreamGetReaderOptions): ReadableStreamDefaultReader | ReadableStreamBYOBReader;
+  pipeThrough(transform: ReadableStreamTransform, options?: PipeToOptions): ReadableStream;
+  pipeTo(destination: WritableStream, options?: PipeToOptions): Promise;
+  tee(): [ReadableStream, ReadableStream];
+}
+
+declare abstract class ReadableStream {
   getReader(options: ReadableStreamGetReaderOptions): ReadableStreamBYOBReader;
   getReader(): ReadableStreamDefaultReader;
-  pipeThrough(transform: ReadableStreamTransform, options?: PipeToOptions): ReadableStream;
+}
+
+declare abstract class ReadableStream {
+  cancel(reason?: any): Promise<void>;
   pipeTo(destination: WritableStream, options?: PipeToOptions): Promise<void>;
-  tee(): [ReadableStream, ReadableStream];
 }
 
 declare class ReadableStreamBYOBReader {
@@ -885,7 +852,6 @@ interface RequestInitCfProperties {
   image?: RequestInitCfPropertiesImage;
   minify?: RequestInitCfPropertiesImageMinify;
   mirage?: boolean;
-  polish?: 'lossy' | 'lossless' | 'off';
   /**
    * Redirects the request to an alternate origin server. You can use this,
    * for example, to implement load balancing across several origins.
@@ -1024,12 +990,6 @@ interface ResponseInit {
  */
 declare type ResponseInitializerDict = ResponseInit;
 
-interface RsaOtherPrimesInfo {
-  r?: string;
-  d?: string;
-  t?: string;
-}
-
 interface ScheduledController {
   readonly scheduledTime: number;
   readonly cron: string;
@@ -1044,6 +1004,8 @@ declare abstract class ScheduledEvent extends Event {
 }
 
 interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
+  static readonly DOMException: typeof DOMException;
+  static readonly WorkerGlobalScope: typeof WorkerGlobalScope;
   btoa(data: string): string;
   atob(data: string): string;
   setTimeout<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
@@ -1055,6 +1017,40 @@ interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
   readonly self: ServiceWorkerGlobalScope;
   readonly crypto: Crypto;
   readonly caches: CacheStorage;
+  static readonly Event: typeof Event;
+  static readonly PromiseRejectionEvent: typeof PromiseRejectionEvent;
+  static readonly FetchEvent: typeof FetchEvent;
+  static readonly ScheduledEvent: typeof ScheduledEvent;
+  static readonly MessageEvent: typeof MessageEvent;
+  static readonly CloseEvent: typeof CloseEvent;
+  static readonly ReadableStreamDefaultReader: typeof ReadableStreamDefaultReader;
+  static readonly ReadableStreamBYOBReader: typeof ReadableStreamBYOBReader;
+  static readonly ReadableStream: typeof ReadableStream;
+  static readonly WritableStream: typeof WritableStream;
+  static readonly WritableStreamDefaultWriter: typeof WritableStreamDefaultWriter;
+  static readonly TransformStream: typeof TransformStream;
+  static readonly Headers: typeof Headers;
+  static readonly Body: typeof Body;
+  static readonly Request: typeof Request;
+  static readonly Response: typeof Response;
+  static readonly WebSocket: typeof WebSocket;
+  static readonly WebSocketPair: typeof WebSocketPair;
+  static readonly AbortController: typeof AbortController;
+  static readonly AbortSignal: typeof AbortSignal;
+  static readonly TextDecoder: typeof TextDecoder;
+  static readonly TextEncoder: typeof TextEncoder;
+  static readonly URL: typeof URL;
+  static readonly URLSearchParams: typeof URLSearchParams;
+  static readonly Blob: typeof Blob;
+  static readonly File: typeof File;
+  static readonly FormData: typeof FormData;
+  static readonly Crypto: typeof Crypto;
+  static readonly SubtleCrypto: typeof SubtleCrypto;
+  static readonly CryptoKey: typeof CryptoKey;
+  static readonly CacheStorage: typeof CacheStorage;
+  static readonly Cache: typeof Cache;
+  static readonly FixedLengthStream: typeof FixedLengthStream;
+  static readonly HTMLRewriter: typeof HTMLRewriter;
   readonly console: Console;
 }
 
@@ -1074,8 +1070,8 @@ declare abstract class SubtleCrypto {
   generateKey(algorithm: string | SubtleCryptoGenerateKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey | CryptoKeyPair>;
   deriveKey(algorithm: string | SubtleCryptoDeriveKeyAlgorithm, baseKey: CryptoKey, derivedKeyAlgorithm: string | SubtleCryptoImportKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey>;
   deriveBits(algorithm: string | SubtleCryptoDeriveKeyAlgorithm, baseKey: CryptoKey, length: number | null): Promise<ArrayBuffer>;
-  importKey(format: string, keyData: ArrayBuffer | JsonWebKey, algorithm: string | SubtleCryptoImportKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey>;
-  exportKey(format: string, key: CryptoKey): Promise<ArrayBuffer | JsonWebKey>;
+  importKey(format: string, keyData: ArrayBuffer | SubtleCryptoJsonWebKey, algorithm: string | SubtleCryptoImportKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey>;
+  exportKey(format: string, key: CryptoKey): Promise<ArrayBuffer | SubtleCryptoJsonWebKey>;
   wrapKey(format: string, key: CryptoKey, wrappingKey: CryptoKey, wrapAlgorithm: string | SubtleCryptoEncryptAlgorithm): Promise<ArrayBuffer>;
   unwrapKey(format: string, wrappedKey: ArrayBuffer, unwrappingKey: CryptoKey, unwrapAlgorithm: string | SubtleCryptoEncryptAlgorithm, unwrappedKeyAlgorithm: string | SubtleCryptoImportKeyAlgorithm, extractable: boolean, keyUsages: string[]): Promise<CryptoKey>;
 }
@@ -1120,17 +1116,32 @@ interface SubtleCryptoImportKeyAlgorithm {
   compressed?: boolean;
 }
 
-/**
- * 
- * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
- */
-declare type SubtleCryptoJsonWebKey = JsonWebKey;
+interface SubtleCryptoJsonWebKey {
+  kty: string;
+  use?: string;
+  key_ops?: string[];
+  alg?: string;
+  ext?: boolean;
+  crv?: string;
+  x?: string;
+  y?: string;
+  d?: string;
+  n?: string;
+  e?: string;
+  p?: string;
+  q?: string;
+  dp?: string;
+  dq?: string;
+  qi?: string;
+  oth?: SubtleCryptoJsonWebKeyRsaOtherPrimesInfo[];
+  k?: string;
+}
 
-/**
- * 
- * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
- */
-declare type SubtleCryptoJsonWebKeyRsaOtherPrimesInfo = RsaOtherPrimesInfo;
+interface SubtleCryptoJsonWebKeyRsaOtherPrimesInfo {
+  r?: string;
+  d?: string;
+  t?: string;
+}
 
 interface SubtleCryptoSignAlgorithm {
   name: string;
@@ -1240,7 +1251,7 @@ declare type WebSocketEventMap = { close: CloseEvent; message: MessageEvent; };
 declare const WebSocketPair: { new(): { 0: WebSocket; 1: WebSocket; }; };
 
 declare abstract class WorkerGlobalScope extends EventTarget<WorkerGlobalScopeEventMap> {
-
+  static readonly EventTarget: typeof EventTarget;
 }
 
 declare type WorkerGlobalScopeEventMap = { fetch: FetchEvent; scheduled: ScheduledEvent; unhandledrejection: PromiseRejectionEvent; rejectionhandled: PromiseRejectionEvent; };
@@ -1249,10 +1260,10 @@ declare abstract class WritableStream {
   readonly locked: boolean;
   abort(reason: any): Promise<void>;
   close(): Promise<void>;
-  getWriter(): WritableStreamDefaultWriter;
+  getWriter(): WritableStreamWritableStreamDefaultWriter;
 }
 
-declare class WritableStreamDefaultWriter {
+declare class WritableStreamWritableStreamDefaultWriter {
   constructor(stream: WritableStream);
   readonly closed: Promise<void>;
   readonly desiredSize: number | null;
@@ -1261,12 +1272,6 @@ declare class WritableStreamDefaultWriter {
   write(chunk: any): Promise<void>;
   releaseLock(): void;
 }
-
-/**
- * Back-compat alias.
- * @deprecated Use WritableStreamDefaultWriter
- */
-declare type WritableStreamWritableStreamDefaultWriter = WritableStreamDefaultWriter;
 
 declare function addEventListener<Type extends keyof WorkerGlobalScopeEventMap>(type: Type, handler: EventListenerOrEventListenerObject<WorkerGlobalScopeEventMap[Type]>, options?: EventTargetAddEventListenerOptions | boolean): void;
 
