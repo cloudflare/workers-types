@@ -4,13 +4,14 @@
 declare class AbortController {
   constructor();
   readonly signal: AbortSignal;
-  abort(): void;
+  abort(reason?: any): void;
 }
 
 declare class AbortSignal extends EventTarget {
   constructor();
-  static abort(): AbortSignal;
+  static abort(reason?: any): AbortSignal;
   readonly aborted: boolean;
+  readonly reason: any;
 }
 
 interface BasicImageTransformations {
