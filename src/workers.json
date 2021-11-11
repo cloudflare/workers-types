@@ -19,7 +19,15 @@
       {
         "name": "abort",
         "type": {
-          "params": [],
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
           "returns": {
             "name": "void"
           }
@@ -40,7 +48,15 @@
       {
         "name": "abort",
         "type": {
-          "params": [],
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
           "returns": {
             "name": "AbortSignal"
           }
@@ -51,6 +67,13 @@
         "name": "aborted",
         "type": {
           "name": "boolean"
+        },
+        "readonly": true
+      },
+      {
+        "name": "reason",
+        "type": {
+          "name": "any"
         },
         "readonly": true
       }
