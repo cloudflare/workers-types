@@ -16,10 +16,7 @@ declare type WebSocketEventMap = {
 declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {}
 
 declare const WebSocketPair: {
-  new (): {
-    0: WebSocket;
-    1: WebSocket;
-  };
+  new (): [WebSocket, WebSocket];
 };
 
 export {};
