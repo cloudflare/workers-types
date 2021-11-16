@@ -9,7 +9,6 @@ interface MessageEventInit {
 declare type WebSocketEventMap = {
   close: CloseEvent;
   message: MessageEvent;
-  open: Event;
   error: Event;
 };
 
