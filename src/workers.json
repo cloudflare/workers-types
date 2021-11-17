@@ -8161,6 +8161,29 @@
         }
       },
       {
+        "name": "structuredClone",
+        "type": {
+          "params": [
+            {
+              "name": "value",
+              "type": {
+                "name": "any"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "ServiceWorkerGlobalScopeStructuredCloneOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          }
+        }
+      },
+      {
         "name": "fetch",
         "type": {
           "params": [
@@ -8681,6 +8704,24 @@
       }
     ],
     "kind": "class"
+  },
+  "ServiceWorkerGlobalScopeStructuredCloneOptions": {
+    "name": "ServiceWorkerGlobalScopeStructuredCloneOptions",
+    "members": [
+      {
+        "name": "transfer",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "any"
+            }
+          ],
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "StreamPipeOptions": {
     "name": "StreamPipeOptions",
@@ -10498,6 +10539,18 @@
           "type": {
             "name": "MessageEvent"
           }
+        },
+        {
+          "name": "open",
+          "type": {
+            "name": "Event"
+          }
+        },
+        {
+          "name": "error",
+          "type": {
+            "name": "Event"
+          }
         }
       ]
     },
@@ -11198,6 +11251,30 @@
         }
       }
     ],
+    "kind": "function"
+  },
+  "structuredClone": {
+    "name": "structuredClone",
+    "type": {
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "name": "any"
+          }
+        },
+        {
+          "name": "options",
+          "type": {
+            "name": "ServiceWorkerGlobalScopeStructuredCloneOptions",
+            "optional": true
+          }
+        }
+      ],
+      "returns": {
+        "name": "any"
+      }
+    },
     "kind": "function"
   }
 }

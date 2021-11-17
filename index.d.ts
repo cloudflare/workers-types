@@ -1052,11 +1052,16 @@ interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
   setInterval<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
   clearInterval(timeoutId: number | null): void;
   queueMicrotask(task: Function): void;
+  structuredClone(value: any, options?: ServiceWorkerGlobalScopeStructuredCloneOptions): any;
   fetch(request: Request | string, requestInitr?: RequestInit | Request): Promise<Response>;
   readonly self: ServiceWorkerGlobalScope;
   readonly crypto: Crypto;
   readonly caches: CacheStorage;
   readonly console: Console;
+}
+
+interface ServiceWorkerGlobalScopeStructuredCloneOptions {
+  transfer?: any[];
 }
 
 declare type StreamPipeOptions = PipeToOptions;
@@ -1236,7 +1241,7 @@ declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {
   close(code?: number, reason?: string): void;
 }
 
-declare type WebSocketEventMap = { close: CloseEvent; message: MessageEvent; };
+declare type WebSocketEventMap = { close: CloseEvent; message: MessageEvent; open: Event; error: Event; };
 
 declare const WebSocketPair: { new(): { 0: WebSocket; 1: WebSocket; }; };
 
@@ -1298,4 +1303,6 @@ declare const self: ServiceWorkerGlobalScope;
 declare function setInterval<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
 
 declare function setTimeout<Args extends any[]>(callback: (...args: Args) => void, msDelay?: number, ...args: Args): number;
+
+declare function structuredClone(value: any, options?: ServiceWorkerGlobalScopeStructuredCloneOptions): any;
 
