@@ -153,51 +153,6 @@ interface RequestInitCfPropertiesImageDraw extends BasicImageTransformations {
    */
   url: string;
   /**
-   * Maximum width of the overlay image, in pixels. It must be an integer.
-   */
-  width?: number;
-  /**
-   * Maximum height of the overlay image, in pixels. It must be an integer.
-   */
-  height?: number;
-  /**
-   * Resizing mode as a string. It affects interpretation of width and height
-   * options:
-   *  - scale-down: Similar to contain, but the image is never enlarged. If
-   *    the image is larger than given width or height, it will be resized.
-   *    Otherwise its original size will be kept.
-   *  - contain: Resizes to maximum size that fits within the given width and
-   *    height. If only a single dimension is given (e.g. only width), the
-   *    image will be shrunk or enlarged to exactly match that dimension.
-   *    Aspect ratio is always preserved.
-   *  - cover: Resizes (shrinks or enlarges) to fill the entire area of width
-   *    and height. If the image has an aspect ratio different from the ratio
-   *    of width and height, it will be cropped to fit.
-   *  - crop: The image will shrunk and cropped to fit within the area
-   *    specified by width and height. The image won’t be enlarged. For images
-   *    smaller than the given dimensions it’s the same as scale-down. For
-   *    images larger than the given dimensions, it’s the same as cover.
-   *  - pad: Resizes to the maximum size that fits within the given width and
-   *    height, and then fills the remaining area with a background color
-   *    (white by default). Use of this mode is not recommended, as the same
-   *    effect can be more efficiently achieved with the contain mode and the
-   *    CSS object-fit: contain property.
-   */
-  fit?: "scale-down" | "contain" | "cover" | "crop" | "pad";
-  /**
-   * When cropping with fit: "cover", this defines the side or point that should
-   * be left uncropped. The value is either a string
-   * "left", "right", "top", "bottom", "auto", or "center" (the default),
-   * or an object {x, y} containing focal point coordinates in the original
-   * image expressed as fractions ranging from 0.0 (top or left) to 1.0
-   * (bottom or right), 0.5 being the center. {fit: "cover", gravity: "top"} will
-   * crop bottom or left and right sides as necessary, but won’t crop anything
-   * from the top. {fit: "cover", gravity: {x:0.5, y:0.2}} will crop each side to
-   * preserve as much as possible around a point at 20% of the height of the
-   * source image.
-   */
-  gravity?: "left" | "right" | "top" | "bottom" | "center" | "auto" | BasicImageTransformationsGravityCoordinates;
-  /**
    * Floating-point number between 0 (transparent) and 1 (opaque).
    * For example, opacity: 0.5 makes overlay semitransparent.
    */
@@ -226,17 +181,6 @@ interface RequestInitCfPropertiesImageDraw extends BasicImageTransformations {
   left?: number;
   bottom?: number;
   right?: number;
-  /**
-   * Background color to add underneath the image. Applies only to images with
-   * transparency (such as PNG). Accepts any CSS color (#RRGGBB, rgba(…),
-   * hsl(…), etc.)
-   */
-  background?: string;
-  /**
-   * Number of degrees (90, 180, 270) to rotate the image by. width and height
-   * options refer to axes after rotation.
-   */
-  rotate?: 0 | 90 | 180 | 270 | 360;
 }
 
 interface RequestInitCfPropertiesImageTrim extends BasicImageTransformations {
