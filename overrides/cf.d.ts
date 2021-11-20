@@ -52,10 +52,11 @@ interface BasicImageTransformations {
    *  - cover: Resizes (shrinks or enlarges) to fill the entire area of width
    *    and height. If the image has an aspect ratio different from the ratio
    *    of width and height, it will be cropped to fit.
-   *  - crop: The image will shrunk and cropped to fit within the area
-   *    specified by width and height. The image won’t be enlarged. For images
-   *    smaller than the given dimensions it’s the same as scale-down. For
-   *    images larger than the given dimensions, it’s the same as cover.
+   *  - crop: The image will be shrunk and cropped to fit within the area
+   *    specified by width and height. The image will not be enlarged. For images
+   *    smaller than the given dimensions it's the same as scale-down. For
+   *    images larger than the given dimensions, it's the same as cover.
+   *    See also trim.
    *  - pad: Resizes to the maximum size that fits within the given width and
    *    height, and then fills the remaining area with a background color
    *    (white by default). Use of this mode is not recommended, as the same
@@ -183,13 +184,6 @@ interface RequestInitCfPropertiesImageDraw extends BasicImageTransformations {
   right?: number;
 }
 
-interface RequestInitCfPropertiesImageTrim extends BasicImageTransformations {
-  left?: number;
-  top?: number;
-  right?: number;
-  bottom?: number;
-}
-
 interface RequestInitCfPropertiesImage extends BasicImageTransformations {
   /**
    * Device Pixel Ratio. Default 1. Multiplier for width/height that makes it
@@ -202,7 +196,12 @@ interface RequestInitCfPropertiesImage extends BasicImageTransformations {
    * or cutting out a specific fragment of an image. Trimming is performed
    * before resizing or rotation. Takes dpr into account.
    */
-  trim?: RequestInitCfPropertiesImageTrim;
+  trim?: {
+    left?: number;
+    top?: number;
+    right?: number;
+    bottom?: number;
+  };
   /**
    * Quality setting from 1-100 (useful values are in 60-90 range). Lower values
    * make images look worse, but load faster. The default is 85. It applies only
