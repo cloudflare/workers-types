@@ -4,7 +4,7 @@ type EventContext<Env, P extends string, Data> = {
   request: Request;
   waitUntil: (promise: Promise<any>) => void;
   next: (input?: Request | string, init?: RequestInit) => Promise<Response>;
-  env: Env;
+  env: Env & { ASSETS: { fetch: typeof fetch }};
   params: Params<P>;
   data: Data;
 };
