@@ -13,7 +13,9 @@
   "scripts": {
     "export:docs": "node -r esbuild-register export/docs.ts",
     "export:overrides": "node -r esbuild-register export/overrides.ts",
-    "test": "tsc"
+    "test": "tsc",
+    "lint": "markdownlint '**/*.md' --ignore node_modules",
+    "format": "markdownlint --fix '**/*.md' --ignore node_modules"
   },
   "author": "Cloudflare Workers Team <workers@cloudflare.com> (https://workers.cloudflare.com)",
   "license": "BSD-3-Clause",
@@ -22,6 +24,7 @@
     "@types/node": "^16.6.1",
     "esbuild": "^0.12.22",
     "esbuild-register": "^3.0.0",
+    "markdownlint-cli": "^0.30.0",
     "marked": "^3.0.2",
     "prettier": "2.0.5",
     "typescript": "^4.3.5"

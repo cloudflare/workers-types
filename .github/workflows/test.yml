@@ -1,17 +1,19 @@
-name: Check Docs & Overrides
+name: Test
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: 16.x
       - run: npm install
+      - name: Check Markdown
+        run: npm run lint
       - name: Check Docs
         run: npm run export:docs
       - name: Check Overrides

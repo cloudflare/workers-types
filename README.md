@@ -6,11 +6,13 @@
 ## Install
 
 Using NPM:
+
 ```bash
 npm install -D @cloudflare/workers-types
 ```
 
 Using yarn:
+
 ```bash
 yarn add -D @cloudflare/workers-types
 ```

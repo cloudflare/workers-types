@@ -4,8 +4,7 @@ on:
   # This event will only trigger a workflow run if the workflow file is on the default branch.
   workflow_run:
     workflows:
-      - "Lint Markdown"
-      - "Check Docs & Overrides"
+      - Test
     types:
       - completed
 
