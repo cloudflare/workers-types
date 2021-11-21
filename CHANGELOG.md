@@ -1,5 +1,9 @@
 # Changelog
 
+## >3.2.0
+The changelog is now automatically generated on the [releases](https://github.com/cloudflare/workers-types/releases) tab of this repository.
+
+
 ## 3.2.0
 
 - **Add 'error'  WebSocket event types overrides [@bretthoerner], [pull/143] & [pull/150]**

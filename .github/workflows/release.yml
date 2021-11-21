@@ -1,0 +1,23 @@
+name: Release
+
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  pre-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          registry-url: https://registry.npmjs.org
+      - name: Set NPM version
+        run: npm --no-git-tag-version version "$GITHUB_REF"
+      - name: Publish to NPM as latest
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}

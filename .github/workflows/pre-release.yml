@@ -1,0 +1,28 @@
+name: Pre-Release
+
+on:
+  # This event will only trigger a workflow run if the workflow file is on the default branch.
+  workflow_run:
+    workflows:
+      - "Lint Markdown"
+      - "Check Docs & Overrides"
+    types:
+      - completed
+
+jobs:
+  pre-release:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          registry-url: https://registry.npmjs.org
+      - name: Set NPM version
+        run: npm --no-git-tag-version version "$(npm view @cloudflare/workers-types version)-rc.$(git rev-parse --short HEAD)"
+      - name: Publish to NPM as next
+        run: npm publish --tag next
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
