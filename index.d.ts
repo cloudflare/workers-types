@@ -819,10 +819,12 @@ interface ReadableStreamTransform {
   readable: ReadableStream;
 }
 
+declare type RequestMethods = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" | "CONNECT" | "TRACE";
+
 declare class Request extends Body {
   constructor(input: Request | string, init?: RequestInit | Request);
   clone(): Request;
-  readonly method: string;
+  readonly method: RequestMethods;
   readonly url: string;
   readonly headers: Headers;
   readonly redirect: string;
@@ -832,7 +834,7 @@ declare class Request extends Body {
 }
 
 interface RequestInit {
-  method?: string;
+  method?: RequestMethods;
   headers?: HeadersInit;
   body?: BodyInit | null;
   redirect?: string;
