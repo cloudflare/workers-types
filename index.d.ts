@@ -1241,7 +1241,7 @@ declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {
   close(code?: number, reason?: string): void;
 }
 
-declare type WebSocketEventMap = { close: CloseEvent; message: MessageEvent; error: Event; };
+declare type WebSocketEventMap = { close: CloseEvent; message: MessageEvent; open: Event; error: Event; };
 
 declare const WebSocketPair: { new(): { 0: WebSocket; 1: WebSocket; }; };
 
@@ -1261,7 +1261,6 @@ declare abstract class WritableStream {
 declare class WritableStreamDefaultWriter {
   constructor(stream: WritableStream);
   readonly closed: Promise<void>;
-  readonly ready: Promise<void>;
   readonly desiredSize: number | null;
   abort(reason: any): Promise<void>;
   close(): Promise<void>;
@@ -1307,20 +1306,3 @@ declare function setTimeout<Args extends any[]>(callback: (...args: Args) => voi
 
 declare function structuredClone(value: any, options?: ServiceWorkerGlobalScopeStructuredCloneOptions): any;
 
-/*** Injected pages.d.ts ***/
-type Params<P extends string = any> = Record<P, string | string[]>;
-
-type EventContext<Env, P extends string, Data> = {
-  request: Request;
-  waitUntil: (promise: Promise<any>) => void;
-  next: (input?: Request | string, init?: RequestInit) => Promise<Response>;
-  env: Env & { ASSETS: { fetch: typeof fetch }};
-  params: Params<P>;
-  data: Data;
-};
-
-declare type PagesFunction<
-  Env = unknown,
-  Params extends string = any,
-  Data extends Record<string, unknown> = Record<string, unknown>
-> = (context: EventContext<Env, Params, Data>) => Response | Promise<Response>;

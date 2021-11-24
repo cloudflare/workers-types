@@ -10541,6 +10541,12 @@
           }
         },
         {
+          "name": "open",
+          "type": {
+            "name": "Event"
+          }
+        },
+        {
           "name": "error",
           "type": {
             "name": "Event"
@@ -10716,18 +10722,6 @@
       },
       {
         "name": "closed",
-        "type": {
-          "name": "Promise",
-          "args": [
-            {
-              "name": "void"
-            }
-          ]
-        },
-        "readonly": true
-      },
-      {
-        "name": "ready",
         "type": {
           "name": "Promise",
           "args": [
