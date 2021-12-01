@@ -132,7 +132,7 @@
           "optional": true
         },
         "comment": {
-          "text": "Resizing mode as a string. It affects interpretation of width and height\noptions:\n - scale-down: Similar to contain, but the image is never enlarged. If\n   the image is larger than given width or height, it will be resized.\n   Otherwise its original size will be kept.\n - contain: Resizes to maximum size that fits within the given width and\n   height. If only a single dimension is given (e.g. only width), the\n   image will be shrunk or enlarged to exactly match that dimension.\n   Aspect ratio is always preserved.\n - cover: Resizes (shrinks or enlarges) to fill the entire area of width\n   and height. If the image has an aspect ratio different from the ratio\n   of width and height, it will be cropped to fit.\n - crop: The image will shrunk and cropped to fit within the area\n   specified by width and height. The image won\u2019t be enlarged. For images\n   smaller than the given dimensions it\u2019s the same as scale-down. For\n   images larger than the given dimensions, it\u2019s the same as cover.\n - pad: Resizes to the maximum size that fits within the given width and\n   height, and then fills the remaining area with a background color\n   (white by default). Use of this mode is not recommended, as the same\n   effect can be more efficiently achieved with the contain mode and the\n   CSS object-fit: contain property."
+          "text": "Resizing mode as a string. It affects interpretation of width and height\noptions:\n - scale-down: Similar to contain, but the image is never enlarged. If\n   the image is larger than given width or height, it will be resized.\n   Otherwise its original size will be kept.\n - contain: Resizes to maximum size that fits within the given width and\n   height. If only a single dimension is given (e.g. only width), the\n   image will be shrunk or enlarged to exactly match that dimension.\n   Aspect ratio is always preserved.\n - cover: Resizes (shrinks or enlarges) to fill the entire area of width\n   and height. If the image has an aspect ratio different from the ratio\n   of width and height, it will be cropped to fit.\n - crop: The image will be shrunk and cropped to fit within the area\n   specified by width and height. The image will not be enlarged. For images\n   smaller than the given dimensions it's the same as scale-down. For\n   images larger than the given dimensions, it's the same as cover.\n   See also trim.\n - pad: Resizes to the maximum size that fits within the given width and\n   height, and then fills the remaining area with a background color\n   (white by default). Use of this mode is not recommended, as the same\n   effect can be more efficiently achieved with the contain mode and the\n   CSS object-fit: contain property."
         }
       },
       {
@@ -7409,6 +7409,45 @@
         }
       },
       {
+        "name": "trim",
+        "type": {
+          "members": [
+            {
+              "name": "left",
+              "type": {
+                "name": "number",
+                "optional": true
+              }
+            },
+            {
+              "name": "top",
+              "type": {
+                "name": "number",
+                "optional": true
+              }
+            },
+            {
+              "name": "right",
+              "type": {
+                "name": "number",
+                "optional": true
+              }
+            },
+            {
+              "name": "bottom",
+              "type": {
+                "name": "number",
+                "optional": true
+              }
+            }
+          ],
+          "optional": true
+        },
+        "comment": {
+          "text": "An object with four properties {left, top, right, bottom} that specify\na number of pixels to cut off on each side. Allows removal of borders\nor cutting out a specific fragment of an image. Trimming is performed\nbefore resizing or rotation. Takes dpr into account."
+        }
+      },
+      {
         "name": "quality",
         "type": {
           "name": "number",
@@ -7440,6 +7479,16 @@
         }
       },
       {
+        "name": "anim",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        },
+        "comment": {
+          "text": "Whether to preserve animation frames from input files. Default is true.\nSetting it to false reduces animations to still images. This setting is\nrecommended when enlarging images or processing arbitrary user content,\nbecause large GIF animations can weigh tens or even hundreds of megabytes.\nIt is also useful to set anim:false when using format:\"json\" to get the\nresponse quicker without the number of frames."
+        }
+      },
+      {
         "name": "metadata",
         "type": {
           "name": "|",
@@ -7458,6 +7507,26 @@
         },
         "comment": {
           "text": "What EXIF data should be preserved in the output image. Note that EXIF\nrotation and embedded color profiles are always applied (\"baked in\" into\nthe image), and aren't affected by this option. Note that if the Polish\nfeature is enabled, all metadata may have been removed already and this\noption may have no effect.\n - keep: Preserve most of EXIF metadata, including GPS location if there's\n   any.\n - copyright: Only keep the copyright tag, and discard everything else.\n   This is the default behavior for JPEG files.\n - none: Discard all invisible EXIF metadata. Currently WebP and PNG\n   output formats always discard metadata."
+        }
+      },
+      {
+        "name": "sharpen",
+        "type": {
+          "name": "number",
+          "optional": true
+        },
+        "comment": {
+          "text": "Strength of sharpening filter to apply to the image. Floating-point\nnumber between 0 (no sharpening, default) and 10 (maximum). 1.0 is a\nrecommended value for downscaled images."
+        }
+      },
+      {
+        "name": "blur",
+        "type": {
+          "name": "number",
+          "optional": true
+        },
+        "comment": {
+          "text": "Radius of a blur filter (approximate gaussian). Maximum supported radius\nis 250."
         }
       },
       {
