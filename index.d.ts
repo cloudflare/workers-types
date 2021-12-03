@@ -36,10 +36,11 @@ interface BasicImageTransformations {
    *  - cover: Resizes (shrinks or enlarges) to fill the entire area of width
    *    and height. If the image has an aspect ratio different from the ratio
    *    of width and height, it will be cropped to fit.
-   *  - crop: The image will shrunk and cropped to fit within the area
-   *    specified by width and height. The image won’t be enlarged. For images
-   *    smaller than the given dimensions it’s the same as scale-down. For
-   *    images larger than the given dimensions, it’s the same as cover.
+   *  - crop: The image will be shrunk and cropped to fit within the area
+   *    specified by width and height. The image will not be enlarged. For images
+   *    smaller than the given dimensions it's the same as scale-down. For
+   *    images larger than the given dimensions, it's the same as cover.
+   *    See also trim.
    *  - pad: Resizes to the maximum size that fits within the given width and
    *    height, and then fills the remaining area with a background color
    *    (white by default). Use of this mode is not recommended, as the same
@@ -910,6 +911,13 @@ interface RequestInitCfPropertiesImage extends BasicImageTransformations {
    */
   dpr?: number;
   /**
+   * An object with four properties {left, top, right, bottom} that specify
+   * a number of pixels to cut off on each side. Allows removal of borders
+   * or cutting out a specific fragment of an image. Trimming is performed
+   * before resizing or rotation. Takes dpr into account.
+   */
+  trim?: { left?: number; top?: number; right?: number; bottom?: number; };
+  /**
    * Quality setting from 1-100 (useful values are in 60-90 range). Lower values
    * make images look worse, but load faster. The default is 85. It applies only
    * to JPEG and WebP images. It doesn’t have any effect on PNG.
@@ -926,6 +934,15 @@ interface RequestInitCfPropertiesImage extends BasicImageTransformations {
    */
   format?: "avif" | "webp" | "json";
   /**
+   * Whether to preserve animation frames from input files. Default is true.
+   * Setting it to false reduces animations to still images. This setting is
+   * recommended when enlarging images or processing arbitrary user content,
+   * because large GIF animations can weigh tens or even hundreds of megabytes.
+   * It is also useful to set anim:false when using format:"json" to get the
+   * response quicker without the number of frames.
+   */
+  anim?: boolean;
+  /**
    * What EXIF data should be preserved in the output image. Note that EXIF
    * rotation and embedded color profiles are always applied ("baked in" into
    * the image), and aren't affected by this option. Note that if the Polish
@@ -939,6 +956,17 @@ interface RequestInitCfPropertiesImage extends BasicImageTransformations {
    *    output formats always discard metadata.
    */
   metadata?: "keep" | "copyright" | "none";
+  /**
+   * Strength of sharpening filter to apply to the image. Floating-point
+   * number between 0 (no sharpening, default) and 10 (maximum). 1.0 is a
+   * recommended value for downscaled images.
+   */
+  sharpen?: number;
+  /**
+   * Radius of a blur filter (approximate gaussian). Maximum supported radius
+   * is 250.
+   */
+  blur?: number;
   /**
    * Overlays are drawn in the order they appear in the array (last array
    * entry is the topmost layer).
