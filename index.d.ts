@@ -10,8 +10,10 @@ declare class AbortController {
 declare class AbortSignal extends EventTarget {
   constructor();
   static abort(reason?: any): AbortSignal;
+  static timeout(delay: number): AbortSignal;
   readonly aborted: boolean;
   readonly reason: any;
+  throwIfAborted(): void;
 }
 
 interface BasicImageTransformations {
@@ -266,6 +268,11 @@ declare class DOMException extends Error {
   static readonly TIMEOUT_ERR: number;
   static readonly INVALID_NODE_TYPE_ERR: number;
   static readonly DATA_CLONE_ERR: number;
+}
+
+declare class DigestStream extends WritableStream {
+  constructor(algorithm: string | SubtleCryptoHashAlgorithm);
+  readonly digest: Promise<ArrayBuffer>;
 }
 
 interface Doctype {
@@ -764,7 +771,16 @@ interface ReadResult {
   done: boolean;
 }
 
-declare abstract class ReadableStream {
+interface ReadableByteStreamController {
+  readonly byobRequest: ReadableStreamBYOBRequest | null;
+  readonly desiredSize: number | null;
+  close(): void;
+  enqueue(chunk: ArrayBufferView): void;
+  error(reason: any): void;
+}
+
+declare class ReadableStream {
+  constructor(underlyingSource?: Object, queuingStrategy?: Object);
   readonly locked: boolean;
   cancel(reason?: any): Promise<void>;
   getReader(options: ReadableStreamGetReaderOptions): ReadableStreamBYOBReader;
@@ -781,6 +797,20 @@ declare class ReadableStreamBYOBReader {
   read<T extends ArrayBufferView>(view: T): Promise<ReadableStreamReadResult<T>>;
   releaseLock(): void;
   readAtLeast(minBytes: number, view: Uint8Array): Promise<ReadableStreamReadResult<Uint8Array>>;
+}
+
+interface ReadableStreamBYOBRequest {
+  readonly view: Uint8Array | null;
+  respond(bytesWritten: number): void;
+  respondWithNewView(view: ArrayBufferView): void;
+  readonly atLeast: number | null;
+}
+
+interface ReadableStreamDefaultController {
+  readonly desiredSize: number | null;
+  close(): void;
+  enqueue(chunk?: any): void;
+  error(reason: any): void;
 }
 
 declare class ReadableStreamDefaultReader {
@@ -1072,6 +1102,14 @@ declare abstract class ScheduledEvent extends Event {
   waitUntil(promise: Promise<any>): void;
 }
 
+interface Scheduler {
+  wait(delay: number, maybeOptions?: SchedulerWaitOptions): Promise<void>;
+}
+
+interface SchedulerWaitOptions {
+  signal?: AbortSignal;
+}
+
 interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
   btoa(data: string): string;
   atob(data: string): string;
@@ -1085,6 +1123,7 @@ interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
   readonly self: ServiceWorkerGlobalScope;
   readonly crypto: Crypto;
   readonly caches: CacheStorage;
+  readonly scheduler: Scheduler;
   readonly console: Console;
 }
 
@@ -1279,11 +1318,17 @@ declare abstract class WorkerGlobalScope extends EventTarget<WorkerGlobalScopeEv
 
 declare type WorkerGlobalScopeEventMap = { fetch: FetchEvent; scheduled: ScheduledEvent; unhandledrejection: PromiseRejectionEvent; rejectionhandled: PromiseRejectionEvent; };
 
-declare abstract class WritableStream {
+declare class WritableStream {
+  constructor(underlyingSink?: Object, queuingStrategy?: Object);
   readonly locked: boolean;
   abort(reason: any): Promise<void>;
   close(): Promise<void>;
   getWriter(): WritableStreamDefaultWriter;
+}
+
+interface WritableStreamDefaultController {
+  readonly signal: AbortSignal;
+  error(reason?: any): void;
 }
 
 declare class WritableStreamDefaultWriter {
@@ -1326,6 +1371,8 @@ declare function fetch(request: Request | string, requestInitr?: RequestInit | R
 declare function queueMicrotask(task: Function): void;
 
 declare function removeEventListener<Type extends keyof WorkerGlobalScopeEventMap>(type: Type, handler: EventListenerOrEventListenerObject<WorkerGlobalScopeEventMap[Type]>, options?: EventTargetEventListenerOptions | boolean): void;
+
+declare const scheduler: Scheduler;
 
 declare const self: ServiceWorkerGlobalScope;
 
