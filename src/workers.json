@@ -64,6 +64,23 @@
         "static": true
       },
       {
+        "name": "timeout",
+        "type": {
+          "params": [
+            {
+              "name": "delay",
+              "type": {
+                "name": "integer"
+              }
+            }
+          ],
+          "returns": {
+            "name": "AbortSignal"
+          }
+        },
+        "static": true
+      },
+      {
         "name": "aborted",
         "type": {
           "name": "boolean"
@@ -76,6 +93,15 @@
           "name": "any"
         },
         "readonly": true
+      },
+      {
+        "name": "throwIfAborted",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "void"
+          }
+        }
       }
     ],
     "extends": [
@@ -1105,6 +1131,19 @@
             "name": "string"
           }
         }
+      },
+      {
+        "name": "DigestStream",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "DigestStream"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
       }
     ],
     "kind": "class"
@@ -1576,6 +1615,50 @@
     "extends": [
       {
         "name": "Error"
+      }
+    ],
+    "kind": "class"
+  },
+  "DigestStream": {
+    "name": "DigestStream",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "algorithm",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "string"
+                  },
+                  {
+                    "name": "SubtleCryptoHashAlgorithm"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "digest",
+        "type": {
+          "name": "Promise",
+          "args": [
+            {
+              "name": "ArrayBuffer"
+            }
+          ]
+        },
+        "readonly": true
+      }
+    ],
+    "extends": [
+      {
+        "name": "WritableStream"
       }
     ],
     "kind": "class"
@@ -6619,9 +6702,107 @@
     ],
     "kind": "struct"
   },
+  "ReadableByteStreamController": {
+    "name": "ReadableByteStreamController",
+    "members": [
+      {
+        "name": "byobRequest",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "ReadableStreamBYOBRequest"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "desiredSize",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "integer"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "close",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "enqueue",
+        "type": {
+          "params": [
+            {
+              "name": "chunk",
+              "type": {
+                "name": "ArrayBufferView"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "error",
+        "type": {
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
   "ReadableStream": {
     "name": "ReadableStream",
     "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "underlyingSource",
+              "type": {
+                "name": "Object",
+                "optional": true
+              }
+            },
+            {
+              "name": "queuingStrategy",
+              "type": {
+                "name": "Object",
+                "optional": true
+              }
+            }
+          ]
+        }
+      },
       {
         "name": "locked",
         "type": {
@@ -6875,6 +7056,137 @@
                 ]
               }
             ]
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "ReadableStreamBYOBRequest": {
+    "name": "ReadableStreamBYOBRequest",
+    "members": [
+      {
+        "name": "view",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "Uint8Array"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "respond",
+        "type": {
+          "params": [
+            {
+              "name": "bytesWritten",
+              "type": {
+                "name": "integer"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "respondWithNewView",
+        "type": {
+          "params": [
+            {
+              "name": "view",
+              "type": {
+                "name": "ArrayBufferView"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "atLeast",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "integer"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
+  "ReadableStreamDefaultController": {
+    "name": "ReadableStreamDefaultController",
+    "members": [
+      {
+        "name": "desiredSize",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "integer"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "close",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "enqueue",
+        "type": {
+          "params": [
+            {
+              "name": "chunk",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "error",
+        "type": {
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
           }
         }
       }
@@ -7996,6 +8308,53 @@
     ],
     "kind": "class"
   },
+  "Scheduler": {
+    "name": "Scheduler",
+    "members": [
+      {
+        "name": "wait",
+        "type": {
+          "params": [
+            {
+              "name": "delay",
+              "type": {
+                "name": "integer"
+              }
+            },
+            {
+              "name": "maybeOptions",
+              "type": {
+                "name": "SchedulerWaitOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "SchedulerWaitOptions": {
+    "name": "SchedulerWaitOptions",
+    "members": [
+      {
+        "name": "signal",
+        "type": {
+          "name": "AbortSignal",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "ServiceWorkerGlobalScope": {
     "name": "ServiceWorkerGlobalScope",
     "members": [
@@ -8314,6 +8673,13 @@
         "name": "caches",
         "type": {
           "name": "CacheStorage"
+        },
+        "readonly": true
+      },
+      {
+        "name": "scheduler",
+        "type": {
+          "name": "Scheduler"
         },
         "readonly": true
       },
@@ -10714,6 +11080,27 @@
     "name": "WritableStream",
     "members": [
       {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "underlyingSink",
+              "type": {
+                "name": "Object",
+                "optional": true
+              }
+            },
+            {
+              "name": "queuingStrategy",
+              "type": {
+                "name": "Object",
+                "optional": true
+              }
+            }
+          ]
+        }
+      },
+      {
         "name": "locked",
         "type": {
           "name": "boolean"
@@ -10761,6 +11148,36 @@
           "params": [],
           "returns": {
             "name": "WritableStreamDefaultWriter"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "WritableStreamDefaultController": {
+    "name": "WritableStreamDefaultController",
+    "members": [
+      {
+        "name": "signal",
+        "type": {
+          "name": "AbortSignal"
+        },
+        "readonly": true
+      },
+      {
+        "name": "error",
+        "type": {
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
           }
         }
       }
@@ -11210,6 +11627,13 @@
       }
     ],
     "kind": "function"
+  },
+  "scheduler": {
+    "name": "scheduler",
+    "type": {
+      "name": "Scheduler"
+    },
+    "kind": "variable"
   },
   "self": {
     "name": "self",
