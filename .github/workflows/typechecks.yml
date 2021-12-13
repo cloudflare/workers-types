@@ -1,0 +1,52 @@
+name: Tests, Linter & Typecheck
+
+on:  
+  push:
+    branches:
+      - main
+  pull_request: 
+    types: 
+      - opened
+
+jobs:  
+  lint:
+    name: 'Linting Markdown: ${{ matrix.os }} (node@${{ matrix.node_version }})'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [16.7]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js 16.7
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.7
+      - run: npm install -g markdownlint-cli@0.23.2
+      - run: markdownlint '**/*.md' --ignore node_modules
+  test:
+    name: 'Typechecking: ${{ matrix.os }} (node@${{ matrix.node_version }})'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [16.7]
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install NPM dependencies
+        run: npm install
+      
+      - name: Run Type Checking 
+        #TODO remove the --skipLibCheck flag at some point
+        run: tsc

@@ -18,6 +18,7 @@
   "author": "Cloudflare Workers Team <workers@cloudflare.com> (https://workers.cloudflare.com)",
   "license": "BSD-3-Clause",
   "devDependencies": {
+    "@changesets/cli": "^2.18.1",
     "@types/marked": "^3.0.0",
     "@types/node": "^16.6.1",
     "esbuild": "^0.12.22",
