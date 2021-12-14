@@ -8659,29 +8659,25 @@
         "name": "self",
         "type": {
           "name": "ServiceWorkerGlobalScope"
-        },
-        "readonly": true
+        }
       },
       {
         "name": "crypto",
         "type": {
           "name": "Crypto"
-        },
-        "readonly": true
+        }
       },
       {
         "name": "caches",
         "type": {
           "name": "CacheStorage"
-        },
-        "readonly": true
+        }
       },
       {
         "name": "scheduler",
         "type": {
           "name": "Scheduler"
-        },
-        "readonly": true
+        }
       },
       {
         "name": "Event",
@@ -9131,6 +9127,12 @@
           "name": "Console"
         },
         "readonly": true
+      },
+      {
+        "name": "origin",
+        "type": {
+          "name": "void"
+        }
       }
     ],
     "extends": [
@@ -11551,6 +11553,13 @@
       }
     },
     "kind": "function"
+  },
+  "origin": {
+    "name": "origin",
+    "type": {
+      "name": "void"
+    },
+    "kind": "variable"
   },
   "queueMicrotask": {
     "name": "queueMicrotask",
