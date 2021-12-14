@@ -1120,11 +1120,12 @@ interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
   queueMicrotask(task: Function): void;
   structuredClone(value: any, options?: ServiceWorkerGlobalScopeStructuredCloneOptions): any;
   fetch(request: Request | string, requestInitr?: RequestInit | Request): Promise<Response>;
-  readonly self: ServiceWorkerGlobalScope;
-  readonly crypto: Crypto;
-  readonly caches: CacheStorage;
-  readonly scheduler: Scheduler;
+  self: ServiceWorkerGlobalScope;
+  crypto: Crypto;
+  caches: CacheStorage;
+  scheduler: Scheduler;
   readonly console: Console;
+  origin: void;
 }
 
 interface ServiceWorkerGlobalScopeStructuredCloneOptions {
@@ -1367,6 +1368,8 @@ declare const crypto: Crypto;
 declare function dispatchEvent(event: WorkerGlobalScopeEventMap[keyof WorkerGlobalScopeEventMap]): boolean;
 
 declare function fetch(request: Request | string, requestInitr?: RequestInit | Request): Promise<Response>;
+
+declare const origin: void;
 
 declare function queueMicrotask(task: Function): void;
 
