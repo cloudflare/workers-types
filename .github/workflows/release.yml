@@ -2,13 +2,13 @@
 name: Release
 
 on:
-  pull_request:
-    branches: [master]
-    types: [closed]
+  push:
+    branches:
+      - main
 
 jobs:
   documentation:
-    if: ${{ github.event.pull_request.merged == true }}
+    if: ${{github.repository_owner == 'cloudflare'}}
     name: Check Docs & Overrides
     runs-on: ubuntu-latest
     steps:
