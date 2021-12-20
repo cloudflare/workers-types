@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.3.0
+
+- **Updated types for 2021-12-14 [vlovich]**
+- **Updated types for 2021.12.300 [vlovich]**
+- **Updated types for 2021.12.100 [vlovich]**
+- **Adds env.ASSETS.fetch typings [@GregBrimble][pull/157]**
+- **Adding missing types in RequestInitCfPropertiesImage [@itsmatteomanf][pull/156]**
+
 ## 3.2.0
 
 - **Add 'error'  WebSocket event types overrides [@bretthoerner], [pull/143] & [pull/150]**
