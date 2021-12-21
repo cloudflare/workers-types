@@ -788,6 +788,7 @@ declare class ReadableStream {
   pipeThrough(transform: ReadableStreamTransform, options?: PipeToOptions): ReadableStream;
   pipeTo(destination: WritableStream, options?: PipeToOptions): Promise<void>;
   tee(): [ReadableStream, ReadableStream];
+  values(options?: ReadableStreamValuesOptions): ReadableStreamReadableStreamAsyncIterator;
 }
 
 declare class ReadableStreamBYOBReader {
@@ -833,6 +834,12 @@ declare type ReadableStreamPipeToOptions = PipeToOptions;
 
 declare type ReadableStreamReadResult<T = any> = { done: true; value: undefined; } | { done: false; value: T; };
 
+declare class ReadableStreamReadableStreamAsyncIterator {
+  constructor(underlyingSource?: Object, queuingStrategy?: Object);
+  next(): Promise<ReadableStreamReadResult<any>>;
+  return(reason?: any): Promise<ReadableStreamReadResult<any>>;
+}
+
 /**
  * Back-compat alias.
  * @deprecated Use ReadableStreamBYOBReader
@@ -848,6 +855,10 @@ declare type ReadableStreamReadableStreamDefaultReader = ReadableStreamDefaultRe
 interface ReadableStreamTransform {
   writable: WritableStream;
   readable: ReadableStream;
+}
+
+interface ReadableStreamValuesOptions {
+  preventCancel?: boolean;
 }
 
 declare class Request extends Body {
