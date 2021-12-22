@@ -6944,7 +6944,34 @@
             }
           ],
           "returns": {
-            "name": "ReadableStreamReadableStreamAsyncIterator"
+            "name": "AsyncIterableIterator",
+            "args": [
+              {
+                "name": "ReadableStreamReadResult"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "[Symbol.asyncIterator]",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "ReadableStreamValuesOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "AsyncIterableIterator",
+            "args": [
+              {
+                "name": "ReadableStreamReadResult"
+              }
+            ]
           }
         }
       }
@@ -7362,79 +7389,6 @@
       }
     ],
     "kind": "typedef"
-  },
-  "ReadableStreamReadableStreamAsyncIterator": {
-    "name": "ReadableStreamReadableStreamAsyncIterator",
-    "members": [
-      {
-        "name": "constructor",
-        "type": {
-          "params": [
-            {
-              "name": "underlyingSource",
-              "type": {
-                "name": "Object",
-                "optional": true
-              }
-            },
-            {
-              "name": "queuingStrategy",
-              "type": {
-                "name": "Object",
-                "optional": true
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "next",
-        "type": {
-          "params": [],
-          "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "ReadableStreamReadResult",
-                "args": [
-                  {
-                    "name": "any"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "name": "return",
-        "type": {
-          "params": [
-            {
-              "name": "reason",
-              "type": {
-                "name": "any",
-                "optional": true
-              }
-            }
-          ],
-          "returns": {
-            "name": "Promise",
-            "args": [
-              {
-                "name": "ReadableStreamReadResult",
-                "args": [
-                  {
-                    "name": "any"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "kind": "class"
   },
   "ReadableStreamReadableStreamBYOBReader": {
     "name": "ReadableStreamReadableStreamBYOBReader",
