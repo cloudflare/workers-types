@@ -10419,14 +10419,29 @@
             {
               "name": "url",
               "type": {
-                "name": "string"
+                "name": "|",
+                "args": [
+                  {
+                    "name": "string"
+                  },
+                  {
+                    "name": "URL"
+                  }
+                ]
               }
             },
             {
               "name": "base",
               "type": {
-                "name": "string",
-                "optional": true
+                "name": "|",
+                "args": [
+                  {
+                    "name": "string"
+                  },
+                  {
+                    "name": "URL"
+                  }
+                ]
               }
             }
           ]

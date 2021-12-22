@@ -1259,7 +1259,7 @@ declare class TransformStream {
 }
 
 declare class URL {
-  constructor(url: string, base?: string);
+  constructor(url: string | URL, base?: string | URL);
   href: string;
   readonly origin: string;
   protocol: string;
