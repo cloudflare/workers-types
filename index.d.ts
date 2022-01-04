@@ -771,7 +771,7 @@ interface ReadResult {
   done: boolean;
 }
 
-interface ReadableByteStreamController {
+declare abstract class ReadableByteStreamController {
   readonly byobRequest: ReadableStreamBYOBRequest | null;
   readonly desiredSize: number | null;
   close(): void;
@@ -788,6 +788,8 @@ declare class ReadableStream {
   pipeThrough(transform: ReadableStreamTransform, options?: PipeToOptions): ReadableStream;
   pipeTo(destination: WritableStream, options?: PipeToOptions): Promise<void>;
   tee(): [ReadableStream, ReadableStream];
+  values(options?: ReadableStreamValuesOptions): AsyncIterableIterator<ReadableStreamReadResult>;
+  [Symbol.asyncIterator](options?: ReadableStreamValuesOptions): AsyncIterableIterator<ReadableStreamReadResult>;
 }
 
 declare class ReadableStreamBYOBReader {
@@ -799,14 +801,14 @@ declare class ReadableStreamBYOBReader {
   readAtLeast(minBytes: number, view: Uint8Array): Promise<ReadableStreamReadResult<Uint8Array>>;
 }
 
-interface ReadableStreamBYOBRequest {
+declare abstract class ReadableStreamBYOBRequest {
   readonly view: Uint8Array | null;
   respond(bytesWritten: number): void;
   respondWithNewView(view: ArrayBufferView): void;
   readonly atLeast: number | null;
 }
 
-interface ReadableStreamDefaultController {
+declare abstract class ReadableStreamDefaultController {
   readonly desiredSize: number | null;
   close(): void;
   enqueue(chunk?: any): void;
@@ -848,6 +850,10 @@ declare type ReadableStreamReadableStreamDefaultReader = ReadableStreamDefaultRe
 interface ReadableStreamTransform {
   writable: WritableStream;
   readable: ReadableStream;
+}
+
+interface ReadableStreamValuesOptions {
+  preventCancel?: boolean;
 }
 
 declare class Request extends Body {
@@ -1327,7 +1333,7 @@ declare class WritableStream {
   getWriter(): WritableStreamDefaultWriter;
 }
 
-interface WritableStreamDefaultController {
+declare abstract class WritableStreamDefaultController {
   readonly signal: AbortSignal;
   error(reason?: any): void;
 }
