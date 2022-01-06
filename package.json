@@ -13,6 +13,7 @@
   "scripts": {
     "export:docs": "node -r esbuild-register export/docs.ts",
     "export:overrides": "node -r esbuild-register export/overrides.ts",
+    "markdownlint": "npx markdownlint-cli '**/*.md' -i node_modules -i LICENSE.md",
     "test": "tsc"
   },
   "author": "Cloudflare Workers Team <workers@cloudflare.com> (https://workers.cloudflare.com)",
