@@ -20,57 +20,61 @@ interface KVNamespaceListResult<Metadata> {
   cursor?: string;
 }
 
-declare class KVNamespace {
-  get(key: string, options?: Partial<KVNamespaceGetOptions<undefined>>): Promise<string | null>;
-  get(key: string, type: "text"): Promise<string | null>;
-  get<ExpectedValue = unknown>(key: string, type: "json"): Promise<ExpectedValue | null>;
-  get(key: string, type: "arrayBuffer"): Promise<ArrayBuffer | null>;
-  get(key: string, type: "stream"): Promise<ReadableStream | null>;
+declare class KVNamespace<K extends string = string> {
+  get(key: K, options?: Partial<KVNamespaceGetOptions<undefined>>): Promise<string | null>;
+  get(key: K, type: "text"): Promise<string | null>;
+  get<ExpectedValue = unknown>(key: K, type: "json"): Promise<ExpectedValue | null>;
+  get(key: K, type: "arrayBuffer"): Promise<ArrayBuffer | null>;
+  get(key: K, type: "stream"): Promise<ReadableStream | null>;
 
-  get(key: string, options: KVNamespaceGetOptions<"text">): Promise<string | null>;
+  get(key: K, options: KVNamespaceGetOptions<"text">): Promise<string | null>;
   get<ExpectedValue = unknown>(key: string, options: KVNamespaceGetOptions<"json">): Promise<ExpectedValue | null>;
-  get(key: string, options: KVNamespaceGetOptions<"arrayBuffer">): Promise<ArrayBuffer | null>;
-  get(key: string, options: KVNamespaceGetOptions<"stream">): Promise<ReadableStream | null>;
+  get(key: K, options: KVNamespaceGetOptions<"arrayBuffer">): Promise<ArrayBuffer | null>;
+  get(key: K, options: KVNamespaceGetOptions<"stream">): Promise<ReadableStream | null>;
 
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     options?: Partial<KVNamespaceGetOptions<undefined>>
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     type: "text"
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
   getWithMetadata<ExpectedValue = unknown, Metadata = unknown>(
-    key: string,
+    key: K,
     type: "json"
   ): Promise<KVNamespaceGetWithMetadataResult<ExpectedValue, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     type: "arrayBuffer"
   ): Promise<KVNamespaceGetWithMetadataResult<ArrayBuffer, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     type: "stream"
   ): Promise<KVNamespaceGetWithMetadataResult<ReadableStream, Metadata>>;
 
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"text">
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
   getWithMetadata<ExpectedValue = unknown, Metadata = unknown>(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"json">
   ): Promise<KVNamespaceGetWithMetadataResult<ExpectedValue, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"arrayBuffer">
   ): Promise<KVNamespaceGetWithMetadataResult<ArrayBuffer, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"stream">
   ): Promise<KVNamespaceGetWithMetadataResult<ReadableStream, Metadata>>;
 
-  put(key: string, value: string | ArrayBuffer | ArrayBufferView | ReadableStream, options?: KVNamespacePutOptions): Promise<void>;
+  put(
+    key: K,
+    value: string | ArrayBuffer | ArrayBufferView | ReadableStream,
+    options?: KVNamespacePutOptions
+  ): Promise<void>;
 
   list<Metadata = unknown>(options?: KVNamespaceListOptions): Promise<KVNamespaceListResult<Metadata>>;
 }
