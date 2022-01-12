@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 16.7
 
-      - run: npm run markdownlint
+      - run: npm run prettier:md
   test:
     name: 'Typechecking'
     runs-on: ubuntu-latest

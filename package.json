@@ -13,7 +13,7 @@
   "scripts": {
     "export:docs": "node -r esbuild-register export/docs.ts",
     "export:overrides": "node -r esbuild-register export/overrides.ts",
-    "markdownlint": "npx markdownlint-cli '**/*.md' -i node_modules -i LICENSE.md",
+    "prettier:md": "prettier --write --prose-wrap never --parser markdown '**/*.md' --ignore-path ./LICENSE.md",
     "test": "tsc"
   },
   "author": "Cloudflare Workers Team <workers@cloudflare.com> (https://workers.cloudflare.com)",
@@ -25,7 +25,7 @@
     "esbuild": "^0.12.22",
     "esbuild-register": "^3.0.0",
     "marked": "^3.0.2",
-    "prettier": "2.0.5",
+    "prettier": "^2.0.5",
     "typescript": "^4.3.5"
   }
 }
