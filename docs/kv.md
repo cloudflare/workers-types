@@ -21,5 +21,5 @@ Returns a `Promise` that you should `await` on in order to verify a successful u
 #### Examples
 
 ```js
-await NAMESPACE.put(key, value)
+await NAMESPACE.put(key, value);
 ```

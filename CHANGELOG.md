@@ -10,7 +10,7 @@
 
 ## 3.2.0
 
-- **Add 'error'  WebSocket event types overrides [@bretthoerner], [pull/143] & [pull/150]**
+- **Add 'error' WebSocket event types overrides [@bretthoerner], [pull/143] & [pull/150]**
 - **Add PagesFunction type [@GregBrimble], [pull/154]**
 - **Updated types for 2021.11.400 [@autodecl-bot], [pull/145]**
 - **Updated types for 2021.11.700 [@autodecl-bot], [pull/149]**
@@ -153,7 +153,7 @@
   Remove this from your code:
 
   ```typescript
-  import {} from '@cloudflare/workers-types'
+  import {} from "@cloudflare/workers-types";
   ```
 
   And instead include the types explicitly in your TypeScript configuration compiler options:
@@ -178,10 +178,12 @@
 
   ```typescript
   // Force response to be cached for 300 seconds.
-  fetch(event.request, { cf: { cacheTtl: 300 } })
+  fetch(event.request, { cf: { cacheTtl: 300 } });
 
   // Force response to be cached for 86400 seconds for 200 status codes, 1 second for 404, and do not cache 500 errors
-  fetch(request, { cf: { cacheTtlByStatus: { '200-299': 86400, '404': 1, '500-599': 0 } } })
+  fetch(request, {
+    cf: { cacheTtlByStatus: { "200-299": 86400, "404": 1, "500-599": 0 } },
+  });
   ```
 
   Read more about these properties in the [`Request` docs](https://developers.cloudflare.com/workers/reference/apis/request/).
@@ -195,7 +197,7 @@
   The Workers runtime exposes a default global cache as `caches.default`, accessed like:
 
   ```typescript
-  let cache = caches.default
+  let cache = caches.default;
   ```
 
   This is an extension to the [Service Workers spec for `CacheStorage`](https://w3c.github.io/ServiceWorker/#cachestorage), and thus needed to be added explicitly to our type definitions.
@@ -238,7 +240,7 @@
   Previously, this pattern wasn't allowed:
 
   ```typescript
-  new Request(parsedUrl.toString(), request)
+  new Request(parsedUrl.toString(), request);
   ```
 
   This is because the `cf` object on inbound Request objects, and that expected in the `init` dictionary arg to the Request constructor, have a different shape.
@@ -247,7 +249,7 @@
 
   ```typescript
   interface RequestInit {
-    cf?: RequestInitCfProperties | IncomingRequestCfProperties
+    cf?: RequestInitCfProperties | IncomingRequestCfProperties;
   }
   ```
 
@@ -291,7 +293,7 @@
   Previously, the `KVNamespace` interface required that callers provide an empty options object when listing all the keys in a namespace, like so:
 
   ```typescript
-  await NAMESPACE.list({})
+  await NAMESPACE.list({});
   ```
 
   However, this argument is not actually required. This change updates the interface to match the runtime.

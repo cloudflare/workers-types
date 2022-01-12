@@ -1,3 +1,3 @@
 {
-  "proseWrap": "never"
+  "proseWrap": "preserve"
 }
