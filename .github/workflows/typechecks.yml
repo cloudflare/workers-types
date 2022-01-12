@@ -3,19 +3,6 @@ name: Tests, Linter & Typecheck
 on: pull_request
 
 jobs:  
-  lint:
-    name: 'Linting Markdown'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-
-      - name: Use Node.js 16.7
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.7
-
-      - run: npm run prettier:md
   test:
     name: 'Typechecking'
     runs-on: ubuntu-latest
@@ -38,6 +25,9 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      
+      - name: Run Prettier 
+        run: npm run prettier:md
       
       - name: Run Type Checking 
         run: tsc

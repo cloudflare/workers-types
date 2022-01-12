@@ -38,6 +38,9 @@ jobs:
       - name: Check Overrides
         run: npm run export:overrides
 
+      - name: Run Prettier 
+        run: npm run prettier:md
+
       - name: Run Type Checking 
         run: tsc
 
