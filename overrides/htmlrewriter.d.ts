@@ -1,6 +1,9 @@
 declare class HTMLRewriter {
   constructor();
-  on(selector: string, handlers: HTMLRewriterElementContentHandlers): HTMLRewriter;
+  on(
+    selector: string,
+    handlers: HTMLRewriterElementContentHandlers
+  ): HTMLRewriter;
   onDocument(handlers: HTMLRewriterDocumentContentHandlers): HTMLRewriter;
   transform(response: Response): Response;
 }

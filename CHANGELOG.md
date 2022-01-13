@@ -76,25 +76,25 @@
 
 - **Add AVIF Format for Image Resizing - [@GregBrimble], [pull/59]**
 
-  [@GregBrimble]: https://github.com/GregBrimble
+  [@gregbrimble]: https://github.com/GregBrimble
   [pull/59]: https://github.com/cloudflare/workers-types/pull/59
 
 - **Add metadata typings for KV - [@GregBrimble], [pull/54]**
   Adds the [new metadata](https://developers.cloudflare.com/workers/runtime-apis/kv#metadata) types to the getWithMetadata, put and list methods on a KV namespace.
 
-  [@GregBrimble]: https://github.com/GregBrimble
+  [@gregbrimble]: https://github.com/GregBrimble
   [pull/54]: https://github.com/cloudflare/workers-types/pull/54
 
 - **Complete Image Resizing properties - [@GregBrimble], [pull/50]**
   Adds missing options for the Image Resizing API.
 
-  [@GregBrimble]: https://github.com/GregBrimble
+  [@gregbrimble]: https://github.com/GregBrimble
   [pull/50]: https://github.com/cloudflare/workers-types/pull/50
 
 - **Add API for async handlers and end handler - [@ObsidianMinor], [pull/48]**
   Types for [HTML Rewriter](https://developers.cloudflare.com/workers/runtime-apis/html-rewriter#end) end of document append method
 
-  [@ObsidianMinor]: https://github.com/ObsidianMinor
+  [@obsidianminor]: https://github.com/ObsidianMinor
   [pull/48]: https://github.com/cloudflare/workers-types/pull/48
 
 ### Bugfixes

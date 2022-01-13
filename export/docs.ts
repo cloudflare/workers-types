@@ -19,7 +19,9 @@ interface CommentedDeclaration {
 
 // Get files to build docs from
 const docsDir = path.join(__dirname, "..", "docs");
-const filePaths = fs.readdirSync(docsDir).map((fileName) => path.join(docsDir, fileName));
+const filePaths = fs
+  .readdirSync(docsDir)
+  .map((fileName) => path.join(docsDir, fileName));
 
 // Maps fenced code-block languages to those recognised by declaration renderers
 const exampleLangRenames = {
@@ -33,7 +35,10 @@ function trimComment(comment?: Comment) {
   if (comment === undefined) return;
   comment.text = comment.text.trim();
   if (comment.params) {
-    comment.params = comment.params.map(({ name, text }) => ({ name, text: text.trim() }));
+    comment.params = comment.params.map(({ name, text }) => ({
+      name,
+      text: text.trim(),
+    }));
   }
   if (comment.returns) {
     comment.returns = comment.returns.trim();
@@ -94,7 +99,12 @@ for (const filePath of filePaths) {
       // New field
       pushField();
       // token.text === "`Declaration.field`" or "`Declaration#field`"
-      field = { name: token.text.substring(1 + declaration.name.length + 1, token.text.length - 1) };
+      field = {
+        name: token.text.substring(
+          1 + declaration.name.length + 1,
+          token.text.length - 1
+        ),
+      };
       continue;
     }
 
@@ -106,7 +116,11 @@ for (const filePath of filePaths) {
       }
     }
 
-    if (field && fieldState === FieldState.Parameters && token.type === "list") {
+    if (
+      field &&
+      fieldState === FieldState.Parameters &&
+      token.type === "list"
+    ) {
       // Field parameters
       field.comment ??= { text: "" };
       field.comment.params ??= [];

@@ -2,9 +2,9 @@ name: Tests, Linter & Typecheck
 
 on: pull_request
 
-jobs:  
+jobs:
   test:
-    name: 'Typechecking'
+    name: "Typechecking"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,7 +17,7 @@ jobs:
 
       - name: Install NPM dependencies
         run: npm install
-      
+
       - uses: actions/cache@v2
         id: node-modules-cache
         with:
@@ -25,9 +25,9 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      
-      - name: Run Prettier 
-        run: npm run prettier:md
-      
-      - name: Run Type Checking 
+
+      - name: Run Prettier
+        run: npm run prettier:check
+
+      - name: Run Type Checking
         run: tsc

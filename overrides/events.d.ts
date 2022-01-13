@@ -1,14 +1,18 @@
-declare type EventListener<EventType extends Event = Event> = (event: EventType) => void;
+declare type EventListener<EventType extends Event = Event> = (
+  event: EventType
+) => void;
 
 interface EventListenerObject<EventType extends Event = Event> {
   handleEvent(event: EventType): void;
 }
 
-declare type EventListenerOrEventListenerObject<EventType extends Event = Event> =
-  | EventListener<EventType>
-  | EventListenerObject<EventType>;
+declare type EventListenerOrEventListenerObject<
+  EventType extends Event = Event
+> = EventListener<EventType> | EventListenerObject<EventType>;
 
-declare class EventTarget<EventMap extends Record<string, Event> = Record<string, Event>> {
+declare class EventTarget<
+  EventMap extends Record<string, Event> = Record<string, Event>
+> {
   constructor();
   addEventListener<Type extends keyof EventMap>(
     type: Type,

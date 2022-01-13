@@ -3,15 +3,31 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
 import * as ts from "typescript";
-import { Type, TypeParam, Comment, Field, Class, Struct, TypeDef, Function, Variable } from "./types";
+import {
+  Type,
+  TypeParam,
+  Comment,
+  Field,
+  Class,
+  Struct,
+  TypeDef,
+  Function,
+  Variable,
+} from "./types";
 
 // Get files to build overrides from
 const publicOverridesDir = path.join(__dirname, "..", "overrides");
-const filePaths = fs.readdirSync(publicOverridesDir).map((fileName) => path.join(publicOverridesDir, fileName));
+const filePaths = fs
+  .readdirSync(publicOverridesDir)
+  .map((fileName) => path.join(publicOverridesDir, fileName));
 // Additional internal overrides
 const additionalOverridesDir = process.argv[2] && path.resolve(process.argv[2]);
-if(additionalOverridesDir) {
-  filePaths.push(...fs.readdirSync(additionalOverridesDir).map((fileName) => path.join(additionalOverridesDir, fileName)))
+if (additionalOverridesDir) {
+  filePaths.push(
+    ...fs
+      .readdirSync(additionalOverridesDir)
+      .map((fileName) => path.join(additionalOverridesDir, fileName))
+  );
 }
 
 // Parse file into AST
@@ -81,7 +97,10 @@ for (const filePath of filePaths) {
         name: "typeof",
         args: [{ name: type.exprName.getText(sourceFile) }],
       };
-    } else if (ts.isTypeOperatorNode(type) && type.operator === ts.SyntaxKind.KeyOfKeyword) {
+    } else if (
+      ts.isTypeOperatorNode(type) &&
+      type.operator === ts.SyntaxKind.KeyOfKeyword
+    ) {
       return {
         name: "keyof",
         args: [{ name: type.type.getText(sourceFile) }],
@@ -97,7 +116,9 @@ for (const filePath of filePaths) {
     } else if (ts.isParenthesizedTypeNode(type)) {
       return convertType(type.type);
     }
-    throw new TypeError(`unrecognised type at ${getPos(type.pos)}: ${type.getText(sourceFile)}`);
+    throw new TypeError(
+      `unrecognised type at ${getPos(type.pos)}: ${type.getText(sourceFile)}`
+    );
   }
 
   function convertTupleMember(node: ts.TypeNode | ts.NamedTupleMember): Field {
@@ -111,7 +132,9 @@ for (const filePath of filePaths) {
     }
   }
 
-  function convertTypeParams(nodes?: ts.NodeArray<ts.TypeParameterDeclaration>): TypeParam[] | undefined {
+  function convertTypeParams(
+    nodes?: ts.NodeArray<ts.TypeParameterDeclaration>
+  ): TypeParam[] | undefined {
     return nodes?.map((node) => ({
       name: node.name.getText(sourceFile),
       constraint: node.constraint && convertType(node.constraint),
@@ -119,7 +142,9 @@ for (const filePath of filePaths) {
     }));
   }
 
-  function convertCommentText(text?: string | ts.NodeArray<ts.JSDocText | ts.JSDocLink>): string | undefined {
+  function convertCommentText(
+    text?: string | ts.NodeArray<ts.JSDocText | ts.JSDocLink>
+  ): string | undefined {
     if (text === undefined || typeof text === "string") {
       return text?.toString();
     } else {
@@ -186,7 +211,11 @@ for (const filePath of filePaths) {
   }
 
   function convertMethod(
-    node: ts.MethodSignature | ts.MethodDeclaration | ts.FunctionDeclaration | ts.ConstructSignatureDeclaration
+    node:
+      | ts.MethodSignature
+      | ts.MethodDeclaration
+      | ts.FunctionDeclaration
+      | ts.ConstructSignatureDeclaration
   ): Field {
     const defaultName = ts.isConstructSignatureDeclaration(node) ? "new" : "";
     const name = node.name?.getText(sourceFile) ?? defaultName;
@@ -199,7 +228,9 @@ for (const filePath of filePaths) {
     return { name, type, ...meta, typeparams };
   }
 
-  function convertProperty(node: ts.PropertySignature | ts.PropertyDeclaration): Field {
+  function convertProperty(
+    node: ts.PropertySignature | ts.PropertyDeclaration
+  ): Field {
     const name = node.name.getText(sourceFile);
     const type = convertType(node.type);
     type.optional = node.questionToken && true;
@@ -218,7 +249,11 @@ for (const filePath of filePaths) {
     if (ts.isConstructorDeclaration(node)) {
       return convertConstructor(node);
     }
-    if (ts.isMethodSignature(node) || ts.isMethodDeclaration(node) || ts.isConstructSignatureDeclaration(node)) {
+    if (
+      ts.isMethodSignature(node) ||
+      ts.isMethodDeclaration(node) ||
+      ts.isConstructSignatureDeclaration(node)
+    ) {
       return convertMethod(node);
     }
     if (ts.isPropertySignature(node) || ts.isPropertyDeclaration(node)) {
@@ -227,7 +262,9 @@ for (const filePath of filePaths) {
     if (ts.isIndexSignatureDeclaration(node)) {
       return convertIndexSignature(node);
     }
-    throw new TypeError(`unrecognised member at ${getPos(node.pos)}: ${node.getText(sourceFile)}`);
+    throw new TypeError(
+      `unrecognised member at ${getPos(node.pos)}: ${node.getText(sourceFile)}`
+    );
   }
 
   function convertHeritageClause(node: ts.HeritageClause): Type[] {
@@ -237,7 +274,9 @@ for (const filePath of filePaths) {
     }));
   }
 
-  function convertHeritageClauses(nodes?: ts.NodeArray<ts.HeritageClause>): Pick<Class, "extends" | "implements"> {
+  function convertHeritageClauses(
+    nodes?: ts.NodeArray<ts.HeritageClause>
+  ): Pick<Class, "extends" | "implements"> {
     const heritage: Pick<Class, "extends" | "implements"> = {};
     for (const node of nodes ?? []) {
       if (node.token === ts.SyntaxKind.ExtendsKeyword) {
@@ -337,7 +376,11 @@ for (const filePath of filePaths) {
     } else if (ts.isVariableStatement(node)) {
       return convertVariable(node);
     }
-    throw new TypeError(`unrecognised statement at ${getPos(node.pos)}: ${node.getText(sourceFile)}`);
+    throw new TypeError(
+      `unrecognised statement at ${getPos(node.pos)}: ${node.getText(
+        sourceFile
+      )}`
+    );
   }
 
   /**
@@ -355,20 +398,28 @@ for (const filePath of filePaths) {
     assert.strictEqual(node1.name, node2.name);
 
     if (node1.kind !== node2.kind) {
-      throw new TypeError(`Conflicting types for ${node1.name}: ${node1.kind} vs ${node2.kind}`);
+      throw new TypeError(
+        `Conflicting types for ${node1.name}: ${node1.kind} vs ${node2.kind}`
+      );
     }
     switch (node1.kind) {
       case "typedef":
       case "function":
       case "variable":
-        throw new TypeError(`Two ${node1.kind}s with the same name ${node1.name}`);
+        throw new TypeError(
+          `Two ${node1.kind}s with the same name ${node1.name}`
+        );
       case "struct":
       case "class":
         if (node1.extends !== node2.extends) {
-          throw new TypeError(`Conflicting extends values for multiple overrides of ${node1.name}`);
+          throw new TypeError(
+            `Conflicting extends values for multiple overrides of ${node1.name}`
+          );
         }
         if (node1.implements !== node2.implements) {
-          throw new TypeError(`Conflicting extends values for multiple overrides of ${node1.name}`);
+          throw new TypeError(
+            `Conflicting extends values for multiple overrides of ${node1.name}`
+          );
         }
         for (const memberToMerge of node2.members) {
           node1.members.push(memberToMerge);
@@ -398,4 +449,8 @@ for (const filePath of filePaths) {
   }
 }
 
-fs.writeFileSync("overrides.json", JSON.stringify(declarations, null, 2), "utf8");
+fs.writeFileSync(
+  "overrides.json",
+  JSON.stringify(declarations, null, 2),
+  "utf8"
+);
