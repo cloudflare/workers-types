@@ -13,7 +13,7 @@
   "scripts": {
     "export:docs": "node -r esbuild-register export/docs.ts",
     "export:overrides": "node -r esbuild-register export/overrides.ts",
-    "prettier:md": "prettier --check --parser markdown '**/*.md' --ignore-path ./LICENSE.md",
+    "prettier:check": "prettier --check --parser markdown '**/*.md' --ignore-path ./LICENSE.md",
     "prettier": "prettier --write --parser markdown '**/*.md' --ignore-path ./LICENSE.md",
     "test": "tsc"
   },
