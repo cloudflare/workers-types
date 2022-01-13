@@ -27,8 +27,7 @@ interface CfRequestInit extends Omit<RequestInit, "cf"> {
  * Back compat support with older types.
  * @deprecated Use CfRequestInit instead.
  */
-type CfRequestInitializerDict = CfRequestInit
-
+type CfRequestInitializerDict = CfRequestInit;
 
 interface BasicImageTransformations {
   /**
@@ -76,7 +75,14 @@ interface BasicImageTransformations {
    * preserve as much as possible around a point at 20% of the height of the
    * source image.
    */
-  gravity?: "left" | "right" | "top" | "bottom" | "center" | "auto" | BasicImageTransformationsGravityCoordinates;
+  gravity?:
+    | "left"
+    | "right"
+    | "top"
+    | "bottom"
+    | "center"
+    | "auto"
+    | BasicImageTransformationsGravityCoordinates;
   /**
    * Background color to add underneath the image. Applies only to images with
    * transparency (such as PNG). Accepts any CSS color (#RRGGBB, rgba(…),
@@ -129,7 +135,7 @@ interface RequestInitCfProperties {
   image?: RequestInitCfPropertiesImage;
   minify?: RequestInitCfPropertiesImageMinify;
   mirage?: boolean;
-  polish?: 'lossy' | 'lossless' | 'off';
+  polish?: "lossy" | "lossless" | "off";
   /**
    * Redirects the request to an alternate origin server. You can use this,
    * for example, to implement load balancing across several origins.
@@ -279,9 +285,9 @@ interface IncomingRequestCfProperties {
    */
   asn: number;
   /**
-    * The organisation which owns the ASN of the incoming request.
-    * (e.g. Google Cloud)
-    */
+   * The organisation which owns the ASN of the incoming request.
+   * (e.g. Google Cloud)
+   */
   asOrganization: string;
   botManagement?: IncomingRequestCfPropertiesBotManagement;
   city?: string;

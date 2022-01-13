@@ -13,7 +13,12 @@ declare class FormData {
   [Symbol.iterator](): IterableIterator<[key: string, value: File | string][]>;
 
   forEach<This = unknown>(
-    callback: (this: This, key: string, value: File | string, parent: FormData) => void,
+    callback: (
+      this: This,
+      key: string,
+      value: File | string,
+      parent: FormData
+    ) => void,
     thisArg?: This
   ): void;
 }
@@ -30,14 +35,22 @@ declare class Headers {
 
 // This override provides the typing over the tuples as a nicety.
 // The inner array is required to have exactly two elements.
-declare type HeadersInit = Headers | Record<string, string> | [key: string, value: string][];
+declare type HeadersInit =
+  | Headers
+  | Record<string, string>
+  | [key: string, value: string][];
 
 declare class URLSearchParams {
   entries(): IterableIterator<[key: string, value: string]>;
   [Symbol.iterator](): IterableIterator<[key: string, value: string]>;
 
   forEach<This = unknown>(
-    callback: (this: This, key: string, value: string, parent: URLSearchParams) => void,
+    callback: (
+      this: This,
+      key: string,
+      value: string,
+      parent: URLSearchParams
+    ) => void,
     thisArg?: This
   ): void;
 }
