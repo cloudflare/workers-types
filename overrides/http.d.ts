@@ -9,8 +9,8 @@ declare class FormData {
   set(name: string, value: string): void;
   set(name: string, value: Blob, filename?: string): void;
 
-  entries(): IterableIterator<[key: string, value: File | string][]>;
-  [Symbol.iterator](): IterableIterator<[key: string, value: File | string][]>;
+  entries(): IterableIterator<[key: string, value: File | string]>;
+  [Symbol.iterator](): IterableIterator<[key: string, value: File | string]>;
 
   forEach<This = unknown>(
     callback: (
