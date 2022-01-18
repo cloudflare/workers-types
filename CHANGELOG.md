@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.3.1
+
+### Patch Changes
+
+- [`d7c4f73`](https://github.com/cloudflare/workers-types/commit/d7c4f7399594775863454609dffd4aa6349b4c39) Thanks [@threepointone](https://github.com/threepointone)! - via #178, thanks @kulla: Add possibility to narrow down key space of KVNamespace
+
+* [#170](https://github.com/cloudflare/workers-types/pull/170) [`771ce75`](https://github.com/cloudflare/workers-types/commit/771ce7591e63bf47f36b39d60afb86e1fe8d404b) Thanks [@JacobMGEvans](https://github.com/JacobMGEvans)! - CI/CD Improvements:
+
+  - Added Changeset PR creation & publish Workflows
+  - Added Typechecking workflow
+  - Consolidated old workflows as jobs in new workflows
+  - Added configuration for Changeset CLI
+  - Installing Changeset bot for non-blocking PR support
+
+- [#181](https://github.com/cloudflare/workers-types/pull/181) [`0dc3fe4`](https://github.com/cloudflare/workers-types/commit/0dc3fe4def04e4127be065c5d88fd45865caeb64) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-01-15
+
 ## 3.3.0
 
 - **Updated types for 2021-12-14 [vlovich]**
@@ -182,7 +198,7 @@
 
   // Force response to be cached for 86400 seconds for 200 status codes, 1 second for 404, and do not cache 500 errors
   fetch(request, {
-    cf: { cacheTtlByStatus: { "200-299": 86400, "404": 1, "500-599": 0 } },
+    cf: { cacheTtlByStatus: { "200-299": 86400, "404": 1, "500-599": 0 } }
   });
   ```
 
