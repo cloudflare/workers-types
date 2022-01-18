@@ -3030,6 +3030,89 @@
             "name": "Element"
           }
         }
+      },
+      {
+        "name": "onEndTag",
+        "type": {
+          "params": [
+            {
+              "name": "handler",
+              "type": {
+                "name": "Function"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "EndTag": {
+    "name": "EndTag",
+    "members": [
+      {
+        "name": "name",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "before",
+        "type": {
+          "params": [
+            {
+              "name": "content",
+              "type": {
+                "name": "Content"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "ContentOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "EndTag"
+          }
+        }
+      },
+      {
+        "name": "after",
+        "type": {
+          "params": [
+            {
+              "name": "content",
+              "type": {
+                "name": "Content"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "ContentOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "EndTag"
+          }
+        }
+      },
+      {
+        "name": "remove",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "EndTag"
+          }
+        }
       }
     ],
     "kind": "class"
@@ -5417,7 +5500,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5463,7 +5546,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5498,7 +5581,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5541,7 +5624,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5576,7 +5659,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5611,7 +5694,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5699,7 +5782,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5739,7 +5822,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5814,7 +5897,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5881,7 +5964,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5935,7 +6018,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -5978,7 +6061,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -6027,7 +6110,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -6070,7 +6153,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -6113,7 +6196,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -6161,7 +6244,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -6215,7 +6298,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -6263,7 +6346,7 @@
             {
               "name": "key",
               "type": {
-                "name": "string"
+                "name": "K"
               }
             },
             {
@@ -6323,6 +6406,17 @@
               }
             ]
           }
+        }
+      }
+    ],
+    "typeparams": [
+      {
+        "name": "K",
+        "constraint": {
+          "name": "string"
+        },
+        "default": {
+          "name": "string"
         }
       }
     ],
@@ -6930,6 +7024,50 @@
             ]
           }
         }
+      },
+      {
+        "name": "values",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "ReadableStreamValuesOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "AsyncIterableIterator",
+            "args": [
+              {
+                "name": "ReadableStreamReadResult"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "[Symbol.asyncIterator]",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "ReadableStreamValuesOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "AsyncIterableIterator",
+            "args": [
+              {
+                "name": "ReadableStreamReadResult"
+              }
+            ]
+          }
+        }
       }
     ],
     "kind": "class"
@@ -7381,6 +7519,19 @@
         "name": "readable",
         "type": {
           "name": "ReadableStream"
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "ReadableStreamValuesOptions": {
+    "name": "ReadableStreamValuesOptions",
+    "members": [
+      {
+        "name": "preventCancel",
+        "type": {
+          "name": "boolean",
+          "optional": true
         }
       }
     ],
@@ -8829,6 +8980,58 @@
           "args": [
             {
               "name": "TransformStream"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "ReadableStreamBYOBRequest",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "ReadableStreamBYOBRequest"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "ReadableStreamDefaultController",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "ReadableStreamDefaultController"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "ReadableByteStreamController",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "ReadableByteStreamController"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "WritableStreamDefaultController",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "WritableStreamDefaultController"
             }
           ]
         },

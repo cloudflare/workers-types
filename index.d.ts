@@ -463,6 +463,14 @@ interface Element {
   remove(): Element;
   removeAndKeepContent(): Element;
   setInnerContent(content: Content, options?: ContentOptions): Element;
+  onEndTag(handler: Function): void;
+}
+
+interface EndTag {
+  name: string;
+  before(content: Content, options?: ContentOptions): EndTag;
+  after(content: Content, options?: ContentOptions): EndTag;
+  remove(): EndTag;
 }
 
 declare class Event {
@@ -778,32 +786,29 @@ interface JsonWebKey {
  * Workers KV is a global, low-latency, key-value data store. It supports exceptionally high read volumes with low-latency,
  * making it possible to build highly dynamic APIs and websites which respond as quickly as a cached static file would.
  */
-interface KVNamespace {
+interface KVNamespace<K extends string = string> {
   get(
-    key: string,
+    key: K,
     options?: Partial<KVNamespaceGetOptions<undefined>>
   ): Promise<string | null>;
-  get(key: string, type: "text"): Promise<string | null>;
+  get(key: K, type: "text"): Promise<string | null>;
   get<ExpectedValue = unknown>(
-    key: string,
+    key: K,
     type: "json"
   ): Promise<ExpectedValue | null>;
-  get(key: string, type: "arrayBuffer"): Promise<ArrayBuffer | null>;
-  get(key: string, type: "stream"): Promise<ReadableStream | null>;
-  get(
-    key: string,
-    options: KVNamespaceGetOptions<"text">
-  ): Promise<string | null>;
+  get(key: K, type: "arrayBuffer"): Promise<ArrayBuffer | null>;
+  get(key: K, type: "stream"): Promise<ReadableStream | null>;
+  get(key: K, options: KVNamespaceGetOptions<"text">): Promise<string | null>;
   get<ExpectedValue = unknown>(
     key: string,
     options: KVNamespaceGetOptions<"json">
   ): Promise<ExpectedValue | null>;
   get(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"arrayBuffer">
   ): Promise<ArrayBuffer | null>;
   get(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"stream">
   ): Promise<ReadableStream | null>;
   list<Metadata = unknown>(
@@ -818,44 +823,44 @@ interface KVNamespace {
    * await NAMESPACE.put(key, value)
    */
   put(
-    key: string,
+    key: K,
     value: string | ArrayBuffer | ArrayBufferView | ReadableStream,
     options?: KVNamespacePutOptions
   ): Promise<void>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     options?: Partial<KVNamespaceGetOptions<undefined>>
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     type: "text"
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
   getWithMetadata<ExpectedValue = unknown, Metadata = unknown>(
-    key: string,
+    key: K,
     type: "json"
   ): Promise<KVNamespaceGetWithMetadataResult<ExpectedValue, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     type: "arrayBuffer"
   ): Promise<KVNamespaceGetWithMetadataResult<ArrayBuffer, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     type: "stream"
   ): Promise<KVNamespaceGetWithMetadataResult<ReadableStream, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"text">
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
   getWithMetadata<ExpectedValue = unknown, Metadata = unknown>(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"json">
   ): Promise<KVNamespaceGetWithMetadataResult<ExpectedValue, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"arrayBuffer">
   ): Promise<KVNamespaceGetWithMetadataResult<ArrayBuffer, Metadata>>;
   getWithMetadata<Metadata = unknown>(
-    key: string,
+    key: K,
     options: KVNamespaceGetOptions<"stream">
   ): Promise<KVNamespaceGetWithMetadataResult<ReadableStream, Metadata>>;
   delete(name: string): Promise<void>;
@@ -930,7 +935,7 @@ interface ReadResult {
   done: boolean;
 }
 
-interface ReadableByteStreamController {
+declare abstract class ReadableByteStreamController {
   readonly byobRequest: ReadableStreamBYOBRequest | null;
   readonly desiredSize: number | null;
   close(): void;
@@ -950,6 +955,12 @@ declare class ReadableStream {
   ): ReadableStream;
   pipeTo(destination: WritableStream, options?: PipeToOptions): Promise<void>;
   tee(): [ReadableStream, ReadableStream];
+  values(
+    options?: ReadableStreamValuesOptions
+  ): AsyncIterableIterator<ReadableStreamReadResult>;
+  [Symbol.asyncIterator](
+    options?: ReadableStreamValuesOptions
+  ): AsyncIterableIterator<ReadableStreamReadResult>;
 }
 
 declare class ReadableStreamBYOBReader {
@@ -966,14 +977,14 @@ declare class ReadableStreamBYOBReader {
   ): Promise<ReadableStreamReadResult<Uint8Array>>;
 }
 
-interface ReadableStreamBYOBRequest {
+declare abstract class ReadableStreamBYOBRequest {
   readonly view: Uint8Array | null;
   respond(bytesWritten: number): void;
   respondWithNewView(view: ArrayBufferView): void;
   readonly atLeast: number | null;
 }
 
-interface ReadableStreamDefaultController {
+declare abstract class ReadableStreamDefaultController {
   readonly desiredSize: number | null;
   close(): void;
   enqueue(chunk?: any): void;
@@ -1018,6 +1029,10 @@ declare type ReadableStreamReadableStreamDefaultReader =
 interface ReadableStreamTransform {
   writable: WritableStream;
   readable: ReadableStream;
+}
+
+interface ReadableStreamValuesOptions {
+  preventCancel?: boolean;
 }
 
 declare class Request extends Body {
@@ -1586,7 +1601,7 @@ declare class WritableStream {
   getWriter(): WritableStreamDefaultWriter;
 }
 
-interface WritableStreamDefaultController {
+declare abstract class WritableStreamDefaultController {
   readonly signal: AbortSignal;
   error(reason?: any): void;
 }
