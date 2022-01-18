@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 // marked is great for this: it includes the raw text in its tokens so
 // we don't need to write code that renders tokens back to markdown
-import marked from "marked";
+import { marked } from "marked";
 import { Comment, CommentParam } from "./types";
 
 interface CommentedField {
