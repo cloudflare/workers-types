@@ -26,7 +26,7 @@
     "@types/node": "^16.6.1",
     "esbuild": "^0.12.22",
     "esbuild-register": "^3.0.0",
-    "marked": "^3.0.2",
+    "marked": "^4.0.10",
     "prettier": "^2.5.1",
     "typescript": "^4.3.5"
   }
