@@ -4261,32 +4261,27 @@
             "name": "IterableIterator",
             "args": [
               {
-                "name": "[]",
-                "args": [
+                "name": "()",
+                "params": [
                   {
-                    "name": "()",
-                    "params": [
-                      {
-                        "name": "key",
-                        "type": {
+                    "name": "key",
+                    "type": {
+                      "name": "string"
+                    }
+                  },
+                  {
+                    "name": "value",
+                    "type": {
+                      "name": "|",
+                      "args": [
+                        {
+                          "name": "File"
+                        },
+                        {
                           "name": "string"
                         }
-                      },
-                      {
-                        "name": "value",
-                        "type": {
-                          "name": "|",
-                          "args": [
-                            {
-                              "name": "File"
-                            },
-                            {
-                              "name": "string"
-                            }
-                          ]
-                        }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 ]
               }
@@ -4405,32 +4400,27 @@
             "name": "IterableIterator",
             "args": [
               {
-                "name": "[]",
-                "args": [
+                "name": "()",
+                "params": [
                   {
-                    "name": "()",
-                    "params": [
-                      {
-                        "name": "key",
-                        "type": {
+                    "name": "key",
+                    "type": {
+                      "name": "string"
+                    }
+                  },
+                  {
+                    "name": "value",
+                    "type": {
+                      "name": "|",
+                      "args": [
+                        {
+                          "name": "File"
+                        },
+                        {
                           "name": "string"
                         }
-                      },
-                      {
-                        "name": "value",
-                        "type": {
-                          "name": "|",
-                          "args": [
-                            {
-                              "name": "File"
-                            },
-                            {
-                              "name": "string"
-                            }
-                          ]
-                        }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 ]
               }
@@ -5951,9 +5941,7 @@
           ],
           "returns": "Returns a `Promise` that you should `await` on in order to verify a successful update.",
           "examples": {
-            "typescript": [
-              "await NAMESPACE.put(key, value)"
-            ]
+            "typescript": ["await NAMESPACE.put(key, value);"]
           }
         }
       },
@@ -7830,13 +7818,13 @@
           "name": "|",
           "args": [
             {
-              "name": "'lossy'"
+              "name": "\"lossy\""
             },
             {
-              "name": "'lossless'"
+              "name": "\"lossless\""
             },
             {
-              "name": "'off'"
+              "name": "\"off\""
             }
           ],
           "optional": true

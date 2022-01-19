@@ -604,7 +604,7 @@ declare class FormData {
   has(name: string): boolean;
   set(name: string, value: string): void;
   set(name: string, value: Blob, filename?: string): void;
-  entries(): IterableIterator<[key: string, value: File | string][]>;
+  entries(): IterableIterator<[key: string, value: File | string]>;
   keys(): IterableIterator<string>;
   values(): IterableIterator<File | string>;
   forEach<This = unknown>(
@@ -616,7 +616,7 @@ declare class FormData {
     ) => void,
     thisArg?: This
   ): void;
-  [Symbol.iterator](): IterableIterator<[key: string, value: File | string][]>;
+  [Symbol.iterator](): IterableIterator<[key: string, value: File | string]>;
 }
 
 declare class HTMLRewriter {
@@ -820,7 +820,7 @@ interface KVNamespace<K extends string = string> {
    * @param value value to store. The type is inferred. The maximum size of a value is 25MB.
    * @returns Returns a `Promise` that you should `await` on in order to verify a successful update.
    * @example
-   * await NAMESPACE.put(key, value)
+   * await NAMESPACE.put(key, value);
    */
   put(
     key: K,
