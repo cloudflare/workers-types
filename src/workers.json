@@ -3038,7 +3038,30 @@
             {
               "name": "handler",
               "type": {
-                "name": "Function"
+                "params": [
+                  {
+                    "name": "tag",
+                    "type": {
+                      "name": "EndTag"
+                    }
+                  }
+                ],
+                "returns": {
+                  "name": "|",
+                  "args": [
+                    {
+                      "name": "void"
+                    },
+                    {
+                      "name": "Promise",
+                      "args": [
+                        {
+                          "name": "void"
+                        }
+                      ]
+                    }
+                  ]
+                }
               }
             }
           ],
@@ -11138,6 +11161,45 @@
             "name": "void"
           }
         }
+      },
+      {
+        "name": "READY_STATE_CONNECTING",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "READY_STATE_OPEN",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "READY_STATE_CLOSING",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "READY_STATE_CLOSED",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "readyState",
+        "type": {
+          "name": "integer"
+        },
+        "readonly": true
       }
     ],
     "extends": [
