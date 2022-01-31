@@ -1117,6 +1117,12 @@
                 },
                 {
                   "name": "Uint32Array"
+                },
+                {
+                  "name": "BigInt64Array"
+                },
+                {
+                  "name": "BigUint64Array"
                 }
               ]
             }
@@ -3038,7 +3044,30 @@
             {
               "name": "handler",
               "type": {
-                "name": "Function"
+                "params": [
+                  {
+                    "name": "tag",
+                    "type": {
+                      "name": "EndTag"
+                    }
+                  }
+                ],
+                "returns": {
+                  "name": "|",
+                  "args": [
+                    {
+                      "name": "void"
+                    },
+                    {
+                      "name": "Promise",
+                      "args": [
+                        {
+                          "name": "void"
+                        }
+                      ]
+                    }
+                  ]
+                }
               }
             }
           ],
@@ -11138,6 +11167,45 @@
             "name": "void"
           }
         }
+      },
+      {
+        "name": "READY_STATE_CONNECTING",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "READY_STATE_OPEN",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "READY_STATE_CLOSING",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "READY_STATE_CLOSED",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "readyState",
+        "type": {
+          "name": "integer"
+        },
+        "readonly": true
       }
     ],
     "extends": [
@@ -11975,5 +12043,407 @@
       }
     },
     "kind": "function"
+  },
+  "urlURL": {
+    "name": "urlURL",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "url",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "base",
+              "type": {
+                "name": "string",
+                "optional": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "origin",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "href",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "protocol",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "username",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "password",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "host",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "hostname",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "port",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "pathname",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "search",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "hash",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "searchParams",
+        "type": {
+          "name": "urlURLSearchParams"
+        },
+        "readonly": true
+      },
+      {
+        "name": "toJSON",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "string"
+          }
+        }
+      },
+      {
+        "name": "toString",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "string"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "urlURLSearchParams": {
+    "name": "urlURLSearchParams",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "init",
+              "type": {
+                "name": "urlURLSearchParamsInitializer",
+                "optional": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "append",
+        "type": {
+          "params": [
+            {
+              "name": "name",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "value",
+              "type": {
+                "name": "string"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "delete",
+        "type": {
+          "params": [
+            {
+              "name": "name",
+              "type": {
+                "name": "string"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "get",
+        "type": {
+          "params": [
+            {
+              "name": "name",
+              "type": {
+                "name": "string"
+              }
+            }
+          ],
+          "returns": {
+            "name": "|",
+            "args": [
+              {
+                "name": "string"
+              },
+              {
+                "name": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "getAll",
+        "type": {
+          "params": [
+            {
+              "name": "name",
+              "type": {
+                "name": "string"
+              }
+            }
+          ],
+          "returns": {
+            "name": "[]",
+            "args": [
+              {
+                "name": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "has",
+        "type": {
+          "params": [
+            {
+              "name": "name",
+              "type": {
+                "name": "string"
+              }
+            }
+          ],
+          "returns": {
+            "name": "boolean"
+          }
+        }
+      },
+      {
+        "name": "set",
+        "type": {
+          "params": [
+            {
+              "name": "name",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "value",
+              "type": {
+                "name": "string"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "sort",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "entries",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "[]",
+                "args": [
+                  {
+                    "name": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "keys",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "values",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "forEach",
+        "type": {
+          "params": [
+            {
+              "name": "callback",
+              "type": {
+                "name": "Function"
+              }
+            },
+            {
+              "name": "thisArg",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "toString",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "string"
+          }
+        }
+      },
+      {
+        "name": "[Symbol.iterator]",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "[]",
+                "args": [
+                  {
+                    "name": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "urlURLSearchParamsInitializer": {
+    "name": "urlURLSearchParamsInitializer",
+    "type": {
+      "name": "|",
+      "args": [
+        {
+          "name": "Iterable",
+          "args": [
+            {
+              "name": "Iterable",
+              "args": [
+                {
+                  "name": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Record",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        {
+          "name": "string"
+        }
+      ]
+    },
+    "kind": "typedef"
   }
 }

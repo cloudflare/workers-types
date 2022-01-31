@@ -211,6 +211,8 @@ declare abstract class Crypto {
       | Uint16Array
       | Int32Array
       | Uint32Array
+      | BigInt64Array
+      | BigUint64Array
   >(buffer: T): T;
   randomUUID(): string;
 }
@@ -463,7 +465,7 @@ interface Element {
   remove(): Element;
   removeAndKeepContent(): Element;
   setInnerContent(content: Content, options?: ContentOptions): Element;
-  onEndTag(handler: Function): void;
+  onEndTag(handler: (tag: EndTag) => void | Promise<void>): void;
 }
 
 interface EndTag {
@@ -1574,6 +1576,11 @@ declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {
   accept(): void;
   send(message: ArrayBuffer | string): void;
   close(code?: number, reason?: string): void;
+  static readonly READY_STATE_CONNECTING: number;
+  static readonly READY_STATE_OPEN: number;
+  static readonly READY_STATE_CLOSING: number;
+  static readonly READY_STATE_CLOSED: number;
+  readonly readyState: number;
 }
 
 declare type WebSocketEventMap = {
@@ -1685,6 +1692,46 @@ declare function structuredClone(
   value: any,
   options?: ServiceWorkerGlobalScopeStructuredCloneOptions
 ): any;
+
+declare class urlURL {
+  constructor(url: string, base?: string);
+  readonly origin: string;
+  href: string;
+  protocol: string;
+  username: string;
+  password: string;
+  host: string;
+  hostname: string;
+  port: string;
+  pathname: string;
+  search: string;
+  hash: string;
+  readonly searchParams: urlURLSearchParams;
+  toJSON(): string;
+  toString(): string;
+}
+
+declare class urlURLSearchParams {
+  constructor(init?: urlURLSearchParamsInitializer);
+  append(name: string, value: string): void;
+  delete(name: string): void;
+  get(name: string): string | null;
+  getAll(name: string): string[];
+  has(name: string): boolean;
+  set(name: string, value: string): void;
+  sort(): void;
+  entries(): IterableIterator<string[]>;
+  keys(): IterableIterator<string>;
+  values(): IterableIterator<string>;
+  forEach(callback: Function, thisArg?: any): void;
+  toString(): string;
+  [Symbol.iterator](): IterableIterator<string[]>;
+}
+
+declare type urlURLSearchParamsInitializer =
+  | Iterable<Iterable<string>>
+  | Record<string, string>
+  | string;
 
 /*** Injected pages.d.ts ***/
 type Params<P extends string = any> = Record<P, string | string[]>;
