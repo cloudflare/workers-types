@@ -211,6 +211,8 @@ declare abstract class Crypto {
       | Uint16Array
       | Int32Array
       | Uint32Array
+      | BigInt64Array
+      | BigUint64Array
   >(buffer: T): T;
   randomUUID(): string;
 }
@@ -463,7 +465,7 @@ interface Element {
   remove(): Element;
   removeAndKeepContent(): Element;
   setInnerContent(content: Content, options?: ContentOptions): Element;
-  onEndTag(handler: Function): void;
+  onEndTag(handler: (tag: EndTag) => void | Promise<void>): void;
 }
 
 interface EndTag {
@@ -1574,6 +1576,11 @@ declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {
   accept(): void;
   send(message: ArrayBuffer | string): void;
   close(code?: number, reason?: string): void;
+  static readonly READY_STATE_CONNECTING: number;
+  static readonly READY_STATE_OPEN: number;
+  static readonly READY_STATE_CLOSING: number;
+  static readonly READY_STATE_CLOSED: number;
+  readonly readyState: number;
 }
 
 declare type WebSocketEventMap = {
