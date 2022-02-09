@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.4.0
+
+### Minor Changes
+
+- [#186](https://github.com/cloudflare/workers-types/pull/186) [`c117b5a`](https://github.com/cloudflare/workers-types/commit/c117b5a4874bcd7effdba0bc57fc74878f5faaa1) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-01-19
+
+* [#194](https://github.com/cloudflare/workers-types/pull/194) [`74c94f8`](https://github.com/cloudflare/workers-types/commit/74c94f8f96fa427353acd60ebc00d910f8e7cdfe) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-02-08
+
+### Patch Changes
+
+- [#175](https://github.com/cloudflare/workers-types/pull/175) [`17d21e9`](https://github.com/cloudflare/workers-types/commit/17d21e9ae7cfee0c5d6ca4bf247978e5618c0386) Thanks [@threepointone](https://github.com/threepointone)! - fix: FormData::entries(), FormData::[Symbol.iterator]()
+
+* [#184](https://github.com/cloudflare/workers-types/pull/184) [`f1c3c40`](https://github.com/cloudflare/workers-types/commit/f1c3c40f4050b7d5b5c74c93ac2b583afc44f350) Thanks [@threepointone](https://github.com/threepointone)! - chore: update marked to 4.0.10
+
 ## 3.3.1
 
 ### Patch Changes
@@ -198,7 +212,7 @@
 
   // Force response to be cached for 86400 seconds for 200 status codes, 1 second for 404, and do not cache 500 errors
   fetch(request, {
-    cf: { cacheTtlByStatus: { "200-299": 86400, "404": 1, "500-599": 0 } },
+    cf: { cacheTtlByStatus: { "200-299": 86400, "404": 1, "500-599": 0 } }
   });
   ```
 
