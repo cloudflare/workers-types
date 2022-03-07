@@ -475,6 +475,14 @@ interface EndTag {
   remove(): EndTag;
 }
 
+interface ErrorEvent extends Event {
+  readonly filename: string;
+  readonly message: string;
+  readonly lineno: number;
+  readonly colno: number;
+  readonly error: any;
+}
+
 declare class Event {
   constructor(type: string, init?: EventInit);
   readonly type: string;
@@ -917,6 +925,10 @@ interface MessageEventInit {
  */
 declare type MessageEventInitializer = MessageEventInit;
 
+declare abstract class Navigator {
+  readonly userAgent: string;
+}
+
 /**
  * Transitionary name.
  * @deprecated Use StreamPipeOptions
@@ -1325,6 +1337,7 @@ interface ServiceWorkerGlobalScope extends WorkerGlobalScope {
   crypto: Crypto;
   caches: CacheStorage;
   scheduler: Scheduler;
+  navigator: Navigator;
   readonly console: Console;
   origin: void;
 }
@@ -1533,6 +1546,52 @@ declare class URL {
   toJSON(): string;
 }
 
+declare class URLPattern {
+  constructor(input?: string | URLPatternURLPatternInit, baseURL?: string);
+  readonly protocol: string;
+  readonly username: string;
+  readonly password: string;
+  readonly hostname: string;
+  readonly port: string;
+  readonly pathname: string;
+  readonly search: string;
+  readonly hash: string;
+  test(input?: string | URLPatternURLPatternInit, baseURL?: string): boolean;
+  exec(
+    input?: string | URLPatternURLPatternInit,
+    baseURL?: string
+  ): URLPatternURLPatternResult | null;
+}
+
+interface URLPatternURLPatternComponentResult {
+  input: string;
+  groups: Record<string, string>;
+}
+
+interface URLPatternURLPatternInit {
+  protocol?: string;
+  username?: string;
+  password?: string;
+  hostname?: string;
+  port?: string;
+  pathname?: string;
+  search?: string;
+  hash?: string;
+  baseURL?: string;
+}
+
+interface URLPatternURLPatternResult {
+  inputs: (string | URLPatternURLPatternInit)[];
+  protocol: URLPatternURLPatternComponentResult;
+  username: URLPatternURLPatternComponentResult;
+  password: URLPatternURLPatternComponentResult;
+  hostname: URLPatternURLPatternComponentResult;
+  port: URLPatternURLPatternComponentResult;
+  pathname: URLPatternURLPatternComponentResult;
+  search: URLPatternURLPatternComponentResult;
+  hash: URLPatternURLPatternComponentResult;
+}
+
 declare class URLSearchParams {
   constructor(init?: URLSearchParamsInit);
   append(name: string, value: string): void;
@@ -1572,16 +1631,7 @@ declare type URLSearchParamsInit =
  */
 declare type URLSearchParamsInitializer = URLSearchParamsInit;
 
-declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {
-  accept(): void;
-  send(message: ArrayBuffer | string): void;
-  close(code?: number, reason?: string): void;
-  static readonly READY_STATE_CONNECTING: number;
-  static readonly READY_STATE_OPEN: number;
-  static readonly READY_STATE_CLOSING: number;
-  static readonly READY_STATE_CLOSED: number;
-  readonly readyState: number;
-}
+declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {}
 
 declare type WebSocketEventMap = {
   close: CloseEvent;
@@ -1659,6 +1709,8 @@ declare function fetch(
   request: Request | string,
   requestInitr?: RequestInit | Request
 ): Promise<Response>;
+
+declare const navigator: Navigator;
 
 declare const origin: void;
 

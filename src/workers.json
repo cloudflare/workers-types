@@ -3146,6 +3146,52 @@
     ],
     "kind": "class"
   },
+  "ErrorEvent": {
+    "name": "ErrorEvent",
+    "members": [
+      {
+        "name": "filename",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "message",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "lineno",
+        "type": {
+          "name": "integer"
+        },
+        "readonly": true
+      },
+      {
+        "name": "colno",
+        "type": {
+          "name": "integer"
+        },
+        "readonly": true
+      },
+      {
+        "name": "error",
+        "type": {
+          "name": "any"
+        },
+        "readonly": true
+      }
+    ],
+    "extends": [
+      {
+        "name": "Event"
+      }
+    ],
+    "kind": "class"
+  },
   "Event": {
     "name": "Event",
     "members": [
@@ -6733,6 +6779,19 @@
     },
     "kind": "typedef"
   },
+  "Navigator": {
+    "name": "Navigator",
+    "members": [
+      {
+        "name": "userAgent",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
   "PipeToOptions": {
     "name": "PipeToOptions",
     "members": [
@@ -9186,6 +9245,25 @@
         "readonly": true
       },
       {
+        "name": "navigator",
+        "type": {
+          "name": "Navigator"
+        }
+      },
+      {
+        "name": "Navigator",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "Navigator"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
         "name": "URL",
         "type": {
           "name": "typeof",
@@ -9205,6 +9283,19 @@
           "args": [
             {
               "name": "URLSearchParams"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "URLPattern",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "URLPattern"
             }
           ]
         },
@@ -10747,6 +10838,337 @@
     ],
     "kind": "class"
   },
+  "URLPattern": {
+    "name": "URLPattern",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "input",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "string"
+                  },
+                  {
+                    "name": "URLPatternURLPatternInit"
+                  }
+                ],
+                "optional": true
+              }
+            },
+            {
+              "name": "baseURL",
+              "type": {
+                "name": "string",
+                "optional": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "protocol",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "username",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "password",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "hostname",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "port",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "pathname",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "search",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "hash",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "test",
+        "type": {
+          "params": [
+            {
+              "name": "input",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "string"
+                  },
+                  {
+                    "name": "URLPatternURLPatternInit"
+                  }
+                ],
+                "optional": true
+              }
+            },
+            {
+              "name": "baseURL",
+              "type": {
+                "name": "string",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "boolean"
+          }
+        }
+      },
+      {
+        "name": "exec",
+        "type": {
+          "params": [
+            {
+              "name": "input",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "string"
+                  },
+                  {
+                    "name": "URLPatternURLPatternInit"
+                  }
+                ],
+                "optional": true
+              }
+            },
+            {
+              "name": "baseURL",
+              "type": {
+                "name": "string",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "|",
+            "args": [
+              {
+                "name": "URLPatternURLPatternResult"
+              },
+              {
+                "name": "null"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "URLPatternURLPatternComponentResult": {
+    "name": "URLPatternURLPatternComponentResult",
+    "members": [
+      {
+        "name": "input",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "groups",
+        "type": {
+          "name": "Record",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "URLPatternURLPatternInit": {
+    "name": "URLPatternURLPatternInit",
+    "members": [
+      {
+        "name": "protocol",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "username",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "password",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "hostname",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "port",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "pathname",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "search",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "hash",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "baseURL",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "URLPatternURLPatternResult": {
+    "name": "URLPatternURLPatternResult",
+    "members": [
+      {
+        "name": "inputs",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "|",
+              "args": [
+                {
+                  "name": "string"
+                },
+                {
+                  "name": "URLPatternURLPatternInit"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "protocol",
+        "type": {
+          "name": "URLPatternURLPatternComponentResult"
+        }
+      },
+      {
+        "name": "username",
+        "type": {
+          "name": "URLPatternURLPatternComponentResult"
+        }
+      },
+      {
+        "name": "password",
+        "type": {
+          "name": "URLPatternURLPatternComponentResult"
+        }
+      },
+      {
+        "name": "hostname",
+        "type": {
+          "name": "URLPatternURLPatternComponentResult"
+        }
+      },
+      {
+        "name": "port",
+        "type": {
+          "name": "URLPatternURLPatternComponentResult"
+        }
+      },
+      {
+        "name": "pathname",
+        "type": {
+          "name": "URLPatternURLPatternComponentResult"
+        }
+      },
+      {
+        "name": "search",
+        "type": {
+          "name": "URLPatternURLPatternComponentResult"
+        }
+      },
+      {
+        "name": "hash",
+        "type": {
+          "name": "URLPatternURLPatternComponentResult"
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "URLSearchParams": {
     "name": "URLSearchParams",
     "members": [
@@ -11110,104 +11532,7 @@
   },
   "WebSocket": {
     "name": "WebSocket",
-    "members": [
-      {
-        "name": "accept",
-        "type": {
-          "params": [],
-          "returns": {
-            "name": "void"
-          }
-        }
-      },
-      {
-        "name": "send",
-        "type": {
-          "params": [
-            {
-              "name": "message",
-              "type": {
-                "name": "|",
-                "args": [
-                  {
-                    "name": "ArrayBuffer"
-                  },
-                  {
-                    "name": "string"
-                  }
-                ]
-              }
-            }
-          ],
-          "returns": {
-            "name": "void"
-          }
-        }
-      },
-      {
-        "name": "close",
-        "type": {
-          "params": [
-            {
-              "name": "code",
-              "type": {
-                "name": "integer",
-                "optional": true
-              }
-            },
-            {
-              "name": "reason",
-              "type": {
-                "name": "string",
-                "optional": true
-              }
-            }
-          ],
-          "returns": {
-            "name": "void"
-          }
-        }
-      },
-      {
-        "name": "READY_STATE_CONNECTING",
-        "type": {
-          "name": "integer"
-        },
-        "static": true,
-        "readonly": true
-      },
-      {
-        "name": "READY_STATE_OPEN",
-        "type": {
-          "name": "integer"
-        },
-        "static": true,
-        "readonly": true
-      },
-      {
-        "name": "READY_STATE_CLOSING",
-        "type": {
-          "name": "integer"
-        },
-        "static": true,
-        "readonly": true
-      },
-      {
-        "name": "READY_STATE_CLOSED",
-        "type": {
-          "name": "integer"
-        },
-        "static": true,
-        "readonly": true
-      },
-      {
-        "name": "readyState",
-        "type": {
-          "name": "integer"
-        },
-        "readonly": true
-      }
-    ],
+    "members": [],
     "extends": [
       {
         "name": "EventTarget",
@@ -11812,6 +12137,13 @@
       }
     },
     "kind": "function"
+  },
+  "navigator": {
+    "name": "navigator",
+    "type": {
+      "name": "Navigator"
+    },
+    "kind": "variable"
   },
   "origin": {
     "name": "origin",
