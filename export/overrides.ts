@@ -169,6 +169,11 @@ for (const filePath of filePaths) {
         comment.returns = convertCommentText(tag.comment);
       } else if (ts.isJSDocDeprecatedTag(tag)) {
         comment.deprecated = convertCommentText(tag.comment);
+      } else if (
+        ts.isJSDocUnknownTag(tag) &&
+        tag.tagName.escapedText === "rename"
+      ) {
+        comment.renamed = true;
       }
     }
     return comment;
