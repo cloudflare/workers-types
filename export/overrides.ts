@@ -21,13 +21,17 @@ const filePaths = fs
   .readdirSync(publicOverridesDir)
   .map((fileName) => path.join(publicOverridesDir, fileName));
 // Additional internal overrides
-const additionalOverridesDir = process.argv[2] && path.resolve(process.argv[2]);
-if (additionalOverridesDir) {
-  filePaths.push(
-    ...fs
-      .readdirSync(additionalOverridesDir)
-      .map((fileName) => path.join(additionalOverridesDir, fileName))
-  );
+for (const argPath of process.argv.slice(2)) {
+  const additionalOverridesDir = argPath && path.resolve(argPath);
+  if (additionalOverridesDir) {
+    filePaths.push(
+      ...fs
+        .readdirSync(additionalOverridesDir)
+        .map((fileName) => path.join(additionalOverridesDir, fileName))
+    );
+  } else {
+    console.error(`Couldn't resolve ${argPath}`);
+  }
 }
 
 // Parse file into AST
