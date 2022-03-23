@@ -177,7 +177,14 @@ for (const filePath of filePaths) {
         ts.isJSDocUnknownTag(tag) &&
         tag.tagName.escapedText === "rename"
       ) {
+        // Typedef is a pure rename. Old name isn't around anymore.
         comment.renamed = true;
+      } else if (
+        ts.isJSDocUnknownTag(tag) &&
+        tag.tagName.escapedText === "inline"
+      ) {
+        // Typedef is force inlined everywhere and will not be emitted.
+        comment.inlined = true;
       }
     }
     return comment;
