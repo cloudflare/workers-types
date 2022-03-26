@@ -128,6 +128,12 @@ declare type BodyInit =
  */
 declare type BodyInitializer = BodyInit;
 
+declare class ByteLengthQueuingStrategy {
+  constructor(init: QueuingStrategyInit);
+  readonly highWaterMark: number;
+  size(arg1?: any): number | undefined;
+}
+
 declare abstract class Cache {
   delete(
     request: Request | string,
@@ -187,6 +193,10 @@ interface Comment {
   remove(): Comment;
 }
 
+declare class CompressionStream extends TransformStream {
+  constructor(format: string);
+}
+
 interface Console {
   debug(...data: any[]): void;
   error(...data: any[]): void;
@@ -199,6 +209,12 @@ declare type Content = string | ReadableStream | Response;
 
 interface ContentOptions {
   html?: boolean;
+}
+
+declare class CountQueuingStrategy {
+  constructor(init: QueuingStrategyInit);
+  readonly highWaterMark: number;
+  size(arg1?: any): number | undefined;
 }
 
 declare abstract class Crypto {
@@ -306,6 +322,10 @@ declare class DOMException extends Error {
   static readonly DATA_CLONE_ERR: number;
 }
 
+declare class DecompressionStream extends TransformStream {
+  constructor(format: string);
+}
+
 declare class DigestStream extends WritableStream {
   constructor(algorithm: string | SubtleCryptoHashAlgorithm);
   readonly digest: Promise<ArrayBuffer>;
@@ -323,6 +343,10 @@ interface DocumentEnd {
 
 interface DurableObject {
   fetch(request: Request): Promise<Response>;
+}
+
+interface DurableObjectGetAlarmOptions {
+  allowConcurrency?: boolean;
 }
 
 interface DurableObjectGetOptions {
@@ -365,6 +389,11 @@ interface DurableObjectPutOptions {
   noCache?: boolean;
 }
 
+interface DurableObjectSetAlarmOptions {
+  allowConcurrency?: boolean;
+  allowUnconfirmed?: boolean;
+}
+
 interface DurableObjectState {
   waitUntil(promise: Promise<any>): void;
   readonly id: DurableObjectId | string;
@@ -399,24 +428,26 @@ interface DurableObjectStorage {
   transaction<T>(
     closure: (txn: DurableObjectTransaction) => Promise<T>
   ): Promise<T>;
+  getAlarm(options?: DurableObjectGetAlarmOptions): Promise<Date | null>;
+  setAlarm(arg2: Date, options?: DurableObjectSetAlarmOptions): Promise<void>;
 }
 
 /**
  *
- * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
+ * @deprecated Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal.
  */
 declare type DurableObjectStorageOperationsGetOptions = DurableObjectGetOptions;
 
 /**
  *
- * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
+ * @deprecated Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal.
  */
 declare type DurableObjectStorageOperationsListOptions =
   DurableObjectListOptions;
 
 /**
  *
- * @deprecated Don't use. Introduced incidentally in 3.x. Scheduled for removal.
+ * @deprecated Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal.
  */
 declare type DurableObjectStorageOperationsPutOptions = DurableObjectPutOptions;
 
@@ -446,6 +477,8 @@ interface DurableObjectTransaction {
   delete(key: string, options?: DurableObjectPutOptions): Promise<boolean>;
   delete(keys: string[], options?: DurableObjectPutOptions): Promise<number>;
   rollback(): void;
+  getAlarm(options?: DurableObjectGetAlarmOptions): Promise<Date | null>;
+  setAlarm(arg2: Date, options?: DurableObjectSetAlarmOptions): Promise<void>;
 }
 
 interface Element {
@@ -601,7 +634,7 @@ interface FileOptions {
 }
 
 declare class FixedLengthStream extends TransformStream {
-  constructor(expectedLength: number);
+  constructor(expectedLength: number | bigint);
 }
 
 declare class FormData {
@@ -680,6 +713,10 @@ declare type HeadersInit =
  * @deprecated Use HeadersInit instead.
  */
 declare type HeadersInitializer = HeadersInit;
+
+declare class IdentityTransformStream extends TransformStream {
+  constructor();
+}
 
 /**
  * In addition to the properties on the standard Request object,
@@ -944,6 +981,141 @@ declare abstract class PromiseRejectionEvent extends Event {
   readonly reason: any;
 }
 
+interface QueuingStrategyInit {
+  highWaterMark: number;
+}
+
+/**
+ * An instance of the R2 bucket binding.
+ */
+interface R2Bucket {
+  head(key: string, options?: R2HeadOptions): Promise<R2Object | null>;
+  get(key: string, options?: R2GetOptions): Promise<R2ObjectBody | null>;
+  put(
+    key: string,
+    value: ReadableStream | ArrayBuffer | ArrayBufferView | string | null,
+    options?: R2PutOptions
+  ): Promise<R2Object>;
+  delete(key: string): Promise<void>;
+  list(options?: R2ListOptions): Promise<R2Objects>;
+}
+
+/**
+ * Perform the operation conditionally based on meeting the defined criteria.
+ */
+interface R2Conditional {
+  etagMatches?: string;
+  etagDoesNotMatch?: string;
+  uploadedBefore?: Date;
+  uploadedAfter?: Date;
+}
+
+interface R2Error {
+  readonly stack: string;
+}
+
+/**
+ * Options for retrieving the object metadata nad payload.
+ */
+interface R2GetOptions {
+  onlyIf?: R2Conditional | Headers;
+  range?: R2Range;
+}
+
+/**
+ * Metadata that's automatically rendered into R2 HTTP API endpoints.
+ * ```
+ * * contentType -> content-type
+ * * contentLanguage -> content-language
+ * etc...
+ * ```
+ * This data is echoed back on GET responses based on what was originally
+ * assigned to the object (and can typically also be overriden when issuing
+ * the GET request).
+ */
+interface R2HTTPMetadata {
+  contentType?: string;
+  contentLanguage?: string;
+  contentDisposition?: string;
+  contentEncoding?: string;
+  cacheControl?: string;
+  cacheExpiry?: Date;
+}
+
+/**
+ * Options for retrieving the object metadata.
+ */
+interface R2HeadOptions {
+  onlyIf?: R2Conditional | Headers;
+}
+
+interface R2ListOptions {
+  limit?: number;
+  prefix?: string;
+  cursor?: string;
+  delimiter?: string;
+  /**
+   * If you populate this array, then items returned will include this metadata.
+   * A tradeoff is that fewer results may be returned depending on how big this
+   * data is. For now the caps are TBD but expect the total memory usage for a list
+   * operation may need to be <1MB or even <128kb depending on how many list operations
+   * you are sending into one bucket. Make sure to look at `truncated` for the result
+   * rather than having logic like
+   * ```
+   * while (listed.length < limit) {
+   *   listed = myBucket.list({ limit, include: ['customMetadata'] })
+   * }
+   * ```
+   */
+  include: ("httpMetadata" | "customMetadata")[];
+}
+
+/**
+ * The metadata for the object.
+ */
+declare abstract class R2Object {
+  readonly key: string;
+  readonly version: string;
+  readonly size: number;
+  readonly etag: string;
+  readonly httpEtag: string;
+  readonly uploaded: Date;
+  readonly httpMetadata: R2HTTPMetadata;
+  readonly customMetadata: Record<string, string>;
+  writeHttpMetadata(headers: Headers): void;
+}
+
+/**
+ * The metadata for the object and the body of the payload.
+ */
+interface R2ObjectBody extends R2Object {
+  readonly body: ReadableStream;
+  readonly bodyUsed: boolean;
+  arrayBuffer(): Promise<ArrayBuffer>;
+  text(): Promise<string>;
+  json<T>(): Promise<T>;
+  blob(): Promise<Blob>;
+}
+
+interface R2Objects {
+  objects: R2Object[];
+  truncated: boolean;
+  cursor?: string;
+  delimitedPrefixes: string[];
+}
+
+interface R2PutOptions {
+  httpMetadata?: R2HTTPMetadata | Headers;
+  customMetadata?: Record<string, string>;
+  md5?: ArrayBuffer | string;
+  sha1?: ArrayBuffer | string;
+}
+
+interface R2Range {
+  offset: number;
+  length: number;
+}
+
 interface ReadResult {
   value?: any;
   done: boolean;
@@ -969,12 +1141,10 @@ declare class ReadableStream {
   ): ReadableStream;
   pipeTo(destination: WritableStream, options?: PipeToOptions): Promise<void>;
   tee(): [ReadableStream, ReadableStream];
-  values(
-    options?: ReadableStreamValuesOptions
-  ): AsyncIterableIterator<ReadableStreamReadResult>;
+  values(options?: ReadableStreamValuesOptions): AsyncIterableIterator<any>;
   [Symbol.asyncIterator](
     options?: ReadableStreamValuesOptions
-  ): AsyncIterableIterator<ReadableStreamReadResult>;
+  ): AsyncIterableIterator<any>;
 }
 
 declare class ReadableStreamBYOBReader {
@@ -1357,27 +1527,27 @@ declare abstract class SubtleCrypto {
   encrypt(
     algorithm: string | SubtleCryptoEncryptAlgorithm,
     key: CryptoKey,
-    plainText: ArrayBuffer
+    plainText: ArrayBuffer | ArrayBufferView
   ): Promise<ArrayBuffer>;
   decrypt(
     algorithm: string | SubtleCryptoEncryptAlgorithm,
     key: CryptoKey,
-    cipherText: ArrayBuffer
+    cipherText: ArrayBuffer | ArrayBufferView
   ): Promise<ArrayBuffer>;
   sign(
     algorithm: string | SubtleCryptoSignAlgorithm,
     key: CryptoKey,
-    data: ArrayBuffer
+    data: ArrayBuffer | ArrayBufferView
   ): Promise<ArrayBuffer>;
   verify(
     algorithm: string | SubtleCryptoSignAlgorithm,
     key: CryptoKey,
-    signature: ArrayBuffer,
-    data: ArrayBuffer
+    signature: ArrayBuffer | ArrayBufferView,
+    data: ArrayBuffer | ArrayBufferView
   ): Promise<boolean>;
   digest(
     algorithm: string | SubtleCryptoHashAlgorithm,
-    data: ArrayBuffer
+    data: ArrayBuffer | ArrayBufferView
   ): Promise<ArrayBuffer>;
   generateKey(
     algorithm: string | SubtleCryptoGenerateKeyAlgorithm,
@@ -1412,7 +1582,7 @@ declare abstract class SubtleCrypto {
   ): Promise<ArrayBuffer>;
   unwrapKey(
     format: string,
-    wrappedKey: ArrayBuffer,
+    wrappedKey: ArrayBuffer | ArrayBufferView,
     unwrappingKey: CryptoKey,
     unwrapAlgorithm: string | SubtleCryptoEncryptAlgorithm,
     unwrappedKeyAlgorithm: string | SubtleCryptoImportKeyAlgorithm,
@@ -1495,7 +1665,10 @@ declare class TextDecoder {
     label?: "utf-8" | "utf8" | "unicode-1-1-utf-8",
     options?: TextDecoderConstructorOptions
   );
-  decode(input?: ArrayBuffer, options?: TextDecoderDecodeOptions): string;
+  decode(
+    input?: ArrayBuffer | ArrayBufferView,
+    options?: TextDecoderDecodeOptions
+  ): string;
   readonly encoding: string;
   readonly fatal: boolean;
   readonly ignoreBOM: boolean;
@@ -1631,12 +1804,26 @@ declare type URLSearchParamsInit =
  */
 declare type URLSearchParamsInitializer = URLSearchParamsInit;
 
-declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {}
+declare class WebSocket extends EventTarget<WebSocketEventMap> {
+  constructor(url: string, protocols?: string[] | string);
+  accept(): void;
+  send(message: ArrayBuffer | ArrayBufferView | string): void;
+  close(code?: number, reason?: string): void;
+  static readonly READY_STATE_CONNECTING: number;
+  static readonly READY_STATE_OPEN: number;
+  static readonly READY_STATE_CLOSING: number;
+  static readonly READY_STATE_CLOSED: number;
+  readonly readyState: number;
+  readonly url: string | null;
+  readonly protocol: string | null;
+  readonly extensions: string | null;
+}
 
 declare type WebSocketEventMap = {
   close: CloseEvent;
   message: MessageEvent;
-  error: Event;
+  open: Event;
+  error: ErrorEvent;
 };
 
 declare const WebSocketPair: { new (): { 0: WebSocket; 1: WebSocket } };

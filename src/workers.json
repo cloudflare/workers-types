@@ -538,6 +538,51 @@
     },
     "kind": "typedef"
   },
+  "ByteLengthQueuingStrategy": {
+    "name": "ByteLengthQueuingStrategy",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "init",
+              "type": {
+                "name": "QueuingStrategyInit"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "highWaterMark",
+        "type": {
+          "name": "double"
+        },
+        "readonly": true
+      },
+      {
+        "name": "size",
+        "type": {
+          "params": [
+            {
+              "name": "arg1",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "integer",
+            "optional": true
+          }
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
   "Cache": {
     "name": "Cache",
     "members": [
@@ -922,6 +967,30 @@
     ],
     "kind": "class"
   },
+  "CompressionStream": {
+    "name": "CompressionStream",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "format",
+              "type": {
+                "name": "string"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "extends": [
+      {
+        "name": "TransformStream"
+      }
+    ],
+    "kind": "class"
+  },
   "Console": {
     "name": "Console",
     "members": [
@@ -1068,6 +1137,51 @@
       }
     ],
     "kind": "struct"
+  },
+  "CountQueuingStrategy": {
+    "name": "CountQueuingStrategy",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "init",
+              "type": {
+                "name": "QueuingStrategyInit"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "highWaterMark",
+        "type": {
+          "name": "double"
+        },
+        "readonly": true
+      },
+      {
+        "name": "size",
+        "type": {
+          "params": [
+            {
+              "name": "arg1",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "integer",
+            "optional": true
+          }
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
   },
   "Crypto": {
     "name": "Crypto",
@@ -1625,6 +1739,30 @@
     ],
     "kind": "class"
   },
+  "DecompressionStream": {
+    "name": "DecompressionStream",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "format",
+              "type": {
+                "name": "string"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "extends": [
+      {
+        "name": "TransformStream"
+      }
+    ],
+    "kind": "class"
+  },
   "DigestStream": {
     "name": "DigestStream",
     "members": [
@@ -1774,6 +1912,23 @@
         }
       }
     ],
+    "kind": "struct"
+  },
+  "DurableObjectGetAlarmOptions": {
+    "name": "DurableObjectGetAlarmOptions",
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "",
+      "renamed": true
+    },
     "kind": "struct"
   },
   "DurableObjectGetOptions": {
@@ -1999,6 +2154,30 @@
         }
       }
     ],
+    "kind": "struct"
+  },
+  "DurableObjectSetAlarmOptions": {
+    "name": "DurableObjectSetAlarmOptions",
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "allowUnconfirmed",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "",
+      "renamed": true
+    },
     "kind": "struct"
   },
   "DurableObjectState": {
@@ -2421,6 +2600,64 @@
             "name": "T"
           }
         ]
+      },
+      {
+        "name": "getAlarm",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "DurableObjectGetAlarmOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "Date"
+                  },
+                  {
+                    "name": "null"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "setAlarm",
+        "type": {
+          "params": [
+            {
+              "name": "arg2",
+              "type": {
+                "name": "Date"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "DurableObjectSetAlarmOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
+          }
+        }
       }
     ],
     "kind": "class"
@@ -2432,7 +2669,7 @@
     },
     "comment": {
       "text": "",
-      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
+      "deprecated": "Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal."
     },
     "kind": "typedef"
   },
@@ -2443,7 +2680,7 @@
     },
     "comment": {
       "text": "",
-      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
+      "deprecated": "Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal."
     },
     "kind": "typedef"
   },
@@ -2454,7 +2691,7 @@
     },
     "comment": {
       "text": "",
-      "deprecated": "Don't use. Introduced incidentally in 3.x. Scheduled for removal."
+      "deprecated": "Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal."
     },
     "kind": "typedef"
   },
@@ -2757,6 +2994,64 @@
           "params": [],
           "returns": {
             "name": "void"
+          }
+        }
+      },
+      {
+        "name": "getAlarm",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "DurableObjectGetAlarmOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "Date"
+                  },
+                  {
+                    "name": "null"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "setAlarm",
+        "type": {
+          "params": [
+            {
+              "name": "arg2",
+              "type": {
+                "name": "Date"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "DurableObjectSetAlarmOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
           }
         }
       }
@@ -4110,7 +4405,7 @@
             {
               "name": "expectedLength",
               "type": {
-                "name": "double"
+                "name": "number|bigint"
               }
             }
           ]
@@ -5133,6 +5428,23 @@
       "deprecated": "Use HeadersInit instead."
     },
     "kind": "typedef"
+  },
+  "IdentityTransformStream": {
+    "name": "IdentityTransformStream",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": []
+        }
+      }
+    ],
+    "extends": [
+      {
+        "name": "TransformStream"
+      }
+    ],
+    "kind": "class"
   },
   "IncomingRequestCfProperties": {
     "name": "IncomingRequestCfProperties",
@@ -6853,6 +7165,743 @@
     ],
     "kind": "class"
   },
+  "QueuingStrategyInit": {
+    "name": "QueuingStrategyInit",
+    "members": [
+      {
+        "name": "highWaterMark",
+        "type": {
+          "name": "double"
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "R2Bucket": {
+    "name": "R2Bucket",
+    "members": [
+      {
+        "name": "head",
+        "type": {
+          "params": [
+            {
+              "name": "key",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "R2HeadOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "R2Object"
+                  },
+                  {
+                    "name": "null"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "get",
+        "type": {
+          "params": [
+            {
+              "name": "key",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "R2GetOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "R2ObjectBody"
+                  },
+                  {
+                    "name": "null"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "put",
+        "type": {
+          "params": [
+            {
+              "name": "key",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "value",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "ReadableStream"
+                  },
+                  {
+                    "name": "ArrayBuffer"
+                  },
+                  {
+                    "name": "ArrayBufferView"
+                  },
+                  {
+                    "name": "string"
+                  },
+                  {
+                    "name": "null"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "R2PutOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "R2Object"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "delete",
+        "type": {
+          "params": [
+            {
+              "name": "key",
+              "type": {
+                "name": "string"
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "list",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "R2ListOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "R2Objects"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "comment": {
+      "text": "An instance of the R2 bucket binding.",
+      "renamed": true
+    },
+    "kind": "class"
+  },
+  "R2Conditional": {
+    "name": "R2Conditional",
+    "members": [
+      {
+        "name": "etagMatches",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "etagDoesNotMatch",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "uploadedBefore",
+        "type": {
+          "name": "Date",
+          "optional": true
+        }
+      },
+      {
+        "name": "uploadedAfter",
+        "type": {
+          "name": "Date",
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "Perform the operation conditionally based on meeting the defined criteria.",
+      "renamed": true
+    },
+    "kind": "struct"
+  },
+  "R2Error": {
+    "name": "R2Error",
+    "members": [
+      {
+        "name": "stack",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "struct"
+  },
+  "R2GetOptions": {
+    "name": "R2GetOptions",
+    "members": [
+      {
+        "name": "onlyIf",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "R2Conditional"
+            },
+            {
+              "name": "Headers"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "range",
+        "type": {
+          "name": "R2Range",
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "Options for retrieving the object metadata nad payload.",
+      "renamed": true
+    },
+    "kind": "struct"
+  },
+  "R2HTTPMetadata": {
+    "name": "R2HTTPMetadata",
+    "members": [
+      {
+        "name": "contentType",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "contentLanguage",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "contentDisposition",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "contentEncoding",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "cacheControl",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "cacheExpiry",
+        "type": {
+          "name": "Date",
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "Metadata that's automatically rendered into R2 HTTP API endpoints.\n```\n* contentType -> content-type\n* contentLanguage -> content-language\netc...\n```\nThis data is echoed back on GET responses based on what was originally\nassigned to the object (and can typically also be overriden when issuing\nthe GET request).",
+      "renamed": true
+    },
+    "kind": "struct"
+  },
+  "R2HeadOptions": {
+    "name": "R2HeadOptions",
+    "members": [
+      {
+        "name": "onlyIf",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "R2Conditional"
+            },
+            {
+              "name": "Headers"
+            }
+          ],
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "Options for retrieving the object metadata.",
+      "renamed": true
+    },
+    "kind": "struct"
+  },
+  "R2ListOptions": {
+    "name": "R2ListOptions",
+    "members": [
+      {
+        "name": "limit",
+        "type": {
+          "name": "integer",
+          "optional": true
+        }
+      },
+      {
+        "name": "prefix",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "cursor",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "delimiter",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "include",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "|",
+              "args": [
+                {
+                  "name": "\"httpMetadata\""
+                },
+                {
+                  "name": "\"customMetadata\""
+                }
+              ]
+            }
+          ]
+        },
+        "comment": {
+          "text": "If you populate this array, then items returned will include this metadata.\nA tradeoff is that fewer results may be returned depending on how big this\ndata is. For now the caps are TBD but expect the total memory usage for a list\noperation may need to be <1MB or even <128kb depending on how many list operations\nyou are sending into one bucket. Make sure to look at `truncated` for the result\nrather than having logic like\n```\nwhile (listed.length < limit) {\n  listed = myBucket.list({ limit, include: ['customMetadata'] })\n}\n```"
+        }
+      }
+    ],
+    "comment": {
+      "text": "",
+      "renamed": true
+    },
+    "kind": "struct"
+  },
+  "R2Object": {
+    "name": "R2Object",
+    "members": [
+      {
+        "name": "key",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "version",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "size",
+        "type": {
+          "name": "double"
+        },
+        "readonly": true
+      },
+      {
+        "name": "etag",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "httpEtag",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "uploaded",
+        "type": {
+          "name": "Date"
+        },
+        "readonly": true
+      },
+      {
+        "name": "httpMetadata",
+        "type": {
+          "name": "R2HTTPMetadata"
+        },
+        "readonly": true
+      },
+      {
+        "name": "customMetadata",
+        "type": {
+          "name": "Record",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "writeHttpMetadata",
+        "type": {
+          "params": [
+            {
+              "name": "headers",
+              "type": {
+                "name": "Headers"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      }
+    ],
+    "comment": {
+      "text": "The metadata for the object.",
+      "renamed": true
+    },
+    "kind": "class"
+  },
+  "R2ObjectBody": {
+    "name": "R2ObjectBody",
+    "members": [
+      {
+        "name": "body",
+        "type": {
+          "name": "ReadableStream"
+        },
+        "readonly": true
+      },
+      {
+        "name": "bodyUsed",
+        "type": {
+          "name": "boolean"
+        },
+        "readonly": true
+      },
+      {
+        "name": "arrayBuffer",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "ArrayBuffer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "text",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "string"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "json",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "T"
+              }
+            ]
+          }
+        },
+        "typeparams": [
+          {
+            "name": "T"
+          }
+        ]
+      },
+      {
+        "name": "blob",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "Blob"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "extends": [
+      {
+        "name": "R2Object"
+      }
+    ],
+    "comment": {
+      "text": "The metadata for the object and the body of the payload.",
+      "renamed": true
+    },
+    "kind": "class"
+  },
+  "R2Objects": {
+    "name": "R2Objects",
+    "members": [
+      {
+        "name": "objects",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "R2Object"
+            }
+          ]
+        }
+      },
+      {
+        "name": "truncated",
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "cursor",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "delimitedPrefixes",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "string"
+            }
+          ]
+        }
+      }
+    ],
+    "comment": {
+      "text": "",
+      "renamed": true
+    },
+    "kind": "struct"
+  },
+  "R2PutOptions": {
+    "name": "R2PutOptions",
+    "members": [
+      {
+        "name": "httpMetadata",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "R2HTTPMetadata"
+            },
+            {
+              "name": "Headers"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "customMetadata",
+        "type": {
+          "name": "Record",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "string"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "md5",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "ArrayBuffer"
+            },
+            {
+              "name": "string"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "sha1",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "ArrayBuffer"
+            },
+            {
+              "name": "string"
+            }
+          ],
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "",
+      "renamed": true
+    },
+    "kind": "struct"
+  },
+  "R2Range": {
+    "name": "R2Range",
+    "members": [
+      {
+        "name": "offset",
+        "type": {
+          "name": "double"
+        }
+      },
+      {
+        "name": "length",
+        "type": {
+          "name": "double"
+        }
+      }
+    ],
+    "comment": {
+      "text": "",
+      "renamed": true
+    },
+    "kind": "struct"
+  },
+  "QueuingStrategyInit": {
+    "name": "QueuingStrategyInit",
+    "members": [
+      {
+        "name": "highWaterMark",
+        "type": {
+          "name": "double"
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "ReadResult": {
     "name": "ReadResult",
     "members": [
@@ -7117,7 +8166,7 @@
             "name": "AsyncIterableIterator",
             "args": [
               {
-                "name": "ReadableStreamReadResult"
+                "name": "any"
               }
             ]
           }
@@ -7139,7 +8188,7 @@
             "name": "AsyncIterableIterator",
             "args": [
               {
-                "name": "ReadableStreamReadResult"
+                "name": "any"
               }
             ]
           }
@@ -9063,6 +10112,32 @@
         "readonly": true
       },
       {
+        "name": "ByteLengthQueuingStrategy",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "ByteLengthQueuingStrategy"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "CountQueuingStrategy",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "CountQueuingStrategy"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
         "name": "ReadableStreamBYOBRequest",
         "type": {
           "name": "typeof",
@@ -9108,6 +10183,32 @@
           "args": [
             {
               "name": "WritableStreamDefaultController"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "CompressionStream",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "CompressionStream"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "DecompressionStream",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "DecompressionStream"
             }
           ]
         },
@@ -9420,6 +10521,19 @@
         "readonly": true
       },
       {
+        "name": "IdentityTransformStream",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "IdentityTransformStream"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
         "name": "HTMLRewriter",
         "type": {
           "name": "typeof",
@@ -9537,7 +10651,7 @@
             {
               "name": "plainText",
               "type": {
-                "name": "ArrayBuffer"
+                "name": "ArrayBuffer|ArrayBufferView"
               }
             }
           ],
@@ -9578,7 +10692,7 @@
             {
               "name": "cipherText",
               "type": {
-                "name": "ArrayBuffer"
+                "name": "ArrayBuffer|ArrayBufferView"
               }
             }
           ],
@@ -9619,7 +10733,7 @@
             {
               "name": "data",
               "type": {
-                "name": "ArrayBuffer"
+                "name": "ArrayBuffer|ArrayBufferView"
               }
             }
           ],
@@ -9660,13 +10774,13 @@
             {
               "name": "signature",
               "type": {
-                "name": "ArrayBuffer"
+                "name": "ArrayBuffer|ArrayBufferView"
               }
             },
             {
               "name": "data",
               "type": {
-                "name": "ArrayBuffer"
+                "name": "ArrayBuffer|ArrayBufferView"
               }
             }
           ],
@@ -9701,7 +10815,7 @@
             {
               "name": "data",
               "type": {
-                "name": "ArrayBuffer"
+                "name": "ArrayBuffer|ArrayBufferView"
               }
             }
           ],
@@ -10045,7 +11159,7 @@
             {
               "name": "wrappedKey",
               "type": {
-                "name": "ArrayBuffer"
+                "name": "ArrayBuffer|ArrayBufferView"
               }
             },
             {
@@ -10547,7 +11661,7 @@
             {
               "name": "input",
               "type": {
-                "name": "ArrayBuffer",
+                "name": "ArrayBuffer|ArrayBufferView",
                 "optional": true
               }
             },
@@ -11532,7 +12646,182 @@
   },
   "WebSocket": {
     "name": "WebSocket",
-    "members": [],
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "url",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "protocols",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "[]",
+                    "args": [
+                      {
+                        "name": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "string"
+                  }
+                ],
+                "optional": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "accept",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "send",
+        "type": {
+          "params": [
+            {
+              "name": "message",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "ArrayBuffer|ArrayBufferView"
+                  },
+                  {
+                    "name": "string"
+                  }
+                ]
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "close",
+        "type": {
+          "params": [
+            {
+              "name": "code",
+              "type": {
+                "name": "integer",
+                "optional": true
+              }
+            },
+            {
+              "name": "reason",
+              "type": {
+                "name": "string",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "READY_STATE_CONNECTING",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "READY_STATE_OPEN",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "READY_STATE_CLOSING",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "READY_STATE_CLOSED",
+        "type": {
+          "name": "integer"
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "readyState",
+        "type": {
+          "name": "integer"
+        },
+        "readonly": true
+      },
+      {
+        "name": "url",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "protocol",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "extensions",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      }
+    ],
     "extends": [
       {
         "name": "EventTarget",
@@ -11562,9 +12851,15 @@
           }
         },
         {
-          "name": "error",
+          "name": "open",
           "type": {
             "name": "Event"
+          }
+        },
+        {
+          "name": "error",
+          "type": {
+            "name": "ErrorEvent"
           }
         }
       ]
