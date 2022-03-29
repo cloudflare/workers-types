@@ -9,10 +9,11 @@ interface MessageEventInit {
 declare type WebSocketEventMap = {
   close: CloseEvent;
   message: MessageEvent;
-  error: Event;
+  open: Event;
+  error: ErrorEvent;
 };
 
-declare abstract class WebSocket extends EventTarget<WebSocketEventMap> {}
+declare class WebSocket extends EventTarget<WebSocketEventMap> {}
 
 declare const WebSocketPair: {
   new (): {
