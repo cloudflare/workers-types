@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.5.0
+
+### Minor Changes
+
+- [#202](https://github.com/cloudflare/workers-types/pull/202) [`921f05a`](https://github.com/cloudflare/workers-types/commit/921f05ae0d26c9557a730efeee3796bc572dc51d) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-03-07
+
+* [#210](https://github.com/cloudflare/workers-types/pull/210) [`f498fd9`](https://github.com/cloudflare/workers-types/commit/f498fd94ab13b40e2190f355bfb016e02e6c72a2) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-04-13
+
 ## 3.4.0
 
 ### Minor Changes
@@ -212,7 +220,7 @@
 
   // Force response to be cached for 86400 seconds for 200 status codes, 1 second for 404, and do not cache 500 errors
   fetch(request, {
-    cf: { cacheTtlByStatus: { "200-299": 86400, "404": 1, "500-599": 0 } },
+    cf: { cacheTtlByStatus: { "200-299": 86400, "404": 1, "500-599": 0 } }
   });
   ```
 
