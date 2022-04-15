@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.5.1
+
+### Patch Changes
+
+- [`f776bc6`](https://github.com/cloudflare/workers-types/commit/f776bc6f0ed1851baf46d63ce7e47c3a10e522d2) Thanks [@threepointone](https://github.com/threepointone)! - Fixes for R2 types via https://github.com/cloudflare/workers-types/pull/216
+
 ## 3.5.0
 
 ### Minor Changes
@@ -220,7 +226,7 @@
 
   // Force response to be cached for 86400 seconds for 200 status codes, 1 second for 404, and do not cache 500 errors
   fetch(request, {
-    cf: { cacheTtlByStatus: { "200-299": 86400, "404": 1, "500-599": 0 } },
+    cf: { cacheTtlByStatus: { "200-299": 86400, "404": 1, "500-599": 0 } }
   });
   ```
 
