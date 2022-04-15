@@ -993,7 +993,13 @@ interface R2Bucket {
   get(key: string, options?: R2GetOptions): Promise<R2ObjectBody | null>;
   put(
     key: string,
-    value: ReadableStream | ArrayBuffer | ArrayBufferView | string | null,
+    value:
+      | ReadableStream
+      | ArrayBuffer
+      | ArrayBufferView
+      | string
+      | null
+      | Blob,
     options?: R2PutOptions
   ): Promise<R2Object>;
   delete(key: string): Promise<void>;
@@ -1067,7 +1073,7 @@ interface R2ListOptions {
    * }
    * ```
    */
-  include: ("httpMetadata" | "customMetadata")[];
+  include?: ("httpMetadata" | "customMetadata")[];
 }
 
 /**

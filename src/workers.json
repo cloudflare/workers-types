@@ -7281,6 +7281,9 @@
                   },
                   {
                     "name": "null"
+                  },
+                  {
+                    "name": "Blob"
                   }
                 ]
               }
@@ -7560,7 +7563,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "optional": true
         },
         "comment": {
           "text": "If you populate this array, then items returned will include this metadata.\nA tradeoff is that fewer results may be returned depending on how big this\ndata is. For now the caps are TBD but expect the total memory usage for a list\noperation may need to be <1MB or even <128kb depending on how many list operations\nyou are sending into one bucket. Make sure to look at `truncated` for the result\nrather than having logic like\n```\nwhile (listed.length < limit) {\n  listed = myBucket.list({ limit, include: ['customMetadata'] })\n}\n```"
