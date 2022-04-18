@@ -12,6 +12,7 @@ declare abstract class DurableObjectNamespace {
 }
 
 declare abstract class DurableObjectState {
+  readonly isMultiReplica: never;
   readonly storage: DurableObjectStorage;
   blockConcurrencyWhile<T>(callback: () => Promise<T>): Promise<T>;
 }
