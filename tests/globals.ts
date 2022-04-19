@@ -1,29 +1,7 @@
-const init: CfRequestInitializerDict = {
-  cf: {
-    cacheEverything: true,
-    // properties from IncomingRequestCfProperties
-    // should not be assignable here
-    // @ts-expect-error
-    colo: "hi",
-  },
-};
-
-if (init.cf) {
-  // properties on init.cf are known to be RequestInitCfProperties
-  init.cf.cacheEverything = false;
-}
-
-// CfRequestInit works with fetch
-fetch("hi", init);
-
-// CfRequestInit works with Request
-new Request("hi", init);
-
 // FetchEvent is manually specified and assignable
 addEventListener("fetch", (event: FetchEvent) => {
-  // RequestInitCfProperties should not be present
   // @ts-expect-error
-  event.request.cf.cacheEverything;
+  event.request.cf;
   // request from FetchEvent is assignable within request
   // constructor as RequestInit
   new Request("hi", event.request);
@@ -31,8 +9,9 @@ addEventListener("fetch", (event: FetchEvent) => {
   event.respondWith(handle(event.request));
 });
 function handle(request: Request) {
+  // @ts-expect-error
   if (!request.cf) return new Response("hi");
-  return new Response(request.cf.colo);
+  return new Response("");
 }
 
 addEventListener("scheduled", (event: ScheduledEvent) => {});
@@ -53,7 +32,6 @@ dispatchEvent(new ScheduledEvent("scheduled"));
 // @ts-expect-error
 dispatchEvent(new CloseEvent("close"));
 
-const default1: Cache = caches.default;
 const open1: Promise<Cache> = caches.open("");
 
 setTimeout((a: number, b: string) => {}, 1000, 1, "hello");
