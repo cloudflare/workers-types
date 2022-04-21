@@ -1914,23 +1914,6 @@
     ],
     "kind": "struct"
   },
-  "DurableObjectGetAlarmOptions": {
-    "name": "DurableObjectGetAlarmOptions",
-    "members": [
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "comment": {
-      "text": "",
-      "renamed": true
-    },
-    "kind": "struct"
-  },
   "DurableObjectGetOptions": {
     "name": "DurableObjectGetOptions",
     "members": [
@@ -2154,30 +2137,6 @@
         }
       }
     ],
-    "kind": "struct"
-  },
-  "DurableObjectSetAlarmOptions": {
-    "name": "DurableObjectSetAlarmOptions",
-    "members": [
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "allowUnconfirmed",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "comment": {
-      "text": "",
-      "renamed": true
-    },
     "kind": "struct"
   },
   "DurableObjectState": {
@@ -2608,7 +2567,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectGetAlarmOptions",
+                "name": "DurableObjectStorageOperationsGetAlarmOptions",
                 "optional": true
               }
             }
@@ -2644,7 +2603,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectSetAlarmOptions",
+                "name": "DurableObjectStorageOperationsSetAlarmOptions",
                 "optional": true
               }
             }
@@ -2661,6 +2620,19 @@
       }
     ],
     "kind": "class"
+  },
+  "DurableObjectStorageOperationsGetAlarmOptions": {
+    "name": "DurableObjectStorageOperationsGetAlarmOptions",
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "DurableObjectStorageOperationsGetOptions": {
     "name": "DurableObjectStorageOperationsGetOptions",
@@ -2694,6 +2666,26 @@
       "deprecated": "Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal."
     },
     "kind": "typedef"
+  },
+  "DurableObjectStorageOperationsSetAlarmOptions": {
+    "name": "DurableObjectStorageOperationsSetAlarmOptions",
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "allowUnconfirmed",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "DurableObjectStub": {
     "name": "DurableObjectStub",
@@ -3004,7 +2996,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectGetAlarmOptions",
+                "name": "DurableObjectStorageOperationsGetAlarmOptions",
                 "optional": true
               }
             }
@@ -3040,7 +3032,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectSetAlarmOptions",
+                "name": "DurableObjectStorageOperationsSetAlarmOptions",
                 "optional": true
               }
             }
@@ -7281,9 +7273,6 @@
                   },
                   {
                     "name": "null"
-                  },
-                  {
-                    "name": "Blob"
                   }
                 ]
               }
@@ -7563,8 +7552,7 @@
                 }
               ]
             }
-          ],
-          "optional": true
+          ]
         },
         "comment": {
           "text": "If you populate this array, then items returned will include this metadata.\nA tradeoff is that fewer results may be returned depending on how big this\ndata is. For now the caps are TBD but expect the total memory usage for a list\noperation may need to be <1MB or even <128kb depending on how many list operations\nyou are sending into one bucket. Make sure to look at `truncated` for the result\nrather than having logic like\n```\nwhile (listed.length < limit) {\n  listed = myBucket.list({ limit, include: ['customMetadata'] })\n}\n```"
@@ -7892,18 +7880,6 @@
       "text": "",
       "renamed": true
     },
-    "kind": "struct"
-  },
-  "QueuingStrategyInit": {
-    "name": "QueuingStrategyInit",
-    "members": [
-      {
-        "name": "highWaterMark",
-        "type": {
-          "name": "double"
-        }
-      }
-    ],
     "kind": "struct"
   },
   "ReadResult": {

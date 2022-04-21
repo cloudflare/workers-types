@@ -345,10 +345,6 @@ interface DurableObject {
   fetch(request: Request): Promise<Response>;
 }
 
-interface DurableObjectGetAlarmOptions {
-  allowConcurrency?: boolean;
-}
-
 interface DurableObjectGetOptions {
   allowConcurrency?: boolean;
   noCache?: boolean;
@@ -389,11 +385,6 @@ interface DurableObjectPutOptions {
   noCache?: boolean;
 }
 
-interface DurableObjectSetAlarmOptions {
-  allowConcurrency?: boolean;
-  allowUnconfirmed?: boolean;
-}
-
 interface DurableObjectState {
   waitUntil(promise: Promise<any>): void;
   readonly id: DurableObjectId | string;
@@ -428,8 +419,17 @@ interface DurableObjectStorage {
   transaction<T>(
     closure: (txn: DurableObjectTransaction) => Promise<T>
   ): Promise<T>;
-  getAlarm(options?: DurableObjectGetAlarmOptions): Promise<Date | null>;
-  setAlarm(arg2: Date, options?: DurableObjectSetAlarmOptions): Promise<void>;
+  getAlarm(
+    options?: DurableObjectStorageOperationsGetAlarmOptions
+  ): Promise<Date | null>;
+  setAlarm(
+    arg2: Date,
+    options?: DurableObjectStorageOperationsSetAlarmOptions
+  ): Promise<void>;
+}
+
+interface DurableObjectStorageOperationsGetAlarmOptions {
+  allowConcurrency?: boolean;
 }
 
 /**
@@ -450,6 +450,11 @@ declare type DurableObjectStorageOperationsListOptions =
  * @deprecated Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal.
  */
 declare type DurableObjectStorageOperationsPutOptions = DurableObjectPutOptions;
+
+interface DurableObjectStorageOperationsSetAlarmOptions {
+  allowConcurrency?: boolean;
+  allowUnconfirmed?: boolean;
+}
 
 interface DurableObjectStub extends Fetcher {
   readonly id: DurableObjectId;
@@ -477,8 +482,13 @@ interface DurableObjectTransaction {
   delete(key: string, options?: DurableObjectPutOptions): Promise<boolean>;
   delete(keys: string[], options?: DurableObjectPutOptions): Promise<number>;
   rollback(): void;
-  getAlarm(options?: DurableObjectGetAlarmOptions): Promise<Date | null>;
-  setAlarm(arg2: Date, options?: DurableObjectSetAlarmOptions): Promise<void>;
+  getAlarm(
+    options?: DurableObjectStorageOperationsGetAlarmOptions
+  ): Promise<Date | null>;
+  setAlarm(
+    arg2: Date,
+    options?: DurableObjectStorageOperationsSetAlarmOptions
+  ): Promise<void>;
 }
 
 interface Element {
@@ -993,13 +1003,7 @@ interface R2Bucket {
   get(key: string, options?: R2GetOptions): Promise<R2ObjectBody | null>;
   put(
     key: string,
-    value:
-      | ReadableStream
-      | ArrayBuffer
-      | ArrayBufferView
-      | string
-      | null
-      | Blob,
+    value: ReadableStream | ArrayBuffer | ArrayBufferView | string | null,
     options?: R2PutOptions
   ): Promise<R2Object>;
   delete(key: string): Promise<void>;
@@ -1073,7 +1077,7 @@ interface R2ListOptions {
    * }
    * ```
    */
-  include?: ("httpMetadata" | "customMetadata")[];
+  include: ("httpMetadata" | "customMetadata")[];
 }
 
 /**
