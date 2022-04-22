@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.7.0
+
+### Minor Changes
+
+- [#222](https://github.com/cloudflare/workers-types/pull/222) [`b96c23c`](https://github.com/cloudflare/workers-types/commit/b96c23cb53502a6a6828efb93266e00d99734264) Thanks [@GregBrimble](https://github.com/GregBrimble)! - feature: Adds the `PagesPluginFunction` type and internal `functionPath` to Functions' context.
+
 ## 3.6.0
 
 ### Minor Changes
