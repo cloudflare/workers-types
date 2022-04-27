@@ -566,7 +566,7 @@
         "type": {
           "params": [
             {
-              "name": "arg1",
+              "name": "chunk",
               "type": {
                 "name": "any",
                 "optional": true
@@ -574,11 +574,9 @@
             }
           ],
           "returns": {
-            "name": "integer",
-            "optional": true
+            "name": "number"
           }
-        },
-        "readonly": true
+        }
       }
     ],
     "kind": "class"
@@ -977,7 +975,15 @@
             {
               "name": "format",
               "type": {
-                "name": "string"
+                "name": "|",
+                "args": [
+                  {
+                    "name": "\"gzip\""
+                  },
+                  {
+                    "name": "\"deflate\""
+                  }
+                ]
               }
             }
           ]
@@ -1166,7 +1172,7 @@
         "type": {
           "params": [
             {
-              "name": "arg1",
+              "name": "chunk",
               "type": {
                 "name": "any",
                 "optional": true
@@ -1174,11 +1180,9 @@
             }
           ],
           "returns": {
-            "name": "integer",
-            "optional": true
+            "name": "number"
           }
-        },
-        "readonly": true
+        }
       }
     ],
     "kind": "class"
@@ -1749,7 +1753,15 @@
             {
               "name": "format",
               "type": {
-                "name": "string"
+                "name": "|",
+                "args": [
+                  {
+                    "name": "\"gzip\""
+                  },
+                  {
+                    "name": "\"deflate\""
+                  }
+                ]
               }
             }
           ]
@@ -1912,6 +1924,23 @@
         }
       }
     ],
+    "kind": "struct"
+  },
+  "DurableObjectGetAlarmOptions": {
+    "name": "DurableObjectGetAlarmOptions",
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "",
+      "renamed": true
+    },
     "kind": "struct"
   },
   "DurableObjectGetOptions": {
@@ -2137,6 +2166,30 @@
         }
       }
     ],
+    "kind": "struct"
+  },
+  "DurableObjectSetAlarmOptions": {
+    "name": "DurableObjectSetAlarmOptions",
+    "members": [
+      {
+        "name": "allowConcurrency",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      },
+      {
+        "name": "allowUnconfirmed",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "",
+      "renamed": true
+    },
     "kind": "struct"
   },
   "DurableObjectState": {
@@ -2567,7 +2620,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsGetAlarmOptions",
+                "name": "DurableObjectGetAlarmOptions",
                 "optional": true
               }
             }
@@ -2579,7 +2632,7 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "Date"
+                    "name": "double"
                   },
                   {
                     "name": "null"
@@ -2595,7 +2648,7 @@
         "type": {
           "params": [
             {
-              "name": "arg2",
+              "name": "scheduledTime",
               "type": {
                 "name": "Date"
               }
@@ -2603,7 +2656,29 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsSetAlarmOptions",
+                "name": "DurableObjectSetAlarmOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "deleteAlarm",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "DurableObjectSetAlarmOptions",
                 "optional": true
               }
             }
@@ -2620,19 +2695,6 @@
       }
     ],
     "kind": "class"
-  },
-  "DurableObjectStorageOperationsGetAlarmOptions": {
-    "name": "DurableObjectStorageOperationsGetAlarmOptions",
-    "members": [
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
   },
   "DurableObjectStorageOperationsGetOptions": {
     "name": "DurableObjectStorageOperationsGetOptions",
@@ -2666,26 +2728,6 @@
       "deprecated": "Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal."
     },
     "kind": "typedef"
-  },
-  "DurableObjectStorageOperationsSetAlarmOptions": {
-    "name": "DurableObjectStorageOperationsSetAlarmOptions",
-    "members": [
-      {
-        "name": "allowConcurrency",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      },
-      {
-        "name": "allowUnconfirmed",
-        "type": {
-          "name": "boolean",
-          "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
   },
   "DurableObjectStub": {
     "name": "DurableObjectStub",
@@ -2996,7 +3038,7 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsGetAlarmOptions",
+                "name": "DurableObjectGetAlarmOptions",
                 "optional": true
               }
             }
@@ -3008,7 +3050,7 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "Date"
+                    "name": "double"
                   },
                   {
                     "name": "null"
@@ -3024,7 +3066,7 @@
         "type": {
           "params": [
             {
-              "name": "arg2",
+              "name": "scheduledTime",
               "type": {
                 "name": "Date"
               }
@@ -3032,7 +3074,29 @@
             {
               "name": "options",
               "type": {
-                "name": "DurableObjectStorageOperationsSetAlarmOptions",
+                "name": "DurableObjectSetAlarmOptions",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "deleteAlarm",
+        "type": {
+          "params": [
+            {
+              "name": "options",
+              "type": {
+                "name": "DurableObjectSetAlarmOptions",
                 "optional": true
               }
             }
@@ -7273,6 +7337,9 @@
                   },
                   {
                     "name": "null"
+                  },
+                  {
+                    "name": "Blob"
                   }
                 ]
               }
@@ -7552,7 +7619,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "optional": true
         },
         "comment": {
           "text": "If you populate this array, then items returned will include this metadata.\nA tradeoff is that fewer results may be returned depending on how big this\ndata is. For now the caps are TBD but expect the total memory usage for a list\noperation may need to be <1MB or even <128kb depending on how many list operations\nyou are sending into one bucket. Make sure to look at `truncated` for the result\nrather than having logic like\n```\nwhile (listed.length < limit) {\n  listed = myBucket.list({ limit, include: ['customMetadata'] })\n}\n```"
@@ -7950,7 +8018,7 @@
             {
               "name": "chunk",
               "type": {
-                "name": "ArrayBufferView"
+                "name": "ArrayBuffer|ArrayBufferView"
               }
             }
           ],
@@ -7988,14 +8056,14 @@
             {
               "name": "underlyingSource",
               "type": {
-                "name": "Object",
+                "name": "UnderlyingSource",
                 "optional": true
               }
             },
             {
               "name": "queuingStrategy",
               "type": {
-                "name": "Object",
+                "name": "StreamQueuingStrategy",
                 "optional": true
               }
             }
@@ -8346,7 +8414,7 @@
             {
               "name": "view",
               "type": {
-                "name": "ArrayBufferView"
+                "name": "ArrayBuffer|ArrayBufferView"
               }
             }
           ],
@@ -12624,6 +12692,174 @@
     },
     "kind": "typedef"
   },
+  "UnderlyingSink": {
+    "name": "UnderlyingSink",
+    "members": [
+      {
+        "name": "type",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "start",
+        "type": {
+          "params": [
+            {
+              "name": "controller",
+              "type": {
+                "name": "WritableStreamDefaultController"
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      },
+      {
+        "name": "write",
+        "type": {
+          "params": [
+            {
+              "name": "chunk",
+              "type": {
+                "name": "any"
+              }
+            },
+            {
+              "name": "controller",
+              "type": {
+                "name": "WritableStreamDefaultController"
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      },
+      {
+        "name": "abort",
+        "type": {
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any"
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      },
+      {
+        "name": "close",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
+  "UnderlyingSource": {
+    "name": "UnderlyingSource",
+    "members": [
+      {
+        "name": "type",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "autoAllocateChunkSize",
+        "type": {
+          "name": "integer",
+          "optional": true
+        }
+      },
+      {
+        "name": "start",
+        "type": {
+          "params": [
+            {
+              "name": "controller",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "ReadableStreamDefaultController"
+                  },
+                  {
+                    "name": "ReadableByteStreamController"
+                  }
+                ]
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      },
+      {
+        "name": "pull",
+        "type": {
+          "params": [
+            {
+              "name": "controller",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "ReadableStreamDefaultController"
+                  },
+                  {
+                    "name": "ReadableByteStreamController"
+                  }
+                ]
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      },
+      {
+        "name": "cancel",
+        "type": {
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "WebSocket": {
     "name": "WebSocket",
     "members": [
@@ -12947,14 +13183,14 @@
             {
               "name": "underlyingSink",
               "type": {
-                "name": "Object",
+                "name": "UnderlyingSink",
                 "optional": true
               }
             },
             {
               "name": "queuingStrategy",
               "type": {
-                "name": "Object",
+                "name": "StreamQueuingStrategy",
                 "optional": true
               }
             }

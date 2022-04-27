@@ -131,7 +131,7 @@ declare type BodyInitializer = BodyInit;
 declare class ByteLengthQueuingStrategy {
   constructor(init: QueuingStrategyInit);
   readonly highWaterMark: number;
-  size(arg1?: any): number | undefined;
+  size(chunk?: any): number;
 }
 
 declare abstract class Cache {
@@ -194,7 +194,7 @@ interface Comment {
 }
 
 declare class CompressionStream extends TransformStream {
-  constructor(format: string);
+  constructor(format: "gzip" | "deflate");
 }
 
 interface Console {
@@ -214,7 +214,7 @@ interface ContentOptions {
 declare class CountQueuingStrategy {
   constructor(init: QueuingStrategyInit);
   readonly highWaterMark: number;
-  size(arg1?: any): number | undefined;
+  size(chunk?: any): number;
 }
 
 declare abstract class Crypto {
@@ -323,7 +323,7 @@ declare class DOMException extends Error {
 }
 
 declare class DecompressionStream extends TransformStream {
-  constructor(format: string);
+  constructor(format: "gzip" | "deflate");
 }
 
 declare class DigestStream extends WritableStream {
@@ -343,6 +343,10 @@ interface DocumentEnd {
 
 interface DurableObject {
   fetch(request: Request): Promise<Response>;
+}
+
+interface DurableObjectGetAlarmOptions {
+  allowConcurrency?: boolean;
 }
 
 interface DurableObjectGetOptions {
@@ -385,6 +389,11 @@ interface DurableObjectPutOptions {
   noCache?: boolean;
 }
 
+interface DurableObjectSetAlarmOptions {
+  allowConcurrency?: boolean;
+  allowUnconfirmed?: boolean;
+}
+
 interface DurableObjectState {
   waitUntil(promise: Promise<any>): void;
   readonly id: DurableObjectId | string;
@@ -419,17 +428,12 @@ interface DurableObjectStorage {
   transaction<T>(
     closure: (txn: DurableObjectTransaction) => Promise<T>
   ): Promise<T>;
-  getAlarm(
-    options?: DurableObjectStorageOperationsGetAlarmOptions
-  ): Promise<Date | null>;
+  getAlarm(options?: DurableObjectGetAlarmOptions): Promise<number | null>;
   setAlarm(
-    arg2: Date,
-    options?: DurableObjectStorageOperationsSetAlarmOptions
+    scheduledTime: Date,
+    options?: DurableObjectSetAlarmOptions
   ): Promise<void>;
-}
-
-interface DurableObjectStorageOperationsGetAlarmOptions {
-  allowConcurrency?: boolean;
+  deleteAlarm(options?: DurableObjectSetAlarmOptions): Promise<void>;
 }
 
 /**
@@ -450,11 +454,6 @@ declare type DurableObjectStorageOperationsListOptions =
  * @deprecated Don't use. Introduced incidentally in workers-types 3.x. Scheduled for removal.
  */
 declare type DurableObjectStorageOperationsPutOptions = DurableObjectPutOptions;
-
-interface DurableObjectStorageOperationsSetAlarmOptions {
-  allowConcurrency?: boolean;
-  allowUnconfirmed?: boolean;
-}
 
 interface DurableObjectStub extends Fetcher {
   readonly id: DurableObjectId;
@@ -482,13 +481,12 @@ interface DurableObjectTransaction {
   delete(key: string, options?: DurableObjectPutOptions): Promise<boolean>;
   delete(keys: string[], options?: DurableObjectPutOptions): Promise<number>;
   rollback(): void;
-  getAlarm(
-    options?: DurableObjectStorageOperationsGetAlarmOptions
-  ): Promise<Date | null>;
+  getAlarm(options?: DurableObjectGetAlarmOptions): Promise<number | null>;
   setAlarm(
-    arg2: Date,
-    options?: DurableObjectStorageOperationsSetAlarmOptions
+    scheduledTime: Date,
+    options?: DurableObjectSetAlarmOptions
   ): Promise<void>;
+  deleteAlarm(options?: DurableObjectSetAlarmOptions): Promise<void>;
 }
 
 interface Element {
@@ -1003,7 +1001,13 @@ interface R2Bucket {
   get(key: string, options?: R2GetOptions): Promise<R2ObjectBody | null>;
   put(
     key: string,
-    value: ReadableStream | ArrayBuffer | ArrayBufferView | string | null,
+    value:
+      | ReadableStream
+      | ArrayBuffer
+      | ArrayBufferView
+      | string
+      | null
+      | Blob,
     options?: R2PutOptions
   ): Promise<R2Object>;
   delete(key: string): Promise<void>;
@@ -1077,7 +1081,7 @@ interface R2ListOptions {
    * }
    * ```
    */
-  include: ("httpMetadata" | "customMetadata")[];
+  include?: ("httpMetadata" | "customMetadata")[];
 }
 
 /**
@@ -1135,12 +1139,15 @@ declare abstract class ReadableByteStreamController {
   readonly byobRequest: ReadableStreamBYOBRequest | null;
   readonly desiredSize: number | null;
   close(): void;
-  enqueue(chunk: ArrayBufferView): void;
+  enqueue(chunk: ArrayBuffer | ArrayBufferView): void;
   error(reason: any): void;
 }
 
 declare class ReadableStream {
-  constructor(underlyingSource?: Object, queuingStrategy?: Object);
+  constructor(
+    underlyingSource?: UnderlyingSource,
+    queuingStrategy?: StreamQueuingStrategy
+  );
   readonly locked: boolean;
   cancel(reason?: any): Promise<void>;
   getReader(options: ReadableStreamGetReaderOptions): ReadableStreamBYOBReader;
@@ -1174,7 +1181,7 @@ declare class ReadableStreamBYOBReader {
 declare abstract class ReadableStreamBYOBRequest {
   readonly view: Uint8Array | null;
   respond(bytesWritten: number): void;
-  respondWithNewView(view: ArrayBufferView): void;
+  respondWithNewView(view: ArrayBuffer | ArrayBufferView): void;
   readonly atLeast: number | null;
 }
 
@@ -1814,6 +1821,26 @@ declare type URLSearchParamsInit =
  */
 declare type URLSearchParamsInitializer = URLSearchParamsInit;
 
+interface UnderlyingSink {
+  type?: string;
+  start?(controller: WritableStreamDefaultController): any;
+  write?(chunk: any, controller: WritableStreamDefaultController): any;
+  abort?(reason: any): any;
+  close?(): any;
+}
+
+interface UnderlyingSource {
+  type?: string;
+  autoAllocateChunkSize?: number;
+  start?(
+    controller: ReadableStreamDefaultController | ReadableByteStreamController
+  ): any;
+  pull?(
+    controller: ReadableStreamDefaultController | ReadableByteStreamController
+  ): any;
+  cancel?(reason?: any): any;
+}
+
 declare class WebSocket extends EventTarget<WebSocketEventMap> {
   constructor(url: string, protocols?: string[] | string);
   accept(): void;
@@ -1848,7 +1875,10 @@ declare type WorkerGlobalScopeEventMap = {
 };
 
 declare class WritableStream {
-  constructor(underlyingSink?: Object, queuingStrategy?: Object);
+  constructor(
+    underlyingSink?: UnderlyingSink,
+    queuingStrategy?: StreamQueuingStrategy
+  );
   readonly locked: boolean;
   abort(reason: any): Promise<void>;
   close(): Promise<void>;
@@ -1947,6 +1977,7 @@ type Params<P extends string = any> = Record<P, string | string[]>;
 
 type EventContext<Env, P extends string, Data> = {
   request: Request;
+  functionPath: string;
   waitUntil: (promise: Promise<any>) => void;
   next: (input?: Request | string, init?: RequestInit) => Promise<Response>;
   env: Env & { ASSETS: { fetch: typeof fetch } };
