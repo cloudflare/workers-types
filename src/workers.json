@@ -2650,7 +2650,7 @@
             {
               "name": "scheduledTime",
               "type": {
-                "name": "Date"
+                "name": "number|Date"
               }
             },
             {
@@ -3068,7 +3068,7 @@
             {
               "name": "scheduledTime",
               "type": {
-                "name": "Date"
+                "name": "number|Date"
               }
             },
             {
@@ -4251,6 +4251,58 @@
     ],
     "kind": "typedef"
   },
+  "ExtendableEvent": {
+    "name": "ExtendableEvent",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "type",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "init",
+              "type": {
+                "name": "EventInit",
+                "optional": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "waitUntil",
+        "type": {
+          "params": [
+            {
+              "name": "promise",
+              "type": {
+                "name": "Promise",
+                "args": [
+                  {
+                    "name": "any"
+                  }
+                ]
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      }
+    ],
+    "extends": [
+      {
+        "name": "Event"
+      }
+    ],
+    "kind": "class"
+  },
   "FetchEvent": {
     "name": "FetchEvent",
     "members": [
@@ -4294,27 +4346,6 @@
         "name": "passThroughOnException",
         "type": {
           "params": [],
-          "returns": {
-            "name": "void"
-          }
-        }
-      },
-      {
-        "name": "waitUntil",
-        "type": {
-          "params": [
-            {
-              "name": "promise",
-              "type": {
-                "name": "Promise",
-                "args": [
-                  {
-                    "name": "any"
-                  }
-                ]
-              }
-            }
-          ],
           "returns": {
             "name": "void"
           }
@@ -9602,32 +9633,11 @@
             "name": "void"
           }
         }
-      },
-      {
-        "name": "waitUntil",
-        "type": {
-          "params": [
-            {
-              "name": "promise",
-              "type": {
-                "name": "Promise",
-                "args": [
-                  {
-                    "name": "any"
-                  }
-                ]
-              }
-            }
-          ],
-          "returns": {
-            "name": "void"
-          }
-        }
       }
     ],
     "extends": [
       {
-        "name": "Event"
+        "name": "ExtendableEvent"
       }
     ],
     "kind": "class"
@@ -10010,6 +10020,19 @@
           "args": [
             {
               "name": "Event"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "ExtendableEvent",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "ExtendableEvent"
             }
           ]
         },
