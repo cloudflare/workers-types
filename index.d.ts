@@ -430,7 +430,7 @@ interface DurableObjectStorage {
   ): Promise<T>;
   getAlarm(options?: DurableObjectGetAlarmOptions): Promise<number | null>;
   setAlarm(
-    scheduledTime: Date,
+    scheduledTime: number | Date,
     options?: DurableObjectSetAlarmOptions
   ): Promise<void>;
   deleteAlarm(options?: DurableObjectSetAlarmOptions): Promise<void>;
@@ -483,7 +483,7 @@ interface DurableObjectTransaction {
   rollback(): void;
   getAlarm(options?: DurableObjectGetAlarmOptions): Promise<number | null>;
   setAlarm(
-    scheduledTime: Date,
+    scheduledTime: number | Date,
     options?: DurableObjectSetAlarmOptions
   ): Promise<void>;
   deleteAlarm(options?: DurableObjectSetAlarmOptions): Promise<void>;
@@ -616,11 +616,15 @@ declare type ExportedHandlerScheduledHandler<Env = unknown> = (
   ctx: ExecutionContext
 ) => void | Promise<void>;
 
+declare class ExtendableEvent extends Event {
+  constructor(type: string, init?: EventInit);
+  waitUntil(promise: Promise<any>): void;
+}
+
 declare abstract class FetchEvent extends Event {
   readonly request: Request;
   respondWith(promise: Response | Promise<Response>): void;
   passThroughOnException(): void;
-  waitUntil(promise: Promise<any>): void;
 }
 
 declare abstract class Fetcher {
@@ -1481,11 +1485,10 @@ interface ScheduledController {
   noRetry(): void;
 }
 
-declare abstract class ScheduledEvent extends Event {
+declare abstract class ScheduledEvent extends ExtendableEvent {
   readonly scheduledTime: number;
   readonly cron: string;
   noRetry(): void;
-  waitUntil(promise: Promise<any>): void;
 }
 
 interface Scheduler {
