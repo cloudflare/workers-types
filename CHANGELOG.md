@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.9.0
+
+### Minor Changes
+
+- [#228](https://github.com/cloudflare/workers-types/pull/228) [`edaac15`](https://github.com/cloudflare/workers-types/commit/edaac154491a2ef93326ddc0b95c830193abb9f8) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-04-29
+
 ## 3.8.0
 
 ### Minor Changes
