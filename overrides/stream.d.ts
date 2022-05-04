@@ -5,7 +5,7 @@ declare abstract class ReadableStream {
 }
 
 interface StreamQueuingStrategy {
-  size(chunk: ArrayBuffer): number;
+  size(chunk: any): number;
 }
 
 export {};
