@@ -231,6 +231,7 @@ declare abstract class Crypto {
       | BigUint64Array
   >(buffer: T): T;
   randomUUID(): string;
+  DigestStream: typeof DigestStream;
 }
 
 declare abstract class CryptoKey {
@@ -1026,10 +1027,6 @@ interface R2Conditional {
   etagDoesNotMatch?: string;
   uploadedBefore?: Date;
   uploadedAfter?: Date;
-}
-
-interface R2Error {
-  readonly stack: string;
 }
 
 /**
