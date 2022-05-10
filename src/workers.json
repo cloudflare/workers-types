@@ -4354,7 +4354,7 @@
     ],
     "extends": [
       {
-        "name": "Event"
+        "name": "ExtendableEvent"
       }
     ],
     "kind": "class"

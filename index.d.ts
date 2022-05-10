@@ -621,7 +621,7 @@ declare class ExtendableEvent extends Event {
   waitUntil(promise: Promise<any>): void;
 }
 
-declare abstract class FetchEvent extends Event {
+declare abstract class FetchEvent extends ExtendableEvent {
   readonly request: Request;
   respondWith(promise: Response | Promise<Response>): void;
   passThroughOnException(): void;
