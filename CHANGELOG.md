@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.10.0
+
+### Minor Changes
+
+- [#230](https://github.com/cloudflare/workers-types/pull/230) [`ceec72b`](https://github.com/cloudflare/workers-types/commit/ceec72b6cb5baad74507d613eb3088f6e12778e4) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-05-04
+
+* [#232](https://github.com/cloudflare/workers-types/pull/232) [`97499a2`](https://github.com/cloudflare/workers-types/commit/97499a29c56c345cb92c412bcf03af0f1743293f) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-05-05
+
+- [#234](https://github.com/cloudflare/workers-types/pull/234) [`18ca7fc`](https://github.com/cloudflare/workers-types/commit/18ca7fca0e341ef6a337594207c5a65aac75e2d4) Thanks [@GregBrimble](https://github.com/GregBrimble)! - feat: Adds the Pages Functions asset imports type. More info on [our docs](https://developers.cloudflare.com/pages/platform/functions/plugins/).
+
+### Patch Changes
+
+- [#235](https://github.com/cloudflare/workers-types/pull/235) [`a919734`](https://github.com/cloudflare/workers-types/commit/a919734272fae477e5c0409a43ff1f90755fa396) Thanks [@jasnell](https://github.com/jasnell)! - FetchEvent now extends from ExtendableEvent.
+
 ## 3.9.0
 
 ### Minor Changes
