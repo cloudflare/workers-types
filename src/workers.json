@@ -1267,7 +1267,8 @@
           ]
         },
         "static": true,
-        "readonly": true
+        "readonly": true,
+        "nested": true
       }
     ],
     "kind": "class"
@@ -7479,19 +7480,6 @@
       "text": "Perform the operation conditionally based on meeting the defined criteria.",
       "renamed": true
     },
-    "kind": "struct"
-  },
-  "R2Error": {
-    "name": "R2Error",
-    "members": [
-      {
-        "name": "stack",
-        "type": {
-          "name": "string"
-        },
-        "readonly": true
-      }
-    ],
     "kind": "struct"
   },
   "R2GetOptions": {
