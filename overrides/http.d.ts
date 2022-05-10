@@ -63,7 +63,7 @@ declare type URLSearchParamsInit =
   | Record<string, string>
   | [key: string, value: string][];
 
-declare class FetchEvent extends Event {
+declare class FetchEvent extends ExtendableEvent {
   respondWith(promise: Response | Promise<Response>): void;
 }
 
