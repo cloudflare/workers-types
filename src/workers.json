@@ -2014,6 +2014,13 @@
         }
       },
       {
+        "name": "startAfter",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
         "name": "end",
         "type": {
           "name": "string",
@@ -4355,7 +4362,7 @@
     ],
     "extends": [
       {
-        "name": "ExtendableEvent"
+        "name": "Event"
       }
     ],
     "kind": "class"
@@ -7277,13 +7284,6 @@
               "type": {
                 "name": "string"
               }
-            },
-            {
-              "name": "options",
-              "type": {
-                "name": "R2HeadOptions",
-                "optional": true
-              }
             }
           ],
           "returns": {
@@ -7313,6 +7313,76 @@
               "type": {
                 "name": "string"
               }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "R2ObjectBody"
+                  },
+                  {
+                    "name": "null"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "get",
+        "type": {
+          "params": [
+            {
+              "name": "key",
+              "type": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "R2GetOptions"
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "R2ObjectBody"
+                  },
+                  {
+                    "name": "R2Object"
+                  },
+                  {
+                    "name": "null"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "comment": {
+          "text": "Returns R2Object on a failure of the conditional specified in onlyIf."
+        }
+      },
+      {
+        "name": "get",
+        "type": {
+          "params": [
+            {
+              "name": "key",
+              "type": {
+                "name": "string"
+              }
             },
             {
               "name": "options",
@@ -7330,6 +7400,9 @@
                 "args": [
                   {
                     "name": "R2ObjectBody"
+                  },
+                  {
+                    "name": "R2Object"
                   },
                   {
                     "name": "null"
@@ -7562,31 +7635,6 @@
     ],
     "comment": {
       "text": "Metadata that's automatically rendered into R2 HTTP API endpoints.\n```\n* contentType -> content-type\n* contentLanguage -> content-language\netc...\n```\nThis data is echoed back on GET responses based on what was originally\nassigned to the object (and can typically also be overriden when issuing\nthe GET request).",
-      "renamed": true
-    },
-    "kind": "struct"
-  },
-  "R2HeadOptions": {
-    "name": "R2HeadOptions",
-    "members": [
-      {
-        "name": "onlyIf",
-        "type": {
-          "name": "|",
-          "args": [
-            {
-              "name": "R2Conditional"
-            },
-            {
-              "name": "Headers"
-            }
-          ],
-          "optional": true
-        }
-      }
-    ],
-    "comment": {
-      "text": "Options for retrieving the object metadata.",
       "renamed": true
     },
     "kind": "struct"
@@ -7912,21 +7960,6 @@
       },
       {
         "name": "md5",
-        "type": {
-          "name": "|",
-          "args": [
-            {
-              "name": "ArrayBuffer"
-            },
-            {
-              "name": "string"
-            }
-          ],
-          "optional": true
-        }
-      },
-      {
-        "name": "sha1",
         "type": {
           "name": "|",
           "args": [
@@ -10668,7 +10701,7 @@
             {
               "name": "chunk",
               "type": {
-                "name": "ArrayBuffer"
+                "name": "any"
               }
             }
           ],
