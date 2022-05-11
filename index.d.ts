@@ -363,6 +363,7 @@ interface DurableObjectId {
 
 interface DurableObjectListOptions {
   start?: string;
+  startAfter?: string;
   end?: string;
   prefix?: string;
   reverse?: boolean;
@@ -622,7 +623,7 @@ declare class ExtendableEvent extends Event {
   waitUntil(promise: Promise<any>): void;
 }
 
-declare abstract class FetchEvent extends ExtendableEvent {
+declare abstract class FetchEvent extends Event {
   readonly request: Request;
   respondWith(promise: Response | Promise<Response>): void;
   passThroughOnException(): void;
@@ -1002,8 +1003,19 @@ interface QueuingStrategyInit {
  * An instance of the R2 bucket binding.
  */
 interface R2Bucket {
-  head(key: string, options?: R2HeadOptions): Promise<R2Object | null>;
-  get(key: string, options?: R2GetOptions): Promise<R2ObjectBody | null>;
+  head(key: string): Promise<R2Object | null>;
+  get(key: string): Promise<R2ObjectBody | null>;
+  /**
+   * Returns R2Object on a failure of the conditional specified in onlyIf.
+   */
+  get(
+    key: string,
+    options: R2GetOptions
+  ): Promise<R2ObjectBody | R2Object | null>;
+  get(
+    key: string,
+    options?: R2GetOptions
+  ): Promise<R2ObjectBody | R2Object | null>;
   put(
     key: string,
     value:
@@ -1055,13 +1067,6 @@ interface R2HTTPMetadata {
   contentEncoding?: string;
   cacheControl?: string;
   cacheExpiry?: Date;
-}
-
-/**
- * Options for retrieving the object metadata.
- */
-interface R2HeadOptions {
-  onlyIf?: R2Conditional | Headers;
 }
 
 interface R2ListOptions {
@@ -1123,7 +1128,6 @@ interface R2PutOptions {
   httpMetadata?: R2HTTPMetadata | Headers;
   customMetadata?: Record<string, string>;
   md5?: ArrayBuffer | string;
-  sha1?: ArrayBuffer | string;
 }
 
 interface R2Range {
@@ -1537,7 +1541,7 @@ declare type StreamPipeOptions = PipeToOptions;
 
 interface StreamQueuingStrategy {
   highWaterMark?: number;
-  size(chunk: ArrayBuffer): number;
+  size(chunk: any): number;
 }
 
 declare abstract class SubtleCrypto {
