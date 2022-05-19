@@ -291,6 +291,7 @@ interface IncomingRequestCfProperties {
   asOrganization: string;
   botManagement?: IncomingRequestCfPropertiesBotManagement;
   city?: string;
+  clientAcceptEncoding?: string;
   clientTcpRtt: number;
   clientTrustScore?: number;
   /**
