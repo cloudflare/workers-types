@@ -122,6 +122,15 @@ interface RequestInitCfProperties {
    */
   cacheKey?: string;
   /**
+   * This allows you to append additional Cache-Tag response headers
+   * to the origin response without modifications to the origin server.
+   * This will allow for greater control over the Purge by Cache Tag feature
+   * utilizing changes only in the Workers process.
+   *
+   * Only available for Enterprise customers.
+   */
+  cacheTags?: string[];
+  /**
    * Force response to be cached for a given number of seconds. (e.g. 300)
    */
   cacheTtl?: number;
