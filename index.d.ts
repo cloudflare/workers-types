@@ -623,7 +623,7 @@ declare class ExtendableEvent extends Event {
   waitUntil(promise: Promise<any>): void;
 }
 
-declare abstract class FetchEvent extends Event {
+declare abstract class FetchEvent extends ExtendableEvent {
   readonly request: Request;
   respondWith(promise: Response | Promise<Response>): void;
   passThroughOnException(): void;
@@ -988,6 +988,7 @@ interface PipeToOptions {
   preventClose?: boolean;
   preventAbort?: boolean;
   preventCancel?: boolean;
+  signal?: AbortSignal;
 }
 
 declare abstract class PromiseRejectionEvent extends Event {
@@ -1130,10 +1131,10 @@ interface R2PutOptions {
   md5?: ArrayBuffer | string;
 }
 
-interface R2Range {
-  offset: number;
-  length: number;
-}
+declare type R2Range =
+  | { offset: number; length?: number }
+  | { offset?: number; length: number }
+  | { suffix: number };
 
 interface ReadResult {
   value?: any;
