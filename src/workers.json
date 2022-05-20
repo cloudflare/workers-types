@@ -4362,7 +4362,7 @@
     ],
     "extends": [
       {
-        "name": "Event"
+        "name": "ExtendableEvent"
       }
     ],
     "kind": "class"
@@ -7222,6 +7222,13 @@
           "name": "boolean",
           "optional": true
         }
+      },
+      {
+        "name": "signal",
+        "type": {
+          "name": "AbortSignal",
+          "optional": true
+        }
       }
     ],
     "comment": {
@@ -7982,25 +7989,56 @@
   },
   "R2Range": {
     "name": "R2Range",
-    "members": [
-      {
-        "name": "offset",
-        "type": {
-          "name": "double"
+    "type": {
+      "name": "|",
+      "args": [
+        {
+          "members": [
+            {
+              "name": "offset",
+              "type": {
+                "name": "number"
+              }
+            },
+            {
+              "name": "length",
+              "type": {
+                "name": "number",
+                "optional": true
+              }
+            }
+          ]
+        },
+        {
+          "members": [
+            {
+              "name": "offset",
+              "type": {
+                "name": "number",
+                "optional": true
+              }
+            },
+            {
+              "name": "length",
+              "type": {
+                "name": "number"
+              }
+            }
+          ]
+        },
+        {
+          "members": [
+            {
+              "name": "suffix",
+              "type": {
+                "name": "number"
+              }
+            }
+          ]
         }
-      },
-      {
-        "name": "length",
-        "type": {
-          "name": "double"
-        }
-      }
-    ],
-    "comment": {
-      "text": "",
-      "renamed": true
+      ]
     },
-    "kind": "struct"
+    "kind": "typedef"
   },
   "ReadResult": {
     "name": "ReadResult",
@@ -9414,6 +9452,38 @@
               "name": "status",
               "type": {
                 "name": "integer",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Response"
+          }
+        },
+        "static": true
+      },
+      {
+        "name": "json",
+        "type": {
+          "params": [
+            {
+              "name": "any",
+              "type": {
+                "name": "any"
+              }
+            },
+            {
+              "name": "maybeInit",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "ResponseInit"
+                  },
+                  {
+                    "name": "Response"
+                  }
+                ],
                 "optional": true
               }
             }

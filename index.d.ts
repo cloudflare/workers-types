@@ -1449,6 +1449,7 @@ declare type RequestInitializerDict = RequestInit;
 declare class Response extends Body {
   constructor(bodyInit?: BodyInit | null, maybeInit?: ResponseInit | Response);
   static redirect(url: string, status?: number): Response;
+  static json(any: any, maybeInit?: ResponseInit | Response): Response;
   clone(): Response;
   readonly status: number;
   readonly statusText: string;
