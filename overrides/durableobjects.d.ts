@@ -77,4 +77,12 @@ declare abstract class DurableObjectTransaction {
   rollback(): void;
 }
 
+interface DurableObjectPutOptions {
+  allowConcurrency?: never;
+}
+
+interface DurableObjectSetAlarmOptions {
+  allowConcurrency?: never;
+}
+
 export {};
