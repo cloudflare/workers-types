@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.12.0
+
+### Minor Changes
+
+- [#247](https://github.com/cloudflare/workers-types/pull/247) [`2cdc8cf`](https://github.com/cloudflare/workers-types/commit/2cdc8cffd7086941e03125d9d95bd9a869a837a3) Thanks [@iveelsm](https://github.com/iveelsm)! - Allow for cacheTags to be passed on fetch requests
+
+  Allowing cacheTags within the workers process to be processed as part of a standard fetch has been a highly requested feature. This new object within the request initialization will allow for supplemental Cache-Tag headers to be returned so that they can be stored with the relevant content. This will allow for better control over Purge by Tag mechanisms within the workers processes.
+
+  Implementation:
+
+  - Adds a new object to the `cf.d.ts` declaration.
+
 ## 3.11.0
 
 ### Minor Changes
