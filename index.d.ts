@@ -16,6 +16,19 @@ declare class AbortSignal extends EventTarget {
   throwIfAborted(): void;
 }
 
+interface AnalyticsEngine {
+  writeEvent(event?: AnalyticsEngineEvent): void;
+  logEvent(event?: AnalyticsEngineEvent): void;
+}
+
+interface AnalyticsEngineEvent {
+  accountId?: any;
+  indexId?: any;
+  version?: any;
+  doubles?: number[];
+  blobs?: (ArrayBuffer | string | null)[];
+}
+
 interface BasicImageTransformations {
   /**
    * Maximum width in image pixels. The value must be an integer.
@@ -344,6 +357,7 @@ interface DocumentEnd {
 
 interface DurableObject {
   fetch(request: Request): Promise<Response>;
+  alarm?(): Promise<void>;
 }
 
 interface DurableObjectGetAlarmOptions {
@@ -647,7 +661,7 @@ interface FileOptions {
   lastModified?: number;
 }
 
-declare class FixedLengthStream extends TransformStream {
+declare class FixedLengthStream extends IdentityTransformStream {
   constructor(expectedLength: number | bigint);
 }
 
@@ -752,6 +766,7 @@ interface IncomingRequestCfProperties {
   asOrganization: string;
   botManagement?: IncomingRequestCfPropertiesBotManagement;
   city?: string;
+  clientAcceptEncoding?: string;
   clientTcpRtt: number;
   clientTrustScore?: number;
   /**
@@ -1296,6 +1311,15 @@ interface RequestInitCfProperties {
    */
   cacheKey?: string;
   /**
+   * This allows you to append additional Cache-Tag response headers
+   * to the origin response without modifications to the origin server.
+   * This will allow for greater control over the Purge by Cache Tag feature
+   * utilizing changes only in the Workers process.
+   *
+   * Only available for Enterprise customers.
+   */
+  cacheTags?: string[];
+  /**
    * Force response to be cached for a given number of seconds. (e.g. 300)
    */
   cacheTtl?: number;
@@ -1449,6 +1473,7 @@ declare type RequestInitializerDict = RequestInit;
 declare class Response extends Body {
   constructor(bodyInit?: BodyInit | null, maybeInit?: ResponseInit | Response);
   static redirect(url: string, status?: number): Response;
+  static json(any: any, maybeInit?: ResponseInit | Response): Response;
   clone(): Response;
   readonly status: number;
   readonly statusText: string;
@@ -1718,9 +1743,28 @@ interface TextEncoderEncodeIntoResult {
 }
 
 declare class TransformStream {
-  constructor();
+  constructor(
+    maybeTransformer?: Transformer,
+    maybeWritableStrategy?: StreamQueuingStrategy,
+    maybeReadableStrategy?: StreamQueuingStrategy
+  );
   readonly readable: ReadableStream;
   readonly writable: WritableStream;
+}
+
+interface TransformStreamDefaultController {
+  readonly desiredSize: number | null;
+  enqueue(chunk: any): void;
+  error(reason: any): void;
+  terminate(): void;
+}
+
+interface Transformer {
+  readableType?: string;
+  writableType?: string;
+  start?(controller: TransformStreamDefaultController): any;
+  transform?(chunk: any, controller: TransformStreamDefaultController): any;
+  flush?(controller: TransformStreamDefaultController): any;
 }
 
 declare class URL {

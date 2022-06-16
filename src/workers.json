@@ -111,6 +111,117 @@
     ],
     "kind": "class"
   },
+  "AnalyticsEngine": {
+    "name": "AnalyticsEngine",
+    "members": [
+      {
+        "name": "writeEvent",
+        "type": {
+          "params": [
+            {
+              "name": "event",
+              "type": {
+                "name": "AnalyticsEngineEvent",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "logEvent",
+        "type": {
+          "params": [
+            {
+              "name": "event",
+              "type": {
+                "name": "AnalyticsEngineEvent",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "AnalyticsEngineEvent": {
+    "name": "AnalyticsEngineEvent",
+    "members": [
+      {
+        "name": "accountId",
+        "type": {
+          "name": "any",
+          "optional": true
+        }
+      },
+      {
+        "name": "indexId",
+        "type": {
+          "name": "any",
+          "optional": true
+        }
+      },
+      {
+        "name": "version",
+        "type": {
+          "name": "any",
+          "optional": true
+        }
+      },
+      {
+        "name": "doubles",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "double"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "blobs",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "|",
+              "args": [
+                {
+                  "name": "|",
+                  "args": [
+                    {
+                      "name": "ArrayBuffer"
+                    },
+                    {
+                      "name": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "null"
+                }
+              ]
+            }
+          ],
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "",
+      "renamed": true
+    },
+    "kind": "struct"
+  },
   "BasicImageTransformations": {
     "name": "BasicImageTransformations",
     "members": [
@@ -1922,6 +2033,21 @@
               }
             ]
           }
+        }
+      },
+      {
+        "name": "alarm",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "void"
+              }
+            ]
+          },
+          "optional": true
         }
       }
     ],
@@ -4362,7 +4488,7 @@
     ],
     "extends": [
       {
-        "name": "Event"
+        "name": "ExtendableEvent"
       }
     ],
     "kind": "class"
@@ -4509,7 +4635,7 @@
     ],
     "extends": [
       {
-        "name": "TransformStream"
+        "name": "IdentityTransformStream"
       }
     ],
     "kind": "class"
@@ -5571,6 +5697,13 @@
       },
       {
         "name": "city",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "clientAcceptEncoding",
         "type": {
           "name": "string",
           "optional": true
@@ -7222,6 +7355,13 @@
           "name": "boolean",
           "optional": true
         }
+      },
+      {
+        "name": "signal",
+        "type": {
+          "name": "AbortSignal",
+          "optional": true
+        }
       }
     ],
     "comment": {
@@ -7982,25 +8122,56 @@
   },
   "R2Range": {
     "name": "R2Range",
-    "members": [
-      {
-        "name": "offset",
-        "type": {
-          "name": "double"
+    "type": {
+      "name": "|",
+      "args": [
+        {
+          "members": [
+            {
+              "name": "offset",
+              "type": {
+                "name": "number"
+              }
+            },
+            {
+              "name": "length",
+              "type": {
+                "name": "number",
+                "optional": true
+              }
+            }
+          ]
+        },
+        {
+          "members": [
+            {
+              "name": "offset",
+              "type": {
+                "name": "number",
+                "optional": true
+              }
+            },
+            {
+              "name": "length",
+              "type": {
+                "name": "number"
+              }
+            }
+          ]
+        },
+        {
+          "members": [
+            {
+              "name": "suffix",
+              "type": {
+                "name": "number"
+              }
+            }
+          ]
         }
-      },
-      {
-        "name": "length",
-        "type": {
-          "name": "double"
-        }
-      }
-    ],
-    "comment": {
-      "text": "",
-      "renamed": true
+      ]
     },
-    "kind": "struct"
+    "kind": "typedef"
   },
   "ReadResult": {
     "name": "ReadResult",
@@ -8987,6 +9158,21 @@
         }
       },
       {
+        "name": "cacheTags",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "string"
+            }
+          ],
+          "optional": true
+        },
+        "comment": {
+          "text": "This allows you to append additional Cache-Tag response headers\nto the origin response without modifications to the origin server.\nThis will allow for greater control over the Purge by Cache Tag feature\nutilizing changes only in the Workers process.\n\nOnly available for Enterprise customers."
+        }
+      },
+      {
         "name": "cacheTtl",
         "type": {
           "name": "number",
@@ -9414,6 +9600,38 @@
               "name": "status",
               "type": {
                 "name": "integer",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Response"
+          }
+        },
+        "static": true
+      },
+      {
+        "name": "json",
+        "type": {
+          "params": [
+            {
+              "name": "any",
+              "type": {
+                "name": "any"
+              }
+            },
+            {
+              "name": "maybeInit",
+              "type": {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "ResponseInit"
+                  },
+                  {
+                    "name": "Response"
+                  }
+                ],
                 "optional": true
               }
             }
@@ -11906,7 +12124,29 @@
       {
         "name": "constructor",
         "type": {
-          "params": []
+          "params": [
+            {
+              "name": "maybeTransformer",
+              "type": {
+                "name": "Transformer",
+                "optional": true
+              }
+            },
+            {
+              "name": "maybeWritableStrategy",
+              "type": {
+                "name": "StreamQueuingStrategy",
+                "optional": true
+              }
+            },
+            {
+              "name": "maybeReadableStrategy",
+              "type": {
+                "name": "StreamQueuingStrategy",
+                "optional": true
+              }
+            }
+          ]
         }
       },
       {
@@ -11925,6 +12165,145 @@
       }
     ],
     "kind": "class"
+  },
+  "TransformStreamDefaultController": {
+    "name": "TransformStreamDefaultController",
+    "members": [
+      {
+        "name": "desiredSize",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "integer"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "enqueue",
+        "type": {
+          "params": [
+            {
+              "name": "chunk",
+              "type": {
+                "name": "any"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "error",
+        "type": {
+          "params": [
+            {
+              "name": "reason",
+              "type": {
+                "name": "any"
+              }
+            }
+          ],
+          "returns": {
+            "name": "void"
+          }
+        }
+      },
+      {
+        "name": "terminate",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "void"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "Transformer": {
+    "name": "Transformer",
+    "members": [
+      {
+        "name": "readableType",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "writableType",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "start",
+        "type": {
+          "params": [
+            {
+              "name": "controller",
+              "type": {
+                "name": "TransformStreamDefaultController"
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      },
+      {
+        "name": "transform",
+        "type": {
+          "params": [
+            {
+              "name": "chunk",
+              "type": {
+                "name": "any"
+              }
+            },
+            {
+              "name": "controller",
+              "type": {
+                "name": "TransformStreamDefaultController"
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      },
+      {
+        "name": "flush",
+        "type": {
+          "params": [
+            {
+              "name": "controller",
+              "type": {
+                "name": "TransformStreamDefaultController"
+              }
+            }
+          ],
+          "returns": {
+            "name": "any"
+          },
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "URL": {
     "name": "URL",
