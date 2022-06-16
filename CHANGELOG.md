@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.13.0
+
+### Minor Changes
+
+- [#251](https://github.com/cloudflare/workers-types/pull/251) [`e146987`](https://github.com/cloudflare/workers-types/commit/e146987bb996733f67c38313221d71aa47293c76) Thanks [@vlovich](https://github.com/vlovich)! - Updated auto-generated types @ 2022-06-16
+
 ## 3.12.0
 
 ### Minor Changes

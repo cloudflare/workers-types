@@ -1,5 +1,0 @@
----
-"@cloudflare/workers-types": minor
----
-
-Updated auto-generated types @ 2022-06-16
