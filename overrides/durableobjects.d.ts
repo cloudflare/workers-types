@@ -1,6 +1,6 @@
 interface DurableObject {
   fetch(request: Request): Promise<Response>;
-  alarm?(): Promise<void>
+  alarm?(): Promise<void>;
 }
 
 declare abstract class DurableObjectStub extends Fetcher {
