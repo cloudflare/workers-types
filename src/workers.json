@@ -111,117 +111,6 @@
     ],
     "kind": "class"
   },
-  "AnalyticsEngine": {
-    "name": "AnalyticsEngine",
-    "members": [
-      {
-        "name": "writeEvent",
-        "type": {
-          "params": [
-            {
-              "name": "event",
-              "type": {
-                "name": "AnalyticsEngineEvent",
-                "optional": true
-              }
-            }
-          ],
-          "returns": {
-            "name": "void"
-          }
-        }
-      },
-      {
-        "name": "logEvent",
-        "type": {
-          "params": [
-            {
-              "name": "event",
-              "type": {
-                "name": "AnalyticsEngineEvent",
-                "optional": true
-              }
-            }
-          ],
-          "returns": {
-            "name": "void"
-          }
-        }
-      }
-    ],
-    "kind": "class"
-  },
-  "AnalyticsEngineEvent": {
-    "name": "AnalyticsEngineEvent",
-    "members": [
-      {
-        "name": "accountId",
-        "type": {
-          "name": "any",
-          "optional": true
-        }
-      },
-      {
-        "name": "indexId",
-        "type": {
-          "name": "any",
-          "optional": true
-        }
-      },
-      {
-        "name": "version",
-        "type": {
-          "name": "any",
-          "optional": true
-        }
-      },
-      {
-        "name": "doubles",
-        "type": {
-          "name": "[]",
-          "args": [
-            {
-              "name": "double"
-            }
-          ],
-          "optional": true
-        }
-      },
-      {
-        "name": "blobs",
-        "type": {
-          "name": "[]",
-          "args": [
-            {
-              "name": "|",
-              "args": [
-                {
-                  "name": "|",
-                  "args": [
-                    {
-                      "name": "ArrayBuffer"
-                    },
-                    {
-                      "name": "string"
-                    }
-                  ]
-                },
-                {
-                  "name": "null"
-                }
-              ]
-            }
-          ],
-          "optional": true
-        }
-      }
-    ],
-    "comment": {
-      "text": "",
-      "renamed": true
-    },
-    "kind": "struct"
-  },
   "BasicImageTransformations": {
     "name": "BasicImageTransformations",
     "members": [
@@ -7904,6 +7793,14 @@
               "name": "string"
             }
           ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "range",
+        "type": {
+          "name": "R2Range",
+          "optional": true
         },
         "readonly": true
       },

@@ -16,19 +16,6 @@ declare class AbortSignal extends EventTarget {
   throwIfAborted(): void;
 }
 
-interface AnalyticsEngine {
-  writeEvent(event?: AnalyticsEngineEvent): void;
-  logEvent(event?: AnalyticsEngineEvent): void;
-}
-
-interface AnalyticsEngineEvent {
-  accountId?: any;
-  indexId?: any;
-  version?: any;
-  doubles?: number[];
-  blobs?: (ArrayBuffer | string | null)[];
-}
-
 interface BasicImageTransformations {
   /**
    * Maximum width in image pixels. The value must be an integer.
@@ -1118,6 +1105,7 @@ declare abstract class R2Object {
   readonly uploaded: Date;
   readonly httpMetadata: R2HTTPMetadata;
   readonly customMetadata: Record<string, string>;
+  readonly range?: R2Range;
   writeHttpMetadata(headers: Headers): void;
 }
 
