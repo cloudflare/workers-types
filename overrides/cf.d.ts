@@ -306,7 +306,7 @@ interface IncomingRequestCfProperties {
    */
   country: string;
   httpProtocol: string;
-  isEUCountry: boolean;
+  isEUCountry?: string;
   latitude?: string;
   longitude?: string;
   /**
