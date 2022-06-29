@@ -352,9 +352,13 @@ interface IncomingRequestCfPropertiesBotManagement {
 interface IncomingRequestCfPropertiesTLSClientAuth {
   certIssuerDNLegacy: string;
   certIssuerDN: string;
+  certIssuerDNRFC2253: string;
+  certIssuerSKI: string;
+  certIssuerSerial: string;
   certPresented: "0" | "1";
   certSubjectDNLegacy: string;
   certSubjectDN: string;
+  certSubjectDNRFC2253: string;
   /** In format "Dec 22 19:39:00 2018 GMT" */
   certNotBefore: string;
   /** In format "Dec 22 19:39:00 2018 GMT" */
@@ -363,6 +367,8 @@ interface IncomingRequestCfPropertiesTLSClientAuth {
   certFingerprintSHA1: string;
   /** "SUCCESS", "FAILED:reason", "NONE" */
   certVerified: string;
+  certRevoked: string;
+  certSKI: string;
 }
 
 export {};
