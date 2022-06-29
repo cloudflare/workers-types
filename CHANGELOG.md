@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.14.0
+
+### Minor Changes
+
+- [#253](https://github.com/cloudflare/workers-types/pull/253) [`f45703c`](https://github.com/cloudflare/workers-types/commit/f45703cca6996f057c3ab1dceaea53f6f760471c) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-06-20
+
+* [#256](https://github.com/cloudflare/workers-types/pull/256) [`9b4290b`](https://github.com/cloudflare/workers-types/commit/9b4290b30eef9683209afd32ef14ed208554f32f) Thanks [@Kellel](https://github.com/Kellel)! - Update tlsClientAuth properties
+
 ## 3.13.0
 
 ### Minor Changes
