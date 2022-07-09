@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.14.1
+
+### Patch Changes
+
+- [#245](https://github.com/cloudflare/workers-types/pull/245) [`bf5d870`](https://github.com/cloudflare/workers-types/commit/bf5d870b4e1466291c3cbdcba3001ab28f3ea400) Thanks [@jacobbednarz](https://github.com/jacobbednarz)! - Added support for `isEUCountry` property on `IncomingRequestCfProperties`
+
 ## 3.14.0
 
 ### Minor Changes
