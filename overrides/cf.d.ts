@@ -315,6 +315,7 @@ interface IncomingRequestCfProperties {
    */
   country: string;
   httpProtocol: string;
+  isEUCountry?: string;
   latitude?: string;
   longitude?: string;
   /**
