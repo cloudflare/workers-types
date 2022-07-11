@@ -50,7 +50,10 @@ declare abstract class DurableObjectStorage {
 }
 
 declare abstract class DurableObjectTransaction {
-  get<T = unknown>(key: string, options?: DurableObjectGetOptions): Promise<T>;
+  get<T = unknown>(
+    key: string,
+    options?: DurableObjectGetOptions
+  ): Promise<T | undefined>;
   get<T = unknown>(
     keys: string[],
     options?: DurableObjectGetOptions
