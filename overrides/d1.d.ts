@@ -5,17 +5,14 @@ declare type D1Result<T = unknown> = {
   duration: number;
   error?: string;
 };
+
 declare abstract class D1Database {
   prepare(query: string): D1PreparedStatement;
   dump(): Promise<ArrayBuffer>;
   batch<T = unknown>(statements: D1PreparedStatement[]): Promise<D1Result<T>[]>;
   exec<T = unknown>(query: string): Promise<D1Result<T>>;
-  _send<T = unknown>(
-    endpoint: string,
-    query: any,
-    params: any[]
-  ): Promise<D1Result<T>[] | D1Result<T>>;
 }
+
 declare abstract class D1PreparedStatement {
   bind(...values: any[]): D1PreparedStatement;
   first<T = unknown>(colName?: string): Promise<T>;
