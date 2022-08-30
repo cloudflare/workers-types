@@ -1505,6 +1505,325 @@
     ],
     "kind": "struct"
   },
+  "D1Database": {
+    "name": "D1Database",
+    "members": [
+      {
+        "name": "prepare",
+        "type": {
+          "params": [
+            {
+              "name": "query",
+              "type": {
+                "name": "string"
+              }
+            }
+          ],
+          "returns": {
+            "name": "D1PreparedStatement"
+          }
+        }
+      },
+      {
+        "name": "dump",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "ArrayBuffer"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "batch",
+        "type": {
+          "params": [
+            {
+              "name": "statements",
+              "type": {
+                "name": "[]",
+                "args": [
+                  {
+                    "name": "D1PreparedStatement"
+                  }
+                ]
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "[]",
+                "args": [
+                  {
+                    "name": "D1Result",
+                    "args": [
+                      {
+                        "name": "T"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "typeparams": [
+          {
+            "name": "T",
+            "default": {
+              "name": "unknown"
+            }
+          }
+        ]
+      },
+      {
+        "name": "exec",
+        "type": {
+          "params": [
+            {
+              "name": "query",
+              "type": {
+                "name": "string"
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "D1Result",
+                "args": [
+                  {
+                    "name": "T"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "typeparams": [
+          {
+            "name": "T",
+            "default": {
+              "name": "unknown"
+            }
+          }
+        ]
+      }
+    ],
+    "kind": "class"
+  },
+  "D1PreparedStatement": {
+    "name": "D1PreparedStatement",
+    "members": [
+      {
+        "name": "bind",
+        "type": {
+          "params": [
+            {
+              "name": "values",
+              "type": {
+                "name": "[]",
+                "args": [
+                  {
+                    "name": "any"
+                  }
+                ],
+                "variadic": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "D1PreparedStatement"
+          }
+        }
+      },
+      {
+        "name": "first",
+        "type": {
+          "params": [
+            {
+              "name": "colName",
+              "type": {
+                "name": "string",
+                "optional": true
+              }
+            }
+          ],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "T"
+              }
+            ]
+          }
+        },
+        "typeparams": [
+          {
+            "name": "T",
+            "default": {
+              "name": "unknown"
+            }
+          }
+        ]
+      },
+      {
+        "name": "run",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "D1Result",
+                "args": [
+                  {
+                    "name": "T"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "typeparams": [
+          {
+            "name": "T",
+            "default": {
+              "name": "unknown"
+            }
+          }
+        ]
+      },
+      {
+        "name": "all",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "D1Result",
+                "args": [
+                  {
+                    "name": "[]",
+                    "args": [
+                      {
+                        "name": "T"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "typeparams": [
+          {
+            "name": "T",
+            "default": {
+              "name": "unknown"
+            }
+          }
+        ]
+      },
+      {
+        "name": "raw",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "Promise",
+            "args": [
+              {
+                "name": "[]",
+                "args": [
+                  {
+                    "name": "T"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "typeparams": [
+          {
+            "name": "T",
+            "default": {
+              "name": "unknown"
+            }
+          }
+        ]
+      }
+    ],
+    "kind": "class"
+  },
+  "D1Result": {
+    "name": "D1Result",
+    "type": {
+      "members": [
+        {
+          "name": "results",
+          "type": {
+            "name": "[]",
+            "args": [
+              {
+                "name": "T"
+              }
+            ],
+            "optional": true
+          }
+        },
+        {
+          "name": "lastRowId",
+          "type": {
+            "name": "|",
+            "args": [
+              {
+                "name": "number"
+              },
+              {
+                "name": "null"
+              }
+            ]
+          }
+        },
+        {
+          "name": "changes",
+          "type": {
+            "name": "number"
+          }
+        },
+        {
+          "name": "duration",
+          "type": {
+            "name": "number"
+          }
+        },
+        {
+          "name": "error",
+          "type": {
+            "name": "string",
+            "optional": true
+          }
+        }
+      ]
+    },
+    "typeparams": [
+      {
+        "name": "T",
+        "default": {
+          "name": "unknown"
+        }
+      }
+    ],
+    "kind": "typedef"
+  },
   "DOMException": {
     "name": "DOMException",
     "members": [
@@ -2242,17 +2561,8 @@
       {
         "name": "id",
         "type": {
-          "name": "|",
-          "args": [
-            {
-              "name": "DurableObjectId"
-            },
-            {
-              "name": "string"
-            }
-          ]
-        },
-        "readonly": true
+          "name": "DurableObjectId"
+        }
       },
       {
         "name": "storage",
@@ -2803,7 +3113,15 @@
             "name": "Promise",
             "args": [
               {
-                "name": "T"
+                "name": "|",
+                "args": [
+                  {
+                    "name": "T"
+                  },
+                  {
+                    "name": "undefined"
+                  }
+                ]
               }
             ]
           }
@@ -4100,6 +4418,29 @@
     ],
     "kind": "struct"
   },
+  "EventTargetHandlerObject": {
+    "name": "EventTargetHandlerObject",
+    "members": [
+      {
+        "name": "handleEvent",
+        "type": {
+          "params": [
+            {
+              "name": "arg1",
+              "type": {
+                "name": "Event"
+              }
+            }
+          ],
+          "returns": {
+            "name": "any",
+            "optional": true
+          }
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "ExecutionContext": {
     "name": "ExecutionContext",
     "members": [
@@ -4794,10 +5135,10 @@
                 "name": "|",
                 "args": [
                   {
-                    "name": "File"
+                    "name": "string"
                   },
                   {
-                    "name": "string"
+                    "name": "File"
                   }
                 ]
               }
@@ -4910,6 +5251,38 @@
       }
     ],
     "kind": "class"
+  },
+  "FormDataKeyIterator": {
+    "name": "FormDataKeyIterator",
+    "type": {
+      "name": "IterableIterator",
+      "args": [
+        {
+          "name": "string"
+        }
+      ]
+    },
+    "kind": "typedef"
+  },
+  "FormDataValueIterator": {
+    "name": "FormDataValueIterator",
+    "type": {
+      "name": "IterableIterator",
+      "args": [
+        {
+          "name": "|",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "File"
+            }
+          ]
+        }
+      ]
+    },
+    "kind": "typedef"
   },
   "HTMLRewriter": {
     "name": "HTMLRewriter",
@@ -5539,6 +5912,30 @@
     },
     "kind": "typedef"
   },
+  "HeadersKeyIterator": {
+    "name": "HeadersKeyIterator",
+    "type": {
+      "name": "IterableIterator",
+      "args": [
+        {
+          "name": "string"
+        }
+      ]
+    },
+    "kind": "typedef"
+  },
+  "HeadersValueIterator": {
+    "name": "HeadersValueIterator",
+    "type": {
+      "name": "IterableIterator",
+      "args": [
+        {
+          "name": "string"
+        }
+      ]
+    },
+    "kind": "typedef"
+  },
   "IdentityTransformStream": {
     "name": "IdentityTransformStream",
     "members": [
@@ -5640,6 +6037,13 @@
         "name": "httpProtocol",
         "type": {
           "name": "string"
+        }
+      },
+      {
+        "name": "isEUCountry",
+        "type": {
+          "name": "string",
+          "optional": true
         }
       },
       {
@@ -5776,6 +6180,24 @@
         }
       },
       {
+        "name": "certIssuerDNRFC2253",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "certIssuerSKI",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "certIssuerSerial",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
         "name": "certPresented",
         "type": {
           "name": "|",
@@ -5797,6 +6219,12 @@
       },
       {
         "name": "certSubjectDN",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "certSubjectDNRFC2253",
         "type": {
           "name": "string"
         }
@@ -5838,6 +6266,18 @@
         },
         "comment": {
           "text": "\"SUCCESS\", \"FAILED:reason\", \"NONE\""
+        }
+      },
+      {
+        "name": "certRevoked",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "certSKI",
+        "type": {
+          "name": "string"
         }
       }
     ],
@@ -7576,6 +8016,13 @@
           "name": "Date",
           "optional": true
         }
+      },
+      {
+        "name": "secondsGranularity",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
       }
     ],
     "comment": {
@@ -7605,7 +8052,15 @@
       {
         "name": "range",
         "type": {
-          "name": "R2Range",
+          "name": "|",
+          "args": [
+            {
+              "name": "R2Range"
+            },
+            {
+              "name": "Headers"
+            }
+          ],
           "optional": true
         }
       }
@@ -7700,6 +8155,13 @@
         }
       },
       {
+        "name": "startAfter",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
         "name": "include",
         "type": {
           "name": "[]",
@@ -7777,7 +8239,8 @@
       {
         "name": "httpMetadata",
         "type": {
-          "name": "R2HTTPMetadata"
+          "name": "R2HTTPMetadata",
+          "optional": true
         },
         "readonly": true
       },
@@ -7792,7 +8255,8 @@
             {
               "name": "string"
             }
-          ]
+          ],
+          "optional": true
         },
         "readonly": true
       },
@@ -10423,6 +10887,32 @@
         "readonly": true
       },
       {
+        "name": "TextEncoderStream",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "TextEncoderStream"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
+        "name": "TextDecoderStream",
+        "type": {
+          "name": "typeof",
+          "args": [
+            {
+              "name": "TextDecoderStream"
+            }
+          ]
+        },
+        "static": true,
+        "readonly": true
+      },
+      {
         "name": "Headers",
         "type": {
           "name": "typeof",
@@ -11430,6 +11920,28 @@
             ]
           }
         }
+      },
+      {
+        "name": "timingSafeEqual",
+        "type": {
+          "params": [
+            {
+              "name": "a",
+              "type": {
+                "name": "ArrayBuffer|ArrayBufferView"
+              }
+            },
+            {
+              "name": "b",
+              "type": {
+                "name": "ArrayBuffer|ArrayBufferView"
+              }
+            }
+          ],
+          "returns": {
+            "name": "boolean"
+          }
+        }
       }
     ],
     "kind": "class"
@@ -11939,6 +12451,51 @@
     ],
     "kind": "struct"
   },
+  "TextDecoderStream": {
+    "name": "TextDecoderStream",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": [
+            {
+              "name": "label",
+              "type": {
+                "name": "string",
+                "optional": true
+              }
+            },
+            {
+              "name": "options",
+              "type": {
+                "name": "TextDecoderStreamTextDecoderStreamInit",
+                "optional": true
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "extends": [
+      {
+        "name": "TransformStream"
+      }
+    ],
+    "kind": "class"
+  },
+  "TextDecoderStreamTextDecoderStreamInit": {
+    "name": "TextDecoderStreamTextDecoderStreamInit",
+    "members": [
+      {
+        "name": "fatal",
+        "type": {
+          "name": "boolean",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
+  },
   "TextEncoder": {
     "name": "TextEncoder",
     "members": [
@@ -12014,6 +12571,23 @@
       }
     ],
     "kind": "struct"
+  },
+  "TextEncoderStream": {
+    "name": "TextEncoderStream",
+    "members": [
+      {
+        "name": "constructor",
+        "type": {
+          "params": []
+        }
+      }
+    ],
+    "extends": [
+      {
+        "name": "TransformStream"
+      }
+    ],
+    "kind": "class"
   },
   "TransformStream": {
     "name": "TransformStream",
@@ -13009,6 +13583,30 @@
     "comment": {
       "text": "Back compat for code migrating to older definitions.\nThis technically isn't part of a standard either way, but the naming\nis more consistent.",
       "deprecated": "Use URLSearchParamsInit instead."
+    },
+    "kind": "typedef"
+  },
+  "URLSearchParamsKeyIterator": {
+    "name": "URLSearchParamsKeyIterator",
+    "type": {
+      "name": "IterableIterator",
+      "args": [
+        {
+          "name": "string"
+        }
+      ]
+    },
+    "kind": "typedef"
+  },
+  "URLSearchParamsValueIterator": {
+    "name": "URLSearchParamsValueIterator",
+    "type": {
+      "name": "IterableIterator",
+      "args": [
+        {
+          "name": "string"
+        }
+      ]
     },
     "kind": "typedef"
   },
