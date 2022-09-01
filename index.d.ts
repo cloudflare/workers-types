@@ -293,6 +293,29 @@ interface CryptoKeyVoprfKeyAlgorithm {
   namedCurve: string;
 }
 
+interface D1Database {
+  prepare(query: string): D1PreparedStatement;
+  dump(): Promise<ArrayBuffer>;
+  batch<T = unknown>(statements: D1PreparedStatement[]): Promise<D1Result<T>[]>;
+  exec<T = unknown>(query: string): Promise<D1Result<T>>;
+}
+
+interface D1PreparedStatement {
+  bind(...values: any[]): D1PreparedStatement;
+  first<T = unknown>(colName?: string): Promise<T>;
+  run<T = unknown>(): Promise<D1Result<T>>;
+  all<T = unknown>(): Promise<D1Result<T[]>>;
+  raw<T = unknown>(): Promise<T[]>;
+}
+
+declare type D1Result<T = unknown> = {
+  results?: T[];
+  lastRowId: number | null;
+  changes: number;
+  duration: number;
+  error?: string;
+};
+
 declare class DOMException extends Error {
   constructor(message?: string, name?: string);
   readonly code: number;
@@ -399,7 +422,7 @@ interface DurableObjectSetAlarmOptions {
 
 interface DurableObjectState {
   waitUntil(promise: Promise<any>): void;
-  readonly id: DurableObjectId | string;
+  id: DurableObjectId;
   readonly storage: DurableObjectStorage;
   blockConcurrencyWhile<T>(callback: () => Promise<T>): Promise<T>;
 }
@@ -464,7 +487,10 @@ interface DurableObjectStub extends Fetcher {
 }
 
 interface DurableObjectTransaction {
-  get<T = unknown>(key: string, options?: DurableObjectGetOptions): Promise<T>;
+  get<T = unknown>(
+    key: string,
+    options?: DurableObjectGetOptions
+  ): Promise<T | undefined>;
   get<T = unknown>(
     keys: string[],
     options?: DurableObjectGetOptions
@@ -597,6 +623,10 @@ interface EventTargetEventListenerOptions {
   capture?: boolean;
 }
 
+interface EventTargetHandlerObject {
+  handleEvent(arg1: Event): any | undefined;
+}
+
 interface ExecutionContext {
   waitUntil(promise: Promise<any>): void;
   passThroughOnException(): void;
@@ -664,7 +694,7 @@ declare class FormData {
   set(name: string, value: Blob, filename?: string): void;
   entries(): IterableIterator<[key: string, value: File | string]>;
   keys(): IterableIterator<string>;
-  values(): IterableIterator<File | string>;
+  values(): IterableIterator<string | File>;
   forEach<This = unknown>(
     callback: (
       this: This,
@@ -768,6 +798,7 @@ interface IncomingRequestCfProperties {
    */
   country: string;
   httpProtocol: string;
+  isEUCountry?: string;
   latitude?: string;
   longitude?: string;
   /**
@@ -805,9 +836,13 @@ interface IncomingRequestCfPropertiesBotManagement {
 interface IncomingRequestCfPropertiesTLSClientAuth {
   certIssuerDNLegacy: string;
   certIssuerDN: string;
+  certIssuerDNRFC2253: string;
+  certIssuerSKI: string;
+  certIssuerSerial: string;
   certPresented: "0" | "1";
   certSubjectDNLegacy: string;
   certSubjectDN: string;
+  certSubjectDNRFC2253: string;
   /**
    * In format "Dec 22 19:39:00 2018 GMT"
    */
@@ -822,6 +857,8 @@ interface IncomingRequestCfPropertiesTLSClientAuth {
    * "SUCCESS", "FAILED:reason", "NONE"
    */
   certVerified: string;
+  certRevoked: string;
+  certSKI: string;
 }
 
 interface JsonWebKey {
@@ -1042,6 +1079,7 @@ interface R2Conditional {
   etagDoesNotMatch?: string;
   uploadedBefore?: Date;
   uploadedAfter?: Date;
+  secondsGranularity?: boolean;
 }
 
 /**
@@ -1049,7 +1087,7 @@ interface R2Conditional {
  */
 interface R2GetOptions {
   onlyIf?: R2Conditional | Headers;
-  range?: R2Range;
+  range?: R2Range | Headers;
 }
 
 /**
@@ -1077,6 +1115,7 @@ interface R2ListOptions {
   prefix?: string;
   cursor?: string;
   delimiter?: string;
+  startAfter?: string;
   /**
    * If you populate this array, then items returned will include this metadata.
    * A tradeoff is that fewer results may be returned depending on how big this
@@ -1103,8 +1142,8 @@ declare abstract class R2Object {
   readonly etag: string;
   readonly httpEtag: string;
   readonly uploaded: Date;
-  readonly httpMetadata: R2HTTPMetadata;
-  readonly customMetadata: Record<string, string>;
+  readonly httpMetadata?: R2HTTPMetadata;
+  readonly customMetadata?: Record<string, string>;
   readonly range?: R2Range;
   writeHttpMetadata(headers: Headers): void;
 }
@@ -1624,6 +1663,10 @@ declare abstract class SubtleCrypto {
     extractable: boolean,
     keyUsages: string[]
   ): Promise<CryptoKey>;
+  timingSafeEqual(
+    a: ArrayBuffer | ArrayBufferView,
+    b: ArrayBuffer | ArrayBufferView
+  ): boolean;
 }
 
 interface SubtleCryptoDeriveKeyAlgorithm {
@@ -1718,6 +1761,14 @@ interface TextDecoderDecodeOptions {
   stream: boolean;
 }
 
+declare class TextDecoderStream extends TransformStream {
+  constructor(label?: string, options?: TextDecoderStreamTextDecoderStreamInit);
+}
+
+interface TextDecoderStreamTextDecoderStreamInit {
+  fatal?: boolean;
+}
+
 declare class TextEncoder {
   constructor();
   encode(input?: string): Uint8Array;
@@ -1728,6 +1779,10 @@ declare class TextEncoder {
 interface TextEncoderEncodeIntoResult {
   read: number;
   written: number;
+}
+
+declare class TextEncoderStream extends TransformStream {
+  constructor();
 }
 
 declare class TransformStream {
