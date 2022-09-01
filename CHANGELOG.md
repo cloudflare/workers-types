@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.16.0
+
+### Minor Changes
+
+- [#273](https://github.com/cloudflare/workers-types/pull/273) [`bc80605`](https://github.com/cloudflare/workers-types/commit/bc8060518241fa858765cf5bff48f4115289d009) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-08-30
+
 ## 3.15.0
 
 ### Minor Changes
