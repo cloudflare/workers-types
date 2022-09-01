@@ -345,6 +345,7 @@ interface IncomingRequestCfProperties {
 }
 
 interface IncomingRequestCfPropertiesBotManagement {
+  corporateProxy: boolean;
   ja3Hash?: string;
   score: number;
   staticResource: boolean;
