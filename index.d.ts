@@ -707,10 +707,6 @@ declare class FormData {
   [Symbol.iterator](): IterableIterator<[key: string, value: File | string]>;
 }
 
-declare type FormDataKeyIterator = IterableIterator<string>;
-
-declare type FormDataValueIterator = IterableIterator<string | File>;
-
 declare class HTMLRewriter {
   constructor();
   on(
@@ -762,10 +758,6 @@ declare type HeadersInit =
  * @deprecated Use HeadersInit instead.
  */
 declare type HeadersInitializer = HeadersInit;
-
-declare type HeadersKeyIterator = IterableIterator<string>;
-
-declare type HeadersValueIterator = IterableIterator<string>;
 
 declare class IdentityTransformStream extends TransformStream {
   constructor();
@@ -1920,10 +1912,6 @@ declare type URLSearchParamsInit =
  * @deprecated Use URLSearchParamsInit instead.
  */
 declare type URLSearchParamsInitializer = URLSearchParamsInit;
-
-declare type URLSearchParamsKeyIterator = IterableIterator<string>;
-
-declare type URLSearchParamsValueIterator = IterableIterator<string>;
 
 interface UnderlyingSink {
   type?: string;

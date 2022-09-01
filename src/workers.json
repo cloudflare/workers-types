@@ -5252,38 +5252,6 @@
     ],
     "kind": "class"
   },
-  "FormDataKeyIterator": {
-    "name": "FormDataKeyIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
-    },
-    "kind": "typedef"
-  },
-  "FormDataValueIterator": {
-    "name": "FormDataValueIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "|",
-          "args": [
-            {
-              "name": "string"
-            },
-            {
-              "name": "File"
-            }
-          ]
-        }
-      ]
-    },
-    "kind": "typedef"
-  },
   "HTMLRewriter": {
     "name": "HTMLRewriter",
     "members": [
@@ -5909,30 +5877,6 @@
     "comment": {
       "text": "Back compat for code migrating to older definitions.",
       "deprecated": "Use HeadersInit instead."
-    },
-    "kind": "typedef"
-  },
-  "HeadersKeyIterator": {
-    "name": "HeadersKeyIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
-    },
-    "kind": "typedef"
-  },
-  "HeadersValueIterator": {
-    "name": "HeadersValueIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
     },
     "kind": "typedef"
   },
@@ -13583,30 +13527,6 @@
     "comment": {
       "text": "Back compat for code migrating to older definitions.\nThis technically isn't part of a standard either way, but the naming\nis more consistent.",
       "deprecated": "Use URLSearchParamsInit instead."
-    },
-    "kind": "typedef"
-  },
-  "URLSearchParamsKeyIterator": {
-    "name": "URLSearchParamsKeyIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
-    },
-    "kind": "typedef"
-  },
-  "URLSearchParamsValueIterator": {
-    "name": "URLSearchParamsValueIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
     },
     "kind": "typedef"
   },
