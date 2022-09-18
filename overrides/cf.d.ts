@@ -301,7 +301,7 @@ interface IncomingRequestCfProperties {
   botManagement?: IncomingRequestCfPropertiesBotManagement;
   city?: string;
   clientAcceptEncoding?: string;
-  clientTcpRtt: number;
+  clientTcpRtt?: number;
   clientTrustScore?: number;
   /**
    * The three-letter airport code of the data center that the request
