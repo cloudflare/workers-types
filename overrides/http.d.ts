@@ -15,8 +15,8 @@ declare class FormData {
   forEach<This = unknown>(
     callback: (
       this: This,
-      key: string,
       value: File | string,
+      key: string,
       parent: FormData
     ) => void,
     thisArg?: This
@@ -28,7 +28,7 @@ declare class Headers {
   [Symbol.iterator](): IterableIterator<[key: string, value: string]>;
 
   forEach<This = unknown>(
-    callback: (this: This, key: string, value: string, parent: Headers) => void,
+    callback: (this: This, value: string, key: string, parent: Headers) => void,
     thisArg?: This
   ): void;
 }
@@ -47,8 +47,8 @@ declare class URLSearchParams {
   forEach<This = unknown>(
     callback: (
       this: This,
-      key: string,
       value: string,
+      key: string,
       parent: URLSearchParams
     ) => void,
     thisArg?: This
