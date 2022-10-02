@@ -824,10 +824,23 @@ interface IncomingRequestCfProperties {
 
 interface IncomingRequestCfPropertiesBotManagement {
   corporateProxy: boolean;
+  /**
+   * A JA3 Fingerprint helps you profile specific SSL/TLS clients across different destination IPs, Ports, and X509 certificates.
+   */
   ja3Hash?: string;
+  /**
+   * An integer between 1-99 that indicates Cloudflare’s level of certainty that a request comes from a bot.
+   */
   score: number;
+  /**
+   * An identifier that matches file extensions for many types of static resources.
+   */
   staticResource: boolean;
+  /**
+   * A boolean value that is true if the request comes from a good bot, like Google or Bing. Most customers choose to allow this traffic
+   */
   verifiedBot: boolean;
+  js_score?: number;
 }
 
 interface IncomingRequestCfPropertiesTLSClientAuth {

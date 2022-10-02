@@ -6082,24 +6082,43 @@
         "type": {
           "name": "string",
           "optional": true
+        },
+        "comment": {
+          "text": "A JA3 Fingerprint helps you profile specific SSL/TLS clients across different destination IPs, Ports, and X509 certificates."
+        }
+      },
+      {
+        "name": "js_score",
+        "type": {
+          "name": "string",
+          "optional": true
         }
       },
       {
         "name": "score",
         "type": {
           "name": "number"
+        },
+        "comment": {
+          "text": "An integer between 1-99 that indicates Cloudflare’s level of certainty that a request comes from a bot."
         }
       },
       {
         "name": "staticResource",
         "type": {
           "name": "boolean"
+        },
+        "comment": {
+          "text": "An identifier that matches file extensions for many types of static resources."
         }
       },
       {
         "name": "verifiedBot",
         "type": {
           "name": "boolean"
+        },
+        "comment": {
+          "text": "A boolean value that is true if the request comes from a good bot, like Google or Bing. Most customers choose to allow this traffic."
         }
       }
     ],
