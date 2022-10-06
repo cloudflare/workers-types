@@ -272,6 +272,12 @@ interface RequestInitCfPropertiesImage extends BasicImageTransformations {
    * entry is the topmost layer).
    */
   draw?: RequestInitCfPropertiesImageDraw[];
+  /**
+   * Fetching image from authenticated origin. Setting this property will
+   * pass authentication headers (Authorization, Cookie, etc.) through to
+   * the origin.
+   */
+  "origin-auth"?: "share-publicly";
 }
 
 interface RequestInitCfPropertiesImageMinify {
