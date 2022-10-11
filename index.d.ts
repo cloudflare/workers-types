@@ -886,7 +886,7 @@ interface JsonWebKey {
  * Workers KV is a global, low-latency, key-value data store. It supports exceptionally high read volumes with low-latency,
  * making it possible to build highly dynamic APIs and websites which respond as quickly as a cached static file would.
  */
-interface KVNamespace<K extends string = string> {
+interface KVNamespace<K extends string = string, M = unknown> {
   get(
     key: K,
     options?: Partial<KVNamespaceGetOptions<undefined>>
@@ -911,7 +911,7 @@ interface KVNamespace<K extends string = string> {
     key: K,
     options: KVNamespaceGetOptions<"stream">
   ): Promise<ReadableStream | null>;
-  list<Metadata = unknown>(
+  list<Metadata = M>(
     options?: KVNamespaceListOptions
   ): Promise<KVNamespaceListResult<Metadata>>;
   /**
@@ -927,39 +927,39 @@ interface KVNamespace<K extends string = string> {
     value: string | ArrayBuffer | ArrayBufferView | ReadableStream,
     options?: KVNamespacePutOptions
   ): Promise<void>;
-  getWithMetadata<Metadata = unknown>(
+  getWithMetadata<Metadata = M>(
     key: K,
     options?: Partial<KVNamespaceGetOptions<undefined>>
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
-  getWithMetadata<Metadata = unknown>(
+  getWithMetadata<Metadata = M>(
     key: K,
     type: "text"
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
-  getWithMetadata<ExpectedValue = unknown, Metadata = unknown>(
+  getWithMetadata<ExpectedValue = unknown, Metadata = M>(
     key: K,
     type: "json"
   ): Promise<KVNamespaceGetWithMetadataResult<ExpectedValue, Metadata>>;
-  getWithMetadata<Metadata = unknown>(
+  getWithMetadata<Metadata = M>(
     key: K,
     type: "arrayBuffer"
   ): Promise<KVNamespaceGetWithMetadataResult<ArrayBuffer, Metadata>>;
-  getWithMetadata<Metadata = unknown>(
+  getWithMetadata<Metadata = M>(
     key: K,
     type: "stream"
   ): Promise<KVNamespaceGetWithMetadataResult<ReadableStream, Metadata>>;
-  getWithMetadata<Metadata = unknown>(
+  getWithMetadata<Metadata = M>(
     key: K,
     options: KVNamespaceGetOptions<"text">
   ): Promise<KVNamespaceGetWithMetadataResult<string, Metadata>>;
-  getWithMetadata<ExpectedValue = unknown, Metadata = unknown>(
+  getWithMetadata<ExpectedValue = unknown, Metadata = M>(
     key: K,
     options: KVNamespaceGetOptions<"json">
   ): Promise<KVNamespaceGetWithMetadataResult<ExpectedValue, Metadata>>;
-  getWithMetadata<Metadata = unknown>(
+  getWithMetadata<Metadata = M>(
     key: K,
     options: KVNamespaceGetOptions<"arrayBuffer">
   ): Promise<KVNamespaceGetWithMetadataResult<ArrayBuffer, Metadata>>;
-  getWithMetadata<Metadata = unknown>(
+  getWithMetadata<Metadata = M>(
     key: K,
     options: KVNamespaceGetOptions<"stream">
   ): Promise<KVNamespaceGetWithMetadataResult<ReadableStream, Metadata>>;
