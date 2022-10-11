@@ -231,8 +231,10 @@ interface RequestInitCfPropertiesImage extends BasicImageTransformations {
    *  - json: instead of generating an image, outputs information about the
    *    image, in JSON format. The JSON object will contain image size
    *    (before and after resizing), source image’s MIME type, file size, etc.
+   * - jpeg: generate images in JPEG format.
+   * - png: generate images in PNG format.
    */
-  format?: "avif" | "webp" | "json";
+  format?: "avif" | "webp" | "json" | "jpeg" | "png";
   /**
    * Whether to preserve animation frames from input files. Default is true.
    * Setting it to false reduces animations to still images. This setting is
