@@ -1,0 +1,37 @@
+name: Add diff to release
+on:
+  release:
+    types: [published]
+
+jobs:
+  show_diff:
+    name: Show ts diff in release notes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+
+      - uses: actions/cache@v2
+        id: node-modules-cache
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: NPM Install
+        run: npm install
+
+      - name: Generate diff
+        run: npm run --silent generate:diff > diff.md
+
+      - name: Edit Release
+        uses: irongut/EditRelease@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: ${{ github.event.release.id }}
+          files: "diff.md"
