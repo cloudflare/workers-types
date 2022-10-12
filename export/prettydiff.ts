@@ -19,11 +19,11 @@ function printLinkHeading(block: string) {
   );
 
   const name =
-    /^( |\+)(export )?(declare function|declare type|declare const|type|declare class|interface|declare abstract class) ([a-zA-Z0-9]+)/m.exec(
+    /^( |\+)(export )?(declare function|declare type|declare const|type|declare class|interface|declare abstract class) (?<name>[a-zA-Z0-9]+)/m.exec(
       withoutBlockComment
     );
 
-  if (name?.[4]) {
+  if (name?.groups.name) {
     const lineNumber = findLineNumber(name?.[0]);
     if (lineNumber)
       console.log(`### [${name?.[4]}](/index.d.ts#L${lineNumber})\n`);
