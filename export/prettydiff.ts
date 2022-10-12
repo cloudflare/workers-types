@@ -13,18 +13,15 @@ function findLineNumber(line): number | undefined {
 }
 
 function printLinkHeading(block: string) {
-  const withoutBlockComment = block.replace(
-    /^ \/\*\*\n(  \*.*\n)+  \*\/\n/,
-    ""
-  );
+  const withoutBlockComment = block.replace(/^\s*\/\*\*.*\*\/\s*/s, "");
 
   const name =
     /^( |\+)(export )?(declare function|declare type|declare const|type|declare class|interface|declare abstract class) (?<name>[a-zA-Z0-9]+)/m.exec(
       withoutBlockComment
     );
 
-  if (name?.groups.name) {
-    const lineNumber = findLineNumber(name?.[0]);
+  if (name?.groups?.name) {
+    const lineNumber = findLineNumber(name[0]);
     if (lineNumber)
       console.log(`### [${name?.[4]}](/index.d.ts#L${lineNumber})\n`);
   }
@@ -48,7 +45,7 @@ const secondLastTag = execSync(
 
 // Get a git diff between the two most recent tags with full context
 const diff = execSync(
-  `git diff --minimal --unified="$(wc -l < index.d.ts)" ${secondLastTag.trim()}:index.d.ts index.d.ts | tail -n +5`
+  `git diff --minimal --unified="$(wc -l < index.d.ts)" ${secondLastTag.trim()}:index.d.ts ${lastTag}:index.d.ts | tail -n +5`
 ).toString();
 
 // Split the diff by empty line (i.e. between type definitions)
