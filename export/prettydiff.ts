@@ -5,7 +5,7 @@ const types: string = readFileSync("index.d.ts", "utf-8");
 
 function findLineNumber(line): number | undefined {
   const index = types.indexOf(line.trim());
-  if (index) {
+  if (index !== -1) {
     const [pre] = types.split(line.trim());
     const lines = pre.split("\n");
     return lines.length;
