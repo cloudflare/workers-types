@@ -27,11 +27,28 @@ jobs:
         run: npm install
 
       - name: Generate diff
+        id: generate_diff
         run: npm run --silent generate:diff > diff.md
-
-      - name: Edit Release
-        uses: irongut/EditRelease@v1.2.0
+      - name: Read diff.md
+        id: diff
+        uses: juliangruber/read-file-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: ${{ github.event.release.id }}
-          files: "diff.md"
+          path: diff.md
+        
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: GET /repos/${{ github.repository }}/releases/latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: octokit/request-action@v2.x
+        id: update_release
+        with:
+          route: PATCH /repos/${{ github.repository }}/releases/{release_id}
+          release_id: ${{ fromJson(steps.get_latest_release.outputs.data).id }}
+          body: |
+            |
+            ${{ fromJson(steps.get_latest_release.outputs.data).body }}
+            ${{ steps.diff.outputs.content }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
