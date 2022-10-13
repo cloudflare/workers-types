@@ -252,8 +252,14 @@ declare type CryptoKeyAlgorithmVariant =
   | CryptoKeyHmacKeyAlgorithm
   | CryptoKeyRsaKeyAlgorithm
   | CryptoKeyEllipticKeyAlgorithm
-  | CryptoKeyVoprfKeyAlgorithm
-  | CryptoKeyOprfKeyAlgorithm;
+  | CryptoKeyArbitraryKeyAlgorithm;
+
+interface CryptoKeyArbitraryKeyAlgorithm {
+  name: string;
+  hash?: CryptoKeyKeyAlgorithm;
+  namedCurve?: string;
+  length?: number;
+}
 
 interface CryptoKeyEllipticKeyAlgorithm {
   name: string;
@@ -270,11 +276,6 @@ interface CryptoKeyKeyAlgorithm {
   name: string;
 }
 
-interface CryptoKeyOprfKeyAlgorithm {
-  name: string;
-  namedCurve: string;
-}
-
 interface CryptoKeyPair {
   publicKey: CryptoKey;
   privateKey: CryptoKey;
@@ -285,12 +286,6 @@ interface CryptoKeyRsaKeyAlgorithm {
   modulusLength: number;
   publicExponent: ArrayBuffer;
   hash?: CryptoKeyKeyAlgorithm;
-}
-
-interface CryptoKeyVoprfKeyAlgorithm {
-  name: string;
-  hash: CryptoKeyKeyAlgorithm;
-  namedCurve: string;
 }
 
 interface D1Database {
@@ -304,7 +299,7 @@ interface D1PreparedStatement {
   bind(...values: any[]): D1PreparedStatement;
   first<T = unknown>(colName?: string): Promise<T>;
   run<T = unknown>(): Promise<D1Result<T>>;
-  all<T = unknown>(): Promise<D1Result<T[]>>;
+  all<T = unknown>(): Promise<D1Result<T>>;
   raw<T = unknown>(): Promise<T[]>;
 }
 
@@ -693,19 +688,23 @@ declare class FormData {
   set(name: string, value: string): void;
   set(name: string, value: Blob, filename?: string): void;
   entries(): IterableIterator<[key: string, value: File | string]>;
-  keys(): IterableIterator<string>;
-  values(): IterableIterator<string | File>;
+  keys(): FormDataKeyIterator;
+  values(): FormDataValueIterator;
   forEach<This = unknown>(
     callback: (
       this: This,
-      key: string,
       value: File | string,
+      key: string,
       parent: FormData
     ) => void,
     thisArg?: This
   ): void;
   [Symbol.iterator](): IterableIterator<[key: string, value: File | string]>;
 }
+
+declare type FormDataKeyIterator = IterableIterator<string>;
+
+declare type FormDataValueIterator = IterableIterator<string | File>;
 
 declare class HTMLRewriter {
   constructor();
@@ -739,12 +738,12 @@ declare class Headers {
   append(name: string, value: string): void;
   delete(name: string): void;
   forEach<This = unknown>(
-    callback: (this: This, key: string, value: string, parent: Headers) => void,
+    callback: (this: This, value: string, key: string, parent: Headers) => void,
     thisArg?: This
   ): void;
   entries(): IterableIterator<[key: string, value: string]>;
-  keys(): IterableIterator<string>;
-  values(): IterableIterator<string>;
+  keys(): HeadersKeyIterator;
+  values(): HeadersValueIterator;
   [Symbol.iterator](): IterableIterator<[key: string, value: string]>;
 }
 
@@ -758,6 +757,10 @@ declare type HeadersInit =
  * @deprecated Use HeadersInit instead.
  */
 declare type HeadersInitializer = HeadersInit;
+
+declare type HeadersKeyIterator = IterableIterator<string>;
+
+declare type HeadersValueIterator = IterableIterator<string>;
 
 declare class IdentityTransformStream extends TransformStream {
   constructor();
@@ -784,7 +787,7 @@ interface IncomingRequestCfProperties {
   botManagement?: IncomingRequestCfPropertiesBotManagement;
   city?: string;
   clientAcceptEncoding?: string;
-  clientTcpRtt: number;
+  clientTcpRtt?: number;
   clientTrustScore?: number;
   /**
    * The three-letter airport code of the data center that the request
@@ -828,6 +831,8 @@ interface IncomingRequestCfProperties {
 }
 
 interface IncomingRequestCfPropertiesBotManagement {
+  corporateProxy: boolean;
+  ja3Hash?: string;
   score: number;
   staticResource: boolean;
   verifiedBot: boolean;
@@ -1067,8 +1072,19 @@ interface R2Bucket {
       | Blob,
     options?: R2PutOptions
   ): Promise<R2Object>;
-  delete(key: string): Promise<void>;
+  delete(keys: string | string[]): Promise<void>;
   list(options?: R2ListOptions): Promise<R2Objects>;
+}
+
+/**
+ * The checksums associated with the object.
+ */
+interface R2Checksums {
+  md5?: ArrayBuffer;
+  sha1?: ArrayBuffer;
+  sha256?: ArrayBuffer;
+  sha384?: ArrayBuffer;
+  sha512?: ArrayBuffer;
 }
 
 /**
@@ -1141,6 +1157,7 @@ declare abstract class R2Object {
   readonly size: number;
   readonly etag: string;
   readonly httpEtag: string;
+  readonly checksums: R2Checksums;
   readonly uploaded: Date;
   readonly httpMetadata?: R2HTTPMetadata;
   readonly customMetadata?: Record<string, string>;
@@ -1168,9 +1185,14 @@ interface R2Objects {
 }
 
 interface R2PutOptions {
+  onlyIf?: R2Conditional | Headers;
   httpMetadata?: R2HTTPMetadata | Headers;
   customMetadata?: Record<string, string>;
   md5?: ArrayBuffer | string;
+  sha1?: ArrayBuffer | string;
+  sha256?: ArrayBuffer | string;
+  sha384?: ArrayBuffer | string;
+  sha512?: ArrayBuffer | string;
 }
 
 declare type R2Range =
@@ -1593,7 +1615,7 @@ interface ServiceWorkerGlobalScopeStructuredCloneOptions {
 declare type StreamPipeOptions = PipeToOptions;
 
 interface StreamQueuingStrategy {
-  highWaterMark?: number;
+  highWaterMark?: bigint;
   size(chunk: any): number;
 }
 
@@ -1785,6 +1807,68 @@ declare class TextEncoderStream extends TransformStream {
   constructor();
 }
 
+interface TraceEvent extends ExtendableEvent {
+  readonly traces: TraceItem[];
+}
+
+interface TraceException {
+  readonly timestamp: number;
+  readonly message: string;
+  readonly name: string;
+}
+
+interface TraceItem {
+  readonly event: TraceItemEventInfo | null;
+  readonly eventTimestamp: number | null;
+  readonly logs: TraceLog[];
+  readonly exceptions: TraceException[];
+  readonly scriptName: string | null;
+  readonly dispatchNamespace?: string;
+  readonly outcome: string;
+}
+
+interface TraceItemAlarmEventInfo {
+  readonly scheduledTime: Date;
+}
+
+declare type TraceItemEventInfo =
+  | TraceItemFetchEventInfo
+  | TraceItemScheduledEventInfo
+  | TraceItemAlarmEventInfo;
+
+interface TraceItemFetchEventInfo {
+  readonly response?: TraceItemFetchEventInfoResponse;
+  readonly request: TraceItemFetchEventInfoRequest;
+}
+
+interface TraceItemFetchEventInfoRequest {
+  readonly cf?: Object;
+  readonly headers: Record<string, string>;
+  readonly method: string;
+  readonly url: string;
+  getUnredacted(): TraceItemFetchEventInfoRequest;
+}
+
+interface TraceItemFetchEventInfoResponse {
+  readonly status: number;
+}
+
+interface TraceItemScheduledEventInfo {
+  readonly scheduledTime: number;
+  readonly cron: string;
+}
+
+interface TraceLog {
+  readonly timestamp: number;
+  readonly level: string;
+  readonly message: Object;
+}
+
+interface TraceMetrics {
+  readonly cpuTime: number;
+  readonly wallTime: number;
+}
+
 declare class TransformStream {
   constructor(
     maybeTransformer?: Transformer,
@@ -1884,13 +1968,13 @@ declare class URLSearchParams {
   set(name: string, value: string): void;
   sort(): void;
   entries(): IterableIterator<[key: string, value: string]>;
-  keys(): IterableIterator<string>;
-  values(): IterableIterator<string>;
+  keys(): URLSearchParamsKeyIterator;
+  values(): URLSearchParamsValueIterator;
   forEach<This = unknown>(
     callback: (
       this: This,
-      key: string,
       value: string,
+      key: string,
       parent: URLSearchParams
     ) => void,
     thisArg?: This
@@ -1913,6 +1997,10 @@ declare type URLSearchParamsInit =
  */
 declare type URLSearchParamsInitializer = URLSearchParamsInit;
 
+declare type URLSearchParamsKeyIterator = IterableIterator<string>;
+
+declare type URLSearchParamsValueIterator = IterableIterator<string>;
+
 interface UnderlyingSink {
   type?: string;
   start?(controller: WritableStreamDefaultController): any;
@@ -1931,6 +2019,10 @@ interface UnderlyingSource {
     controller: ReadableStreamDefaultController | ReadableByteStreamController
   ): any;
   cancel?(reason?: any): any;
+}
+
+interface UnsafeTraceMetrics {
+  fromTrace(arg4: TraceItem): TraceMetrics;
 }
 
 declare class WebSocket extends EventTarget<WebSocketEventMap> {
