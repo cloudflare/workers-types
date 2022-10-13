@@ -1351,14 +1351,44 @@
           "name": "CryptoKeyEllipticKeyAlgorithm"
         },
         {
-          "name": "CryptoKeyVoprfKeyAlgorithm"
-        },
-        {
-          "name": "CryptoKeyOprfKeyAlgorithm"
+          "name": "CryptoKeyArbitraryKeyAlgorithm"
         }
       ]
     },
     "kind": "typedef"
+  },
+  "CryptoKeyArbitraryKeyAlgorithm": {
+    "name": "CryptoKeyArbitraryKeyAlgorithm",
+    "members": [
+      {
+        "name": "name",
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "hash",
+        "type": {
+          "name": "CryptoKeyKeyAlgorithm",
+          "optional": true
+        }
+      },
+      {
+        "name": "namedCurve",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
+      {
+        "name": "length",
+        "type": {
+          "name": "integer",
+          "optional": true
+        }
+      }
+    ],
+    "kind": "struct"
   },
   "CryptoKeyEllipticKeyAlgorithm": {
     "name": "CryptoKeyEllipticKeyAlgorithm",
@@ -1414,24 +1444,6 @@
     ],
     "kind": "struct"
   },
-  "CryptoKeyOprfKeyAlgorithm": {
-    "name": "CryptoKeyOprfKeyAlgorithm",
-    "members": [
-      {
-        "name": "name",
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "namedCurve",
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "kind": "struct"
-  },
   "CryptoKeyPair": {
     "name": "CryptoKeyPair",
     "members": [
@@ -1476,30 +1488,6 @@
         "type": {
           "name": "CryptoKeyKeyAlgorithm",
           "optional": true
-        }
-      }
-    ],
-    "kind": "struct"
-  },
-  "CryptoKeyVoprfKeyAlgorithm": {
-    "name": "CryptoKeyVoprfKeyAlgorithm",
-    "members": [
-      {
-        "name": "name",
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "hash",
-        "type": {
-          "name": "CryptoKeyKeyAlgorithm"
-        }
-      },
-      {
-        "name": "namedCurve",
-        "type": {
-          "name": "string"
         }
       }
     ],
@@ -1712,12 +1700,7 @@
                 "name": "D1Result",
                 "args": [
                   {
-                    "name": "[]",
-                    "args": [
-                      {
-                        "name": "T"
-                      }
-                    ]
+                    "name": "T"
                   }
                 ]
               }
@@ -5161,12 +5144,6 @@
                     }
                   },
                   {
-                    "name": "key",
-                    "type": {
-                      "name": "string"
-                    }
-                  },
-                  {
                     "name": "value",
                     "type": {
                       "name": "|",
@@ -5178,6 +5155,12 @@
                           "name": "string"
                         }
                       ]
+                    }
+                  },
+                  {
+                    "name": "key",
+                    "type": {
+                      "name": "string"
                     }
                   },
                   {
@@ -5693,13 +5676,13 @@
                     }
                   },
                   {
-                    "name": "key",
+                    "name": "value",
                     "type": {
                       "name": "string"
                     }
                   },
                   {
-                    "name": "value",
+                    "name": "key",
                     "type": {
                       "name": "string"
                     }
@@ -5942,7 +5925,8 @@
       {
         "name": "clientTcpRtt",
         "type": {
-          "name": "number"
+          "name": "number",
+          "optional": true
         }
       },
       {
@@ -6087,6 +6071,19 @@
   "IncomingRequestCfPropertiesBotManagement": {
     "name": "IncomingRequestCfPropertiesBotManagement",
     "members": [
+      {
+        "name": "corporateProxy",
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "ja3Hash",
+        "type": {
+          "name": "string",
+          "optional": true
+        }
+      },
       {
         "name": "score",
         "type": {
@@ -7885,9 +7882,22 @@
         "type": {
           "params": [
             {
-              "name": "key",
+              "name": "keys",
               "type": {
-                "name": "string"
+                "name": "|",
+                "args": [
+                  {
+                    "name": "string"
+                  },
+                  {
+                    "name": "[]",
+                    "args": [
+                      {
+                        "name": "string"
+                      }
+                    ]
+                  }
+                ]
               }
             }
           ],
@@ -7929,6 +7939,51 @@
       "renamed": true
     },
     "kind": "class"
+  },
+  "R2Checksums": {
+    "name": "R2Checksums",
+    "members": [
+      {
+        "name": "md5",
+        "type": {
+          "name": "ArrayBuffer",
+          "optional": true
+        }
+      },
+      {
+        "name": "sha1",
+        "type": {
+          "name": "ArrayBuffer",
+          "optional": true
+        }
+      },
+      {
+        "name": "sha256",
+        "type": {
+          "name": "ArrayBuffer",
+          "optional": true
+        }
+      },
+      {
+        "name": "sha384",
+        "type": {
+          "name": "ArrayBuffer",
+          "optional": true
+        }
+      },
+      {
+        "name": "sha512",
+        "type": {
+          "name": "ArrayBuffer",
+          "optional": true
+        }
+      }
+    ],
+    "comment": {
+      "text": "The checksums associated with the object.",
+      "renamed": true
+    },
+    "kind": "struct"
   },
   "R2Conditional": {
     "name": "R2Conditional",
@@ -8174,6 +8229,13 @@
         "readonly": true
       },
       {
+        "name": "checksums",
+        "type": {
+          "name": "R2Checksums"
+        },
+        "readonly": true
+      },
+      {
         "name": "uploaded",
         "type": {
           "name": "Date"
@@ -8374,6 +8436,21 @@
     "name": "R2PutOptions",
     "members": [
       {
+        "name": "onlyIf",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "R2Conditional"
+            },
+            {
+              "name": "Headers"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
         "name": "httpMetadata",
         "type": {
           "name": "|",
@@ -8405,6 +8482,66 @@
       },
       {
         "name": "md5",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "ArrayBuffer"
+            },
+            {
+              "name": "string"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "sha1",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "ArrayBuffer"
+            },
+            {
+              "name": "string"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "sha256",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "ArrayBuffer"
+            },
+            {
+              "name": "string"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "sha384",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "ArrayBuffer"
+            },
+            {
+              "name": "string"
+            }
+          ],
+          "optional": true
+        }
+      },
+      {
+        "name": "sha512",
         "type": {
           "name": "|",
           "args": [
@@ -9649,12 +9786,18 @@
             },
             {
               "name": "\"json\""
+            },
+            {
+              "name": "\"jpeg\""
+            },
+            {
+              "name": "\"png\""
             }
           ],
           "optional": true
         },
         "comment": {
-          "text": "Output format to generate. It can be:\n - avif: generate images in AVIF format.\n - webp: generate images in Google WebP format. Set quality to 100 to get\n   the WebP-lossless format.\n - json: instead of generating an image, outputs information about the\n   image, in JSON format. The JSON object will contain image size\n   (before and after resizing), source image\u2019s MIME type, file size, etc."
+          "text": "Output format to generate. It can be:\n - avif: generate images in AVIF format.\n - webp: generate images in Google WebP format. Set quality to 100 to get\n   the WebP-lossless format.\n - json: instead of generating an image, outputs information about the\n   image, in JSON format. The JSON object will contain image size\n   (before and after resizing), source image\u2019s MIME type, file size, etc.\n- jpeg: generate images in JPEG format.\n- png: generate images in PNG format."
         }
       },
       {
@@ -9721,6 +9864,16 @@
         },
         "comment": {
           "text": "Overlays are drawn in the order they appear in the array (last array\nentry is the topmost layer)."
+        }
+      },
+      {
+        "name": "\"origin-auth\"",
+        "type": {
+          "name": "\"share-publicly\"",
+          "optional": true
+        },
+        "comment": {
+          "text": "Fetching image from authenticated origin. Setting this property will\npass authentication headers (Authorization, Cookie, etc.) through to\nthe origin."
         }
       }
     ],
@@ -11239,7 +11392,7 @@
       {
         "name": "highWaterMark",
         "type": {
-          "name": "integer",
+          "name": "bigint",
           "optional": true
         }
       },
@@ -12533,6 +12686,330 @@
     ],
     "kind": "class"
   },
+  "TraceEvent": {
+    "name": "TraceEvent",
+    "members": [
+      {
+        "name": "traces",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "TraceItem"
+            }
+          ]
+        },
+        "readonly": true
+      }
+    ],
+    "extends": [
+      {
+        "name": "ExtendableEvent"
+      }
+    ],
+    "kind": "class"
+  },
+  "TraceException": {
+    "name": "TraceException",
+    "members": [
+      {
+        "name": "timestamp",
+        "type": {
+          "name": "double"
+        },
+        "readonly": true
+      },
+      {
+        "name": "message",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "name",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
+  "TraceItem": {
+    "name": "TraceItem",
+    "members": [
+      {
+        "name": "event",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "TraceItemEventInfo"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "eventTimestamp",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "logs",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "TraceLog"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "exceptions",
+        "type": {
+          "name": "[]",
+          "args": [
+            {
+              "name": "TraceException"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "scriptName",
+        "type": {
+          "name": "|",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "dispatchNamespace",
+        "type": {
+          "name": "string",
+          "optional": true
+        },
+        "readonly": true
+      },
+      {
+        "name": "outcome",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
+  "TraceItemAlarmEventInfo": {
+    "name": "TraceItemAlarmEventInfo",
+    "members": [
+      {
+        "name": "scheduledTime",
+        "type": {
+          "name": "Date"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
+  "TraceItemEventInfo": {
+    "name": "TraceItemEventInfo",
+    "type": {
+      "name": "|",
+      "args": [
+        {
+          "name": "TraceItemFetchEventInfo"
+        },
+        {
+          "name": "TraceItemScheduledEventInfo"
+        },
+        {
+          "name": "TraceItemAlarmEventInfo"
+        }
+      ]
+    },
+    "kind": "typedef"
+  },
+  "TraceItemFetchEventInfo": {
+    "name": "TraceItemFetchEventInfo",
+    "members": [
+      {
+        "name": "response",
+        "type": {
+          "name": "TraceItemFetchEventInfoResponse",
+          "optional": true
+        },
+        "readonly": true
+      },
+      {
+        "name": "request",
+        "type": {
+          "name": "TraceItemFetchEventInfoRequest"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
+  "TraceItemFetchEventInfoRequest": {
+    "name": "TraceItemFetchEventInfoRequest",
+    "members": [
+      {
+        "name": "cf",
+        "type": {
+          "name": "Object",
+          "optional": true
+        },
+        "readonly": true
+      },
+      {
+        "name": "headers",
+        "type": {
+          "name": "Record",
+          "args": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "readonly": true
+      },
+      {
+        "name": "method",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "url",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "getUnredacted",
+        "type": {
+          "params": [],
+          "returns": {
+            "name": "TraceItemFetchEventInfoRequest"
+          }
+        }
+      }
+    ],
+    "kind": "class"
+  },
+  "TraceItemFetchEventInfoResponse": {
+    "name": "TraceItemFetchEventInfoResponse",
+    "members": [
+      {
+        "name": "status",
+        "type": {
+          "name": "integer"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
+  "TraceItemScheduledEventInfo": {
+    "name": "TraceItemScheduledEventInfo",
+    "members": [
+      {
+        "name": "scheduledTime",
+        "type": {
+          "name": "double"
+        },
+        "readonly": true
+      },
+      {
+        "name": "cron",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
+  "TraceLog": {
+    "name": "TraceLog",
+    "members": [
+      {
+        "name": "timestamp",
+        "type": {
+          "name": "double"
+        },
+        "readonly": true
+      },
+      {
+        "name": "level",
+        "type": {
+          "name": "string"
+        },
+        "readonly": true
+      },
+      {
+        "name": "message",
+        "type": {
+          "name": "Object"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
+  "TraceMetrics": {
+    "name": "TraceMetrics",
+    "members": [
+      {
+        "name": "cpuTime",
+        "type": {
+          "name": "integer"
+        },
+        "readonly": true
+      },
+      {
+        "name": "wallTime",
+        "type": {
+          "name": "integer"
+        },
+        "readonly": true
+      }
+    ],
+    "kind": "class"
+  },
   "TransformStream": {
     "name": "TransformStream",
     "members": [
@@ -13387,13 +13864,13 @@
                     }
                   },
                   {
-                    "name": "key",
+                    "name": "value",
                     "type": {
                       "name": "string"
                     }
                   },
                   {
-                    "name": "value",
+                    "name": "key",
                     "type": {
                       "name": "string"
                     }
@@ -13697,6 +14174,28 @@
       }
     ],
     "kind": "struct"
+  },
+  "UnsafeTraceMetrics": {
+    "name": "UnsafeTraceMetrics",
+    "members": [
+      {
+        "name": "fromTrace",
+        "type": {
+          "params": [
+            {
+              "name": "arg4",
+              "type": {
+                "name": "TraceItem"
+              }
+            }
+          ],
+          "returns": {
+            "name": "TraceMetrics"
+          }
+        }
+      }
+    ],
+    "kind": "class"
   },
   "WebSocket": {
     "name": "WebSocket",
