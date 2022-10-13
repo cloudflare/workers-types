@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.17.0
+
+### Minor Changes
+
+- [#294](https://github.com/cloudflare/workers-types/pull/294) [`fba318b`](https://github.com/cloudflare/workers-types/commit/fba318b33a13be2807e04849aac00b62ca8f0679) Thanks [@Frederik-Baetens](https://github.com/Frederik-Baetens)! - Updated auto-generated types @ 2022-10-13
+
+### Patch Changes
+
+- [#280](https://github.com/cloudflare/workers-types/pull/280) [`6e55069`](https://github.com/cloudflare/workers-types/commit/6e550691955478fac33e960bfafe32738bda6016) Thanks [@WalshyDev](https://github.com/WalshyDev)! - Make clientTcpRtt optional
+
+* [#288](https://github.com/cloudflare/workers-types/pull/288) [`4fe75b2`](https://github.com/cloudflare/workers-types/commit/4fe75b2cfc2b58f1cc7e84923ce8be47ae0a93eb) Thanks [@florianmartens](https://github.com/florianmartens)! - Add 'origin-auth' to RequestInitCfPropertiesImage interface. This changes fixes types for users attempting to fetch images from authenticated sources. Before this fix, users had to manually extend the fetch interface to satisfy the TS compiler.
+
+- [#275](https://github.com/cloudflare/workers-types/pull/275) [`c9e2084`](https://github.com/cloudflare/workers-types/commit/c9e2084294d07fccfbcb33c2da281415204083c9) Thanks [@KianNH](https://github.com/KianNH)! - chore: add corporateProxy to request.cf.botManagement
+
+* [#285](https://github.com/cloudflare/workers-types/pull/285) [`b6a5d1a`](https://github.com/cloudflare/workers-types/commit/b6a5d1a040543ce3a37c3aea71fab30dc8cb90d9) Thanks [@sid405](https://github.com/sid405)! - Fix return type of D1PreparedStatement.all
+
 ## 3.16.0
 
 ### Minor Changes
