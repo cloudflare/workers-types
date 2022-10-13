@@ -29,7 +29,7 @@ declare class FormData {
 declare class Headers {
   entries(): IterableIterator<[key: string, value: string]>;
   [Symbol.iterator](): IterableIterator<[key: string, value: string]>;
-  
+
   keys(): IterableIterator<string>;
   values(): IterableIterator<string>;
 
@@ -49,7 +49,7 @@ declare type HeadersInit =
 declare class URLSearchParams {
   entries(): IterableIterator<[key: string, value: string]>;
   [Symbol.iterator](): IterableIterator<[key: string, value: string]>;
-  
+
   keys(): IterableIterator<string>;
   values(): IterableIterator<string>;
 
