@@ -1,0 +1,54 @@
+name: Add diff to release
+on:
+  release:
+    types: [published]
+
+jobs:
+  show_diff:
+    name: Show ts diff in release notes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+
+      - uses: actions/cache@v2
+        id: node-modules-cache
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: NPM Install
+        run: npm install
+
+      - name: Generate diff
+        id: generate_diff
+        run: npm run --silent generate:diff > diff.md
+      - name: Read diff.md
+        id: diff
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: diff.md
+        
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: GET /repos/${{ github.repository }}/releases/latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: octokit/request-action@v2.x
+        id: update_release
+        with:
+          route: PATCH /repos/${{ github.repository }}/releases/{release_id}
+          release_id: ${{ fromJson(steps.get_latest_release.outputs.data).id }}
+          body: |
+            |
+            ${{ fromJson(steps.get_latest_release.outputs.data).body }}
+            ${{ steps.diff.outputs.content }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

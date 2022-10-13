@@ -13,6 +13,7 @@
   "scripts": {
     "export:docs": "node -r esbuild-register export/docs.ts",
     "export:overrides": "node -r esbuild-register export/overrides.ts",
+    "generate:diff": "node -r esbuild-register export/prettydiff.ts",
     "prettier:check": "prettier --check '**/*.{md,ts}'",
     "prettier": "prettier --write '**/*.{md,ts}'",
     "test": "tsc"
