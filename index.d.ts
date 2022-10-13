@@ -688,8 +688,8 @@ declare class FormData {
   set(name: string, value: string): void;
   set(name: string, value: Blob, filename?: string): void;
   entries(): IterableIterator<[key: string, value: File | string]>;
-  keys(): FormDataKeyIterator;
-  values(): FormDataValueIterator;
+  keys(): IterableIterator<string>;
+  values(): IterableIterator<string | File>;
   forEach<This = unknown>(
     callback: (
       this: This,
@@ -701,10 +701,6 @@ declare class FormData {
   ): void;
   [Symbol.iterator](): IterableIterator<[key: string, value: File | string]>;
 }
-
-declare type FormDataKeyIterator = IterableIterator<string>;
-
-declare type FormDataValueIterator = IterableIterator<string | File>;
 
 declare class HTMLRewriter {
   constructor();
@@ -742,8 +738,8 @@ declare class Headers {
     thisArg?: This
   ): void;
   entries(): IterableIterator<[key: string, value: string]>;
-  keys(): HeadersKeyIterator;
-  values(): HeadersValueIterator;
+  keys(): IterableIterator<string>;
+  values(): IterableIterator<string>;
   [Symbol.iterator](): IterableIterator<[key: string, value: string]>;
 }
 
@@ -757,10 +753,6 @@ declare type HeadersInit =
  * @deprecated Use HeadersInit instead.
  */
 declare type HeadersInitializer = HeadersInit;
-
-declare type HeadersKeyIterator = IterableIterator<string>;
-
-declare type HeadersValueIterator = IterableIterator<string>;
 
 declare class IdentityTransformStream extends TransformStream {
   constructor();
@@ -1426,8 +1418,10 @@ interface RequestInitCfPropertiesImage extends BasicImageTransformations {
    *  - json: instead of generating an image, outputs information about the
    *    image, in JSON format. The JSON object will contain image size
    *    (before and after resizing), source image’s MIME type, file size, etc.
+   * - jpeg: generate images in JPEG format.
+   * - png: generate images in PNG format.
    */
-  format?: "avif" | "webp" | "json";
+  format?: "avif" | "webp" | "json" | "jpeg" | "png";
   /**
    * Whether to preserve animation frames from input files. Default is true.
    * Setting it to false reduces animations to still images. This setting is
@@ -1467,6 +1461,12 @@ interface RequestInitCfPropertiesImage extends BasicImageTransformations {
    * entry is the topmost layer).
    */
   draw?: RequestInitCfPropertiesImageDraw[];
+  /**
+   * Fetching image from authenticated origin. Setting this property will
+   * pass authentication headers (Authorization, Cookie, etc.) through to
+   * the origin.
+   */
+  "origin-auth"?: "share-publicly";
 }
 
 interface RequestInitCfPropertiesImageDraw extends BasicImageTransformations {
@@ -1968,8 +1968,8 @@ declare class URLSearchParams {
   set(name: string, value: string): void;
   sort(): void;
   entries(): IterableIterator<[key: string, value: string]>;
-  keys(): URLSearchParamsKeyIterator;
-  values(): URLSearchParamsValueIterator;
+  keys(): IterableIterator<string>;
+  values(): IterableIterator<string>;
   forEach<This = unknown>(
     callback: (
       this: This,
@@ -1996,10 +1996,6 @@ declare type URLSearchParamsInit =
  * @deprecated Use URLSearchParamsInit instead.
  */
 declare type URLSearchParamsInitializer = URLSearchParamsInit;
-
-declare type URLSearchParamsKeyIterator = IterableIterator<string>;
-
-declare type URLSearchParamsValueIterator = IterableIterator<string>;
 
 interface UnderlyingSink {
   type?: string;

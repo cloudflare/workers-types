@@ -5098,7 +5098,12 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "FormDataKeyIterator"
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "string"
+              }
+            ]
           }
         }
       },
@@ -5107,7 +5112,20 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "FormDataValueIterator"
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "|",
+                "args": [
+                  {
+                    "name": "string"
+                  },
+                  {
+                    "name": "File"
+                  }
+                ]
+              }
+            ]
           }
         }
       },
@@ -5216,38 +5234,6 @@
       }
     ],
     "kind": "class"
-  },
-  "FormDataKeyIterator": {
-    "name": "FormDataKeyIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
-    },
-    "kind": "typedef"
-  },
-  "FormDataValueIterator": {
-    "name": "FormDataValueIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "|",
-          "args": [
-            {
-              "name": "string"
-            },
-            {
-              "name": "File"
-            }
-          ]
-        }
-      ]
-    },
-    "kind": "typedef"
   },
   "HTMLRewriter": {
     "name": "HTMLRewriter",
@@ -5767,7 +5753,12 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "HeadersKeyIterator"
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "string"
+              }
+            ]
           }
         }
       },
@@ -5776,7 +5767,12 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "HeadersValueIterator"
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "string"
+              }
+            ]
           }
         }
       },
@@ -5864,30 +5860,6 @@
     "comment": {
       "text": "Back compat for code migrating to older definitions.",
       "deprecated": "Use HeadersInit instead."
-    },
-    "kind": "typedef"
-  },
-  "HeadersKeyIterator": {
-    "name": "HeadersKeyIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
-    },
-    "kind": "typedef"
-  },
-  "HeadersValueIterator": {
-    "name": "HeadersValueIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
     },
     "kind": "typedef"
   },
@@ -9814,12 +9786,18 @@
             },
             {
               "name": "\"json\""
+            },
+            {
+              "name": "\"jpeg\""
+            },
+            {
+              "name": "\"png\""
             }
           ],
           "optional": true
         },
         "comment": {
-          "text": "Output format to generate. It can be:\n - avif: generate images in AVIF format.\n - webp: generate images in Google WebP format. Set quality to 100 to get\n   the WebP-lossless format.\n - json: instead of generating an image, outputs information about the\n   image, in JSON format. The JSON object will contain image size\n   (before and after resizing), source image\u2019s MIME type, file size, etc."
+          "text": "Output format to generate. It can be:\n - avif: generate images in AVIF format.\n - webp: generate images in Google WebP format. Set quality to 100 to get\n   the WebP-lossless format.\n - json: instead of generating an image, outputs information about the\n   image, in JSON format. The JSON object will contain image size\n   (before and after resizing), source image\u2019s MIME type, file size, etc.\n- jpeg: generate images in JPEG format.\n- png: generate images in PNG format."
         }
       },
       {
@@ -9886,6 +9864,16 @@
         },
         "comment": {
           "text": "Overlays are drawn in the order they appear in the array (last array\nentry is the topmost layer)."
+        }
+      },
+      {
+        "name": "\"origin-auth\"",
+        "type": {
+          "name": "\"share-publicly\"",
+          "optional": true
+        },
+        "comment": {
+          "text": "Fetching image from authenticated origin. Setting this property will\npass authentication headers (Authorization, Cookie, etc.) through to\nthe origin."
         }
       }
     ],
@@ -13838,7 +13826,12 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "URLSearchParamsKeyIterator"
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "string"
+              }
+            ]
           }
         }
       },
@@ -13847,7 +13840,12 @@
         "type": {
           "params": [],
           "returns": {
-            "name": "URLSearchParamsValueIterator"
+            "name": "IterableIterator",
+            "args": [
+              {
+                "name": "string"
+              }
+            ]
           }
         }
       },
@@ -14006,30 +14004,6 @@
     "comment": {
       "text": "Back compat for code migrating to older definitions.\nThis technically isn't part of a standard either way, but the naming\nis more consistent.",
       "deprecated": "Use URLSearchParamsInit instead."
-    },
-    "kind": "typedef"
-  },
-  "URLSearchParamsKeyIterator": {
-    "name": "URLSearchParamsKeyIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
-    },
-    "kind": "typedef"
-  },
-  "URLSearchParamsValueIterator": {
-    "name": "URLSearchParamsValueIterator",
-    "type": {
-      "name": "IterableIterator",
-      "args": [
-        {
-          "name": "string"
-        }
-      ]
     },
     "kind": "typedef"
   },
