@@ -376,16 +376,23 @@ type Blah = {
 
   /** Only set when using Cloudflare Bot Management. */
   botManagement?: BotManagementInfo;
+
+  /**
+   * Duplicate of `botManagement.score`. Only set when using Cloudflare Bot Management.
+   *
+   * @deprecated
+   */
+  clientTrustScore?: number;
 } & GeographicInformation;
 
-type BotManagementInfo {
+type BotManagementInfo = {
   /**
    * Cloudflare’s [level of certainty](https://developers.cloudflare.com/bots/concepts/bot-score/) that a request comes from a bot,
    * represented as an integer percentage between `1` (almost certainly human)
    * and `99` (almost certainly a bot).
-   * 
+   *
    * If the bot management score is not computed for some reason, the value `0` is used.
-   * 
+   *
    * @example 54
    * @default 0
    */
@@ -411,11 +418,11 @@ type BotManagementInfo {
   /**
    * A [JA3 Fingerprint](https://developers.cloudflare.com/bots/concepts/ja3-fingerprint/) to help profile specific SSL/TLS clients
    * across different destination IPs, Ports, and X509 certificates.
-   * 
-   * This field is only set for Cloudflare Enterprise customers using Bot Management.
+   *
+   * This field is only set on the Enterprise plan.
    */
   ja3Hash?: string;
-}
+};
 
 type ExportedAuthenticatorMetadata = {
   /**
