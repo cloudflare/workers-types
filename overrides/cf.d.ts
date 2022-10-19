@@ -366,7 +366,42 @@ type Blah = {
    * the object is populated (i.e. the above conditions were met).
    */
   tlsClientAuth: TlsClientAuth | TlsClientAuthPlaceholder;
+
+  /**
+   * Metadata containing the [`HELLO`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2) and [`FINISHED`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9) messages from this request's TLS handshake.
+   *
+   * If the incoming request was served over plaintext (without TLS) this field is undefined.
+   */
+  tlsExportedAuthenticator?: ExportedAuthenticatorMetadata;
 } & GeographicInformation;
+
+type ExportedAuthenticatorMetadata = {
+  /**
+   * The client's [`HELLO` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2), encoded in hexadecimal
+   *
+   * @example "44372ba35fa1270921d318f34c12f155dc87b682cf36a790cfaa3ba8737a1b5d"
+   */
+  clientHandshake: string;
+
+  /**
+   * The server's [`HELLO` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2), encoded in hexadecimal
+   *
+   * @example "44372ba35fa1270921d318f34c12f155dc87b682cf36a790cfaa3ba8737a1b5d"
+   */
+  serverHandshake: string;
+
+  /**
+   * The client's [`FINISHED` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9), encoded in hexadecimal
+   *
+   * @example "084ee802fe1348f688220e2a6040a05b2199a761f33cf753abb1b006792d3f8b"
+   */
+  clientFinished: string;
+
+  /**
+   * The server's [`FINISHED` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9)
+   */
+  serverFinished: string;
+};
 
 type GeographicInformation =
   | NoGeographicInformation
