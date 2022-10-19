@@ -288,7 +288,7 @@ interface RequestInitCfPropertiesImageMinify {
   html?: boolean;
 }
 
-interface Blah {
+type Blah = {
   /**
    * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
    * airport code of the data center that the request hit.
@@ -366,6 +366,350 @@ interface Blah {
    * the object is populated (i.e. the above conditions were met).
    */
   tlsClientAuth: TlsClientAuth | TlsClientAuthPlaceholder;
+} & GeographicInformation;
+
+type GeographicInformation =
+  | NoGeographicInformation
+  | TorConnection
+  | PopulatedGeographicInformation;
+
+type NoGeographicInformation = {};
+type TorConnection = { country: "T1" };
+type PopulatedGeographicInformation = {
+  /**
+   * The [ISO 3166-1 Alpha 2](https://www.iso.org/iso-3166-country-codes.html) country code the request originated from.
+   *
+   * If your worker is [configured to accept TOR connections](https://support.cloudflare.com/hc/en-us/articles/203306930-Understanding-Cloudflare-Tor-support-and-Onion-Routing), this may also be `"T1"`, indicating a request that originated over TOR.
+   *
+   * If Cloudflare is unable to determine where the request originated this property is omitted.
+   *
+   * @example "GB"
+   */
+  country: Iso3166Alpha2Code;
+
+  /**
+   * If present, this property indicates that the request originated in the EU
+   *
+   * @example "1"
+   */
+  isEUCountry?: "1";
+
+  /**
+   * A two-letter code indicating the continent the request originated from.
+   *
+   * @example "AN"
+   */
+  continent: ContinentCode;
+
+  /**
+   * The city the request originated from
+   *
+   * @example "Austin"
+   */
+  city?: string;
+
+  /**
+   * Postal code of the incoming request
+   *
+   * @example "78701"
+   */
+  postalCode?: string;
+
+  /**
+   * Latitude of the incoming request
+   *
+   * @example "30.27130"
+   */
+  latitude?: string;
+
+  /**
+   * Longitude of the incoming request
+   *
+   * @example "-97.74260"
+   */
+  longitude?: string;
+
+  /**
+   * Timezone of the incoming request
+   *
+   * @example "America/Chicago"
+   */
+  timezone?: string;
+
+  /**
+   * If known, the ISO 3166-2 name for the first level region associated with
+   * the IP address of the incoming request
+   *
+   * @example "Texas"
+   */
+  region?: string;
+
+  /**
+   * If known, the ISO 3166-2 code for the first-level region associated with
+   * the IP address of the incoming request
+   *
+   * @example "TX"
+   */
+  regionCode?: string;
+
+  /**
+   * Metro code (DMA) of the incoming request
+   *
+   * @example "635"
+   */
+  metroCode?: string;
+};
+
+declare const enum Iso3166Alpha2Code {
+  Andorra = "AD",
+  UnitedArabEmirates = "AE",
+  Afghanistan = "AF",
+  AntiguaAndBarbuda = "AG",
+  Anguilla = "AI",
+  Albania = "AL",
+  Armenia = "AM",
+  Angola = "AO",
+  Antarctica = "AQ",
+  Argentina = "AR",
+  AmericanSamoa = "AS",
+  Austria = "AT",
+  Australia = "AU",
+  Aruba = "AW",
+  ÅlandIslands = "AX",
+  Azerbaijan = "AZ",
+  BosniaAndHerzegovina = "BA",
+  Barbados = "BB",
+  Bangladesh = "BD",
+  Belgium = "BE",
+  BurkinaFaso = "BF",
+  Bulgaria = "BG",
+  Bahrain = "BH",
+  Burundi = "BI",
+  Benin = "BJ",
+  SaintBarthélemy = "BL",
+  Bermuda = "BM",
+  BruneiDarussalam = "BN",
+  BoliviaPlurinationalStateOf = "BO",
+  BonaireSintEustatiusAndSaba = "BQ",
+  Brazil = "BR",
+  Bahamas = "BS",
+  Bhutan = "BT",
+  BouvetIsland = "BV",
+  Botswana = "BW",
+  Belarus = "BY",
+  Belize = "BZ",
+  Canada = "CA",
+  CocosKeelingIslands = "CC",
+  CongoDemocraticRepublicOfThe = "CD",
+  CentralAfricanRepublic = "CF",
+  Congo = "CG",
+  Switzerland = "CH",
+  CôtedIvoire = "CI",
+  CookIslands = "CK",
+  Chile = "CL",
+  Cameroon = "CM",
+  China = "CN",
+  Colombia = "CO",
+  CostaRica = "CR",
+  Cuba = "CU",
+  CaboVerde = "CV",
+  Curaçao = "CW",
+  ChristmasIsland = "CX",
+  Cyprus = "CY",
+  Czechia = "CZ",
+  Germany = "DE",
+  Djibouti = "DJ",
+  Denmark = "DK",
+  Dominica = "DM",
+  DominicanRepublic = "DO",
+  Algeria = "DZ",
+  Ecuador = "EC",
+  Estonia = "EE",
+  Egypt = "EG",
+  WesternSahara = "EH",
+  Eritrea = "ER",
+  Spain = "ES",
+  Ethiopia = "ET",
+  Finland = "FI",
+  Fiji = "FJ",
+  FalklandIslandsMalvinas = "FK",
+  MicronesiaFederatedStatesOf = "FM",
+  FaroeIslands = "FO",
+  France = "FR",
+  Gabon = "GA",
+  UnitedKingdomOfGreatBritainAndNorthernIreland = "GB",
+  Grenada = "GD",
+  Georgia = "GE",
+  FrenchGuiana = "GF",
+  Guernsey = "GG",
+  Ghana = "GH",
+  Gibraltar = "GI",
+  Greenland = "GL",
+  Gambia = "GM",
+  Guinea = "GN",
+  Guadeloupe = "GP",
+  EquatorialGuinea = "GQ",
+  Greece = "GR",
+  SouthGeorgiaAndTheSouthSandwichIslands = "GS",
+  Guatemala = "GT",
+  Guam = "GU",
+  GuineaBissau = "GW",
+  Guyana = "GY",
+  HongKong = "HK",
+  HeardIslandAndMcDonaldIslands = "HM",
+  Honduras = "HN",
+  Croatia = "HR",
+  Haiti = "HT",
+  Hungary = "HU",
+  Indonesia = "ID",
+  Ireland = "IE",
+  Israel = "IL",
+  IsleOfMan = "IM",
+  India = "IN",
+  BritishIndianOceanTerritory = "IO",
+  Iraq = "IQ",
+  IranIslamicRepublicOf = "IR",
+  Iceland = "IS",
+  Italy = "IT",
+  Jersey = "JE",
+  Jamaica = "JM",
+  Jordan = "JO",
+  Japan = "JP",
+  Kenya = "KE",
+  Kyrgyzstan = "KG",
+  Cambodia = "KH",
+  Kiribati = "KI",
+  Comoros = "KM",
+  SaintKittsAndNevis = "KN",
+  KoreaDemocraticPeoplesRepublicOf = "KP",
+  KoreaRepublicOf = "KR",
+  Kuwait = "KW",
+  CaymanIslands = "KY",
+  Kazakhstan = "KZ",
+  LaoPeoplesDemocraticRepublic = "LA",
+  Lebanon = "LB",
+  SaintLucia = "LC",
+  Liechtenstein = "LI",
+  SriLanka = "LK",
+  Liberia = "LR",
+  Lesotho = "LS",
+  Lithuania = "LT",
+  Luxembourg = "LU",
+  Latvia = "LV",
+  Libya = "LY",
+  Morocco = "MA",
+  Monaco = "MC",
+  MoldovaRepublicOf = "MD",
+  Montenegro = "ME",
+  SaintMartinFrenchPart = "MF",
+  Madagascar = "MG",
+  MarshallIslands = "MH",
+  NorthMacedonia = "MK",
+  Mali = "ML",
+  Myanmar = "MM",
+  Mongolia = "MN",
+  Macao = "MO",
+  NorthernMarianaIslands = "MP",
+  Martinique = "MQ",
+  Mauritania = "MR",
+  Montserrat = "MS",
+  Malta = "MT",
+  Mauritius = "MU",
+  Maldives = "MV",
+  Malawi = "MW",
+  Mexico = "MX",
+  Malaysia = "MY",
+  Mozambique = "MZ",
+  Namibia = "NA",
+  NewCaledonia = "NC",
+  Niger = "NE",
+  NorfolkIsland = "NF",
+  Nigeria = "NG",
+  Nicaragua = "NI",
+  Netherlands = "NL",
+  Norway = "NO",
+  Nepal = "NP",
+  Nauru = "NR",
+  Niue = "NU",
+  NewZealand = "NZ",
+  Oman = "OM",
+  Panama = "PA",
+  Peru = "PE",
+  FrenchPolynesia = "PF",
+  PapuaNewGuinea = "PG",
+  Philippines = "PH",
+  Pakistan = "PK",
+  Poland = "PL",
+  SaintPierreAndMiquelon = "PM",
+  Pitcairn = "PN",
+  PuertoRico = "PR",
+  PalestineStateOf = "PS",
+  Portugal = "PT",
+  Palau = "PW",
+  Paraguay = "PY",
+  Qatar = "QA",
+  Réunion = "RE",
+  Romania = "RO",
+  Serbia = "RS",
+  RussianFederation = "RU",
+  Rwanda = "RW",
+  SaudiArabia = "SA",
+  SolomonIslands = "SB",
+  Seychelles = "SC",
+  Sudan = "SD",
+  Sweden = "SE",
+  Singapore = "SG",
+  SaintHelenaAscensionAndTristanDaCunha = "SH",
+  Slovenia = "SI",
+  SvalbardAndJanMayen = "SJ",
+  Slovakia = "SK",
+  SierraLeone = "SL",
+  SanMarino = "SM",
+  Senegal = "SN",
+  Somalia = "SO",
+  Suriname = "SR",
+  SouthSudan = "SS",
+  SaoTomeAndPrincipe = "ST",
+  ElSalvador = "SV",
+  SintMaartenDutchPart = "SX",
+  SyrianArabRepublic = "SY",
+  Eswatini = "SZ",
+  TurksAndCaicosIslands = "TC",
+  Chad = "TD",
+  FrenchSouthernTerritories = "TF",
+  Togo = "TG",
+  Thailand = "TH",
+  Tajikistan = "TJ",
+  Tokelau = "TK",
+  TimorLeste = "TL",
+  Turkmenistan = "TM",
+  Tunisia = "TN",
+  Tonga = "TO",
+  Türkiye = "TR",
+  TrinidadAndTobago = "TT",
+  Tuvalu = "TV",
+  TaiwanProvinceOfChina = "TW",
+  TanzaniaUnitedRepublicOf = "TZ",
+  Ukraine = "UA",
+  Uganda = "UG",
+  UnitedStatesMinorOutlyingIslands = "UM",
+  UnitedStatesOfAmerica = "US",
+  Uruguay = "UY",
+  Uzbekistan = "UZ",
+  HolySee = "VA",
+  SaintVincentAndTheGrenadines = "VC",
+  VenezuelaBolivarianRepublicOf = "VE",
+  VirginIslandsBritish = "VG",
+  VirginIslandsUS = "VI",
+  VietNam = "VN",
+  Vanuatu = "VU",
+  WallisAndFutuna = "WF",
+  Samoa = "WS",
+  Yemen = "YE",
+  Mayotte = "YT",
+  SouthAfrica = "ZA",
+  Zambia = "ZM",
+  Zimbabwe = "ZW",
 }
 
 type TlsClientAuth = {
@@ -432,6 +776,16 @@ type TlsClientAuth = {
    */
   certNotAfter: "" | string;
 };
+
+declare const enum ContinentCode {
+  Africa = "AF",
+  Antarctica = "AN",
+  Asia = "AS",
+  Europe = "EU",
+  NorthAmerica = "NA",
+  Oceania = "OC",
+  SouthAmerica = "SA",
+}
 
 type TlsClientAuthPlaceholder = {
   certPresented: "0";
