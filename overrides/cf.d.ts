@@ -288,6 +288,216 @@ interface RequestInitCfPropertiesImageMinify {
   html?: boolean;
 }
 
+interface Blah {
+  /**
+   * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
+   * airport code of the data center that the request hit.
+   *
+   * @example "DFW"
+   */
+  colo: string;
+
+  /**
+   * [ASN](https://www.iana.org/assignments/as-numbers/as-numbers.xhtml) of the incoming request.
+   *
+   * @example 395747
+   */
+  asn: number;
+
+  /**
+   * The organization which owns the ASN of the incoming request.
+   *
+   * @example "Google Cloud"
+   */
+  asOrganization: string;
+
+  /**
+   * The HTTP Protocol the request used.
+   *
+   * @example "HTTP/2"
+   */
+  httpProtocol: string;
+
+  /**
+   * The TLS version of the connection to Cloudflare.
+   * In requests served over plaintext (without TLS), this property is the empty string `""`.
+   *
+   * @example "TLSv1.3"
+   */
+  tlsVersion: "" | string;
+
+  /**
+   * The cipher for the connection to Cloudflare.
+   * In requests served over plaintext (without TLS), this property is the empty string `""`.
+   *
+   * @example "AEAD-AES128-GCM-SHA256"
+   */
+  tlsCipher: "" | string;
+
+  /**
+   * Custom metadata set per-host in [Cloudflare for SaaS](https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/).
+   *
+   * This field is only present if you have Cloudflare for SaaS enabled on your account
+   * and you have followed the [required steps to enable it]((https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/domain-support/custom-metadata/)).
+   */
+  hostMetadata?: unknown;
+
+  /**
+   * Represents the upstream's response to a
+   * [TCP `keepalive` message](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
+   * from cloudflare.
+   *
+   * For workers with no upstream, this will always be `EdgeRequestKeepAliveStatus.NoKeepAlives`.
+   */
+  edgeRequestKeepAliveStatus: EdgeRequestKeepAliveStatus;
+
+  /**
+   * Information about the client certificate presented to Cloudflare.
+   *
+   * This is populated when the incoming request is served over TLS using
+   * either Cloudflare Access or API Shield (mTLS)
+   * and the presented SSL certificate has a valid
+   * [Certificate Serial Number](https://ldapwiki.com/wiki/Certificate%20Serial%20Number)
+   * (i.e., not `null` or `""`).
+   *
+   * Otherwise, a set of placeholder values are used.
+   *
+   * The property `certPresented` will be set to `"1"` when
+   * the object is populated (i.e. the above conditions were met).
+   */
+  tlsClientAuth: TlsClientAuth | TlsClientAuthPlaceholder;
+}
+
+type TlsClientAuth = {
+  /** Always `"1"`, indicating that the certificate was presented */
+  certPresented: "1";
+
+  /** Result of certificate verification. */
+  certVerified: Exclude<CertVerificationStatus, CertVerificationStatus.Absent>;
+
+  /** The presented certificate's revokation status.
+   *
+   * - A value of `"1"` indicates the certificate has been revoked
+   * - A value of `"0"` indicates the certificate has not been revoked
+   */
+  certRevoked: "1" | "0";
+
+  /** The certificate issuer's distinguished name */
+  certIssuerDN: "" | string;
+
+  /** The certificate subject's distinguished name */
+  certSubjectDN: "" | string;
+
+  /** The certificate issuer's distinguished name (RFC 2253 formatted) */
+  certIssuerDNRFC2253: "" | string;
+
+  /** The certificate subject's distinguished name (RFC 2253 formatted) */
+  certSubjectDNRFC2253: "" | string;
+
+  /** The certificate issuer's distinguished name (legacy policies) */
+  certIssuerDNLegacy: "" | string;
+
+  /** The certificate subject's distinguished name (legacy policies) */
+  certSubjectDNLegacy: "" | string;
+
+  /** The certificate's serial number */
+  certSerial: "" | string;
+
+  /** The certificate issuer's serial number */
+  certIssuerSerial: "" | string;
+
+  /** The certificate's Subject Key Identifier */
+  certSKI: "" | string;
+
+  /** The certificate issuer's Subject Key Identifier */
+  certIssuerSKI: "" | string;
+
+  /** The certificate's SHA-1 fingerprint */
+  certFingerprintSHA1: "" | string;
+
+  /** The certificate's SHA-256 fingerprint */
+  certFingerprintSHA256: "" | string;
+
+  /**
+   * The effective starting date of the certificate
+   *
+   * @example "Dec 22 19:39:00 2018 GMT"
+   */
+  certNotBefore: "" | string;
+
+  /**
+   * The effective expiration date of the certificate
+   *
+   * @example "Dec 22 19:39:00 2018 GMT"
+   */
+  certNotAfter: "" | string;
+};
+
+type TlsClientAuthPlaceholder = {
+  certPresented: "0";
+  certVerified: CertVerificationStatus.Absent;
+  certRevoked: "0";
+  certIssuerDN: "";
+  certSubjectDN: "";
+  certIssuerDNRFC2253: "";
+  certSubjectDNRFC2253: "";
+  certIssuerDNLegacy: "";
+  certSubjectDNLegacy: "";
+  certSerial: "";
+  certIssuerSerial: "";
+  certSKI: "";
+  certIssuerSKI: "";
+  certFingerprintSHA1: "";
+  certFingerprintSHA256: "";
+  certNotBefore: "";
+  certNotAfter: "";
+};
+
+declare const enum CertVerificationStatus {
+  /** Authentication succeeded */
+  Success = "SUCCESS",
+
+  /** No certificate was presented */
+  Absent = "NONE",
+
+  /** Failed because the certificate was self-signed */
+  SelfSigned = "FAILED:self signed certificate",
+
+  /** Failed because the certificate failed a trust chain check */
+  Untrusted = "FAILED:unable to verify the first certificate",
+
+  /** Failed because the certificate not yet valid */
+  NotYetValid = "FAILED:certificate is not yet valid",
+
+  /** Failed because the certificate is expired */
+  Expired = "FAILED:certificate has expired",
+
+  /** Failed for another unspecified reason */
+  Failed = "FAILED",
+}
+
+/**
+ * An upstream endpoint's response to
+ * a TCP `keepalive` message from Cloudflare.
+ */
+declare const enum EdgeRequestKeepAliveStatus {
+  Unknown = 0,
+  /** no keepalives (not found) */
+  NoKeepAlives = 1,
+
+  /** no connection re-use, opening keepalive connection failed */
+  NoReuseOpenFailed = 2,
+
+  /** no connection re-use, keepalive accepted and saved */
+  NoReuseAccepted = 3,
+
+  /** connection re-use, refused by the origin server (`TCP FIN`) */
+  ReuseRefused = 4,
+
+  /** connection re-use, accepted by the origin server */
+  ReuseAccepted = 5,
+}
+
 /**
  * In addition to the properties on the standard Request object,
  * the cf object contains extra information about the request provided
