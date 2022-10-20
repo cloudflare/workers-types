@@ -298,171 +298,217 @@ interface RequestInitCfPropertiesImageMinify {
 /**
  * Request metadata provided by Cloudflare's edge.
  */
-type IncomingRequestCfProperties<HostMetadata extends unknown = never> =
-  IncomingRequestCfPropertiesGeographicInformation & {
-    /**
-     * [ASN](https://www.iana.org/assignments/as-numbers/as-numbers.xhtml) of the incoming request.
-     *
-     * @example 395747
-     */
-    asn: number;
+type IncomingRequestCfProperties<HostMetadata = never> =
+  IncomingRequestCfPropertiesBase &
+    IncomingRequestCfPropertiesBotManagementEnterprise &
+    IncomingRequestCfPropertiesCloudflareForSaaSEnterprise<HostMetadata> &
+    IncomingRequestCfPropertiesGeographicInformation &
+    IncomingRequestCfPropertiesCloudflareAccessOrApiShield;
 
-    /**
-     * The organization which owns the ASN of the incoming request.
-     *
-     * @example "Google Cloud"
-     */
-    asOrganization: string;
+interface IncomingRequestCfPropertiesBase {
+  /**
+   * [ASN](https://www.iana.org/assignments/as-numbers/as-numbers.xhtml) of the incoming request.
+   *
+   * @example 395747
+   */
+  asn: number;
 
-    /**
-     * Only set when using Cloudflare Bot Management.
-     */
-    botManagement?: IncomingRequestCfPropertiesBotManagement;
+  /**
+   * The organization which owns the ASN of the incoming request.
+   *
+   * @example "Google Cloud"
+   */
+  asOrganization: string;
 
-    /**
-     * The original value of the `Accept-Encoding` header if Cloudflare modified it.
-     *
-     * @example "gzip, deflate, br"
-     */
-    clientAcceptEncoding?: string;
+  /**
+   * The original value of the `Accept-Encoding` header if Cloudflare modified it.
+   *
+   * @example "gzip, deflate, br"
+   */
+  clientAcceptEncoding?: string;
 
-    /**
-     * The number of milliseconds it took for the request to reach your worker.
-     *
-     * @example 22
-     */
-    clientTcpRtt?: number;
+  /**
+   * The number of milliseconds it took for the request to reach your worker.
+   *
+   * @example 22
+   */
+  clientTcpRtt?: number;
 
-    /**
-     * Duplicate of `botManagement.score`. Only set when using Cloudflare Bot Management.
-     *
-     * @deprecated
-     */
-    clientTrustScore?: number;
+  /**
+   * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
+   * airport code of the data center that the request hit.
+   *
+   * @example "DFW"
+   */
+  colo: string;
 
-    /**
-     * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
-     * airport code of the data center that the request hit.
-     *
-     * @example "DFW"
-     */
-    colo: string;
+  /**
+   * Represents the upstream's response to a
+   * [TCP `keepalive` message](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
+   * from cloudflare.
+   *
+   * For workers with no upstream, this will always be `1`.
+   *
+   * @example 3
+   */
+  edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
 
-    /**
-     * Represents the upstream's response to a
-     * [TCP `keepalive` message](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
-     * from cloudflare.
-     *
-     * For workers with no upstream, this will always be `1`.
-     *
-     * @example 3
-     */
-    edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
+  /**
+   * The HTTP Protocol the request used.
+   *
+   * @example "HTTP/2"
+   */
+  httpProtocol: string;
 
-    /**
-     * Custom metadata set per-host in [Cloudflare for SaaS](https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/).
-     *
-     * This field is only present if you have Cloudflare for SaaS enabled on your account
-     * and you have followed the [required steps to enable it]((https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/domain-support/custom-metadata/)).
-     */
-    hostMetadata: HostMetadata;
+  /**
+   * The browser-requested prioritization information in the request object.
+   *
+   * If no information was set, defaults to the empty string `""`
+   *
+   * @example "weight=192;exclusive=0;group=3;group-weight=127"
+   * @default ""
+   */
+  requestPriority: string;
 
-    /**
-     * The HTTP Protocol the request used.
-     *
-     * @example "HTTP/2"
-     */
-    httpProtocol: string;
+  /**
+   * The TLS version of the connection to Cloudflare.
+   * In requests served over plaintext (without TLS), this property is the empty string `""`.
+   *
+   * @example "TLSv1.3"
+   */
+  tlsVersion: string;
 
-    /**
-     * The browser-requested prioritization information in the request object.
-     *
-     * If no information was set, defaults to the empty string `""`
-     *
-     * @example "weight=192;exclusive=0;group=3;group-weight=127"
-     * @default ""
-     */
-    requestPriority: string;
+  /**
+   * The cipher for the connection to Cloudflare.
+   * In requests served over plaintext (without TLS), this property is the empty string `""`.
+   *
+   * @example "AEAD-AES128-GCM-SHA256"
+   */
+  tlsCipher: string;
 
-    /**
-     * The TLS version of the connection to Cloudflare.
-     * In requests served over plaintext (without TLS), this property is the empty string `""`.
-     *
-     * @example "TLSv1.3"
-     */
-    tlsVersion: string;
+  /**
+   * Metadata containing the [`HELLO`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2) and [`FINISHED`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9) messages from this request's TLS handshake.
+   *
+   * If the incoming request was served over plaintext (without TLS) this field is undefined.
+   */
+  tlsExportedAuthenticator?: IncomingRequestCfPropertiesExportedAuthenticatorMetadata;
+}
 
-    /**
-     * The cipher for the connection to Cloudflare.
-     * In requests served over plaintext (without TLS), this property is the empty string `""`.
-     *
-     * @example "AEAD-AES128-GCM-SHA256"
-     */
-    tlsCipher: string;
-
-    /**
-     * Information about the client certificate presented to Cloudflare.
-     *
-     * This is populated when the incoming request is served over TLS using
-     * either Cloudflare Access or API Shield (mTLS)
-     * and the presented SSL certificate has a valid
-     * [Certificate Serial Number](https://ldapwiki.com/wiki/Certificate%20Serial%20Number)
-     * (i.e., not `null` or `""`).
-     *
-     * Otherwise, a set of placeholder values are used.
-     *
-     * The property `certPresented` will be set to `"1"` when
-     * the object is populated (i.e. the above conditions were met).
-     */
-    tlsClientAuth:
-      | IncomingRequestCfPropertiesTLSClientAuth
-      | IncomingRequestCfPropertiesTLSClientAuthPlaceholder;
-
-    /**
-     * Metadata containing the [`HELLO`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2) and [`FINISHED`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9) messages from this request's TLS handshake.
-     *
-     * If the incoming request was served over plaintext (without TLS) this field is undefined.
-     */
-    tlsExportedAuthenticator?: IncomingRequestCfPropertiesExportedAuthenticatorMetadata;
-  };
-
-/**
- * Results of Cloudflare's Bot Management analysis
- */
 interface IncomingRequestCfPropertiesBotManagement {
   /**
-   * Cloudflare’s [level of certainty](https://developers.cloudflare.com/bots/concepts/bot-score/) that a request comes from a bot,
-   * represented as an integer percentage between `1` (almost certainly human)
-   * and `99` (almost certainly a bot).
+   * Results of Cloudflare's Bot Management analysis
+   */
+  botManagement: {
+    /**
+     * Cloudflare’s [level of certainty](https://developers.cloudflare.com/bots/concepts/bot-score/) that a request comes from a bot,
+     * represented as an integer percentage between `1` (almost certainly human)
+     * and `99` (almost certainly a bot).
+     *
+     * @example 54
+     */
+    score: number;
+
+    /**
+     * A boolean value that is true if the request comes from a good bot, like Google or Bing.
+     * Most customers choose to allow this traffic. For more details, see [Traffic from known bots](https://developers.cloudflare.com/firewall/known-issues-and-faq/#how-does-firewall-rules-handle-traffic-from-known-bots).
+     */
+    verifiedBot: boolean;
+
+    /**
+     * A boolean value that is true if the request originates from a
+     * Cloudflare-verified proxy service.
+     */
+    corporateProxy: boolean;
+
+    /**
+     * A boolean value that's true if the request matches [file extensions](https://developers.cloudflare.com/bots/reference/static-resources/) for many types of static resources.
+     */
+    staticResource: boolean;
+  };
+
+  /**
+   * Duplicate of `botManagement.score`.
    *
-   * @example 54
+   * @deprecated
    */
-  score: number;
+  clientTrustScore: number;
+}
+
+interface IncomingRequestCfPropertiesBotManagementEnterprise
+  extends IncomingRequestCfPropertiesBotManagement {
+  /**
+   * Results of Cloudflare's Bot Management analysis
+   */
+  botManagement: {
+    /**
+     * Cloudflare’s [level of certainty](https://developers.cloudflare.com/bots/concepts/bot-score/) that a request comes from a bot,
+     * represented as an integer percentage between `1` (almost certainly human)
+     * and `99` (almost certainly a bot).
+     *
+     * @example 54
+     */
+    score: number;
+
+    /**
+     * A boolean value that is true if the request comes from a good bot, like Google or Bing.
+     * Most customers choose to allow this traffic. For more details, see [Traffic from known bots](https://developers.cloudflare.com/firewall/known-issues-and-faq/#how-does-firewall-rules-handle-traffic-from-known-bots).
+     */
+    verifiedBot: boolean;
+
+    /**
+     * A boolean value that is true if the request originates from a
+     * Cloudflare-verified proxy service.
+     */
+    corporateProxy: boolean;
+
+    /**
+     * A boolean value that's true if the request matches [file extensions](https://developers.cloudflare.com/bots/reference/static-resources/) for many types of static resources.
+     */
+    staticResource: boolean;
+
+    /**
+     * A [JA3 Fingerprint](https://developers.cloudflare.com/bots/concepts/ja3-fingerprint/) to help profile specific SSL/TLS clients
+     * across different destination IPs, Ports, and X509 certificates.
+     */
+    ja3Hash: string;
+  };
 
   /**
-   * A boolean value that is true if the request comes from a good bot, like Google or Bing.
-   * Most customers choose to allow this traffic. For more details, see [Traffic from known bots](https://developers.cloudflare.com/firewall/known-issues-and-faq/#how-does-firewall-rules-handle-traffic-from-known-bots).
-   */
-  verifiedBot: boolean;
-
-  /**
-   * A boolean value that is true if the request originates from a
-   * Cloudflare-verified proxy service.
-   */
-  corporateProxy: boolean;
-
-  /**
-   * A boolean value that's true if the request matches [file extensions](https://developers.cloudflare.com/bots/reference/static-resources/) for many types of static resources.
-   */
-  staticResource: boolean;
-
-  /**
-   * A [JA3 Fingerprint](https://developers.cloudflare.com/bots/concepts/ja3-fingerprint/) to help profile specific SSL/TLS clients
-   * across different destination IPs, Ports, and X509 certificates.
+   * Duplicate of `botManagement.score`.
    *
-   * This field is only set on the Enterprise plan.
+   * @deprecated
    */
-  ja3Hash?: string;
+  clientTrustScore: number;
+}
+
+interface IncomingRequestCfPropertiesCloudflareForSaaSEnterprise<HostMetadata> {
+  /**
+   * Custom metadata set per-host in [Cloudflare for SaaS](https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/).
+   *
+   * This field is only present if you have Cloudflare for SaaS enabled on your account
+   * and you have followed the [required steps to enable it]((https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/domain-support/custom-metadata/)).
+   */
+  hostMetadata: HostMetadata;
+}
+
+interface IncomingRequestCfPropertiesCloudflareAccessOrApiShield {
+  /**
+   * Information about the client certificate presented to Cloudflare.
+   *
+   * This is populated when the incoming request is served over TLS using
+   * either Cloudflare Access or API Shield (mTLS)
+   * and the presented SSL certificate has a valid
+   * [Certificate Serial Number](https://ldapwiki.com/wiki/Certificate%20Serial%20Number)
+   * (i.e., not `null` or `""`).
+   *
+   * Otherwise, a set of placeholder values are used.
+   *
+   * The property `certPresented` will be set to `"1"` when
+   * the object is populated (i.e. the above conditions were met).
+   */
+  tlsClientAuth:
+    | IncomingRequestCfPropertiesTLSClientAuth
+    | IncomingRequestCfPropertiesTLSClientAuthPlaceholder;
 }
 
 /**
