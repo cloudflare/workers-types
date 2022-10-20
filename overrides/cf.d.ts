@@ -8,7 +8,7 @@ declare class Request extends Body {
    *
    * Returns undefined when accessed in the playground.
    */
-  get cf(): IncomingRequestCfProperties | undefined;
+  readonly cf?: IncomingRequestCfProperties;
 }
 
 interface RequestInit {
@@ -298,7 +298,7 @@ interface RequestInitCfPropertiesImageMinify {
 /**
  * Request metadata provided by Cloudflare's edge.
  */
-type IncomingRequestCfProperties =
+type IncomingRequestCfProperties<HostMetadata extends unknown = never> =
   IncomingRequestCfPropertiesGeographicInformation & {
     /**
      * [ASN](https://www.iana.org/assignments/as-numbers/as-numbers.xhtml) of the incoming request.
@@ -361,7 +361,7 @@ type IncomingRequestCfProperties =
      * This field is only present if you have Cloudflare for SaaS enabled on your account
      * and you have followed the [required steps to enable it]((https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/domain-support/custom-metadata/)).
      */
-    hostMetadata?: unknown;
+    hostMetadata: HostMetadata;
 
     /**
      * The HTTP Protocol the request used.
@@ -425,7 +425,7 @@ type IncomingRequestCfProperties =
 /**
  * Results of Cloudflare's Bot Management analysis
  */
-type IncomingRequestCfPropertiesBotManagement = {
+interface IncomingRequestCfPropertiesBotManagement {
   /**
    * Cloudflare’s [level of certainty](https://developers.cloudflare.com/bots/concepts/bot-score/) that a request comes from a bot,
    * represented as an integer percentage between `1` (almost certainly human)
@@ -459,12 +459,12 @@ type IncomingRequestCfPropertiesBotManagement = {
    * This field is only set on the Enterprise plan.
    */
   ja3Hash?: string;
-};
+}
 
 /**
  * Metadata about the request's TLS handshake
  */
-type IncomingRequestCfPropertiesExportedAuthenticatorMetadata = {
+interface IncomingRequestCfPropertiesExportedAuthenticatorMetadata {
   /**
    * The client's [`HELLO` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2), encoded in hexadecimal
    *
@@ -492,7 +492,7 @@ type IncomingRequestCfPropertiesExportedAuthenticatorMetadata = {
    * @example "084ee802fe1348f688220e2a6040a05b2199a761f33cf753abb1b006792d3f8b"
    */
   serverFinished: string;
-};
+}
 
 /**
  * Geographic data about the request's origin.
@@ -591,7 +591,7 @@ type IncomingRequestCfPropertiesGeographicInformation =
     };
 
 /** Data about the incoming request's TLS certificate */
-type IncomingRequestCfPropertiesTLSClientAuth = {
+interface IncomingRequestCfPropertiesTLSClientAuth {
   /** Always `"1"`, indicating that the certificate was presented */
   certPresented: "1";
 
@@ -654,10 +654,10 @@ type IncomingRequestCfPropertiesTLSClientAuth = {
    * @example "Dec 22 19:39:00 2018 GMT"
    */
   certNotAfter: string;
-};
+}
 
 /** Placeholder values for TLS Client Authorization */
-type IncomingRequestCfPropertiesTLSClientAuthPlaceholder = {
+interface IncomingRequestCfPropertiesTLSClientAuthPlaceholder {
   certPresented: "0";
   certVerified: "NONE";
   certRevoked: "0";
@@ -675,7 +675,7 @@ type IncomingRequestCfPropertiesTLSClientAuthPlaceholder = {
   certFingerprintSHA256: "";
   certNotBefore: "";
   certNotAfter: "";
-};
+}
 
 /** Possible outcomes of TLS verification */
 declare type CertVerificationStatus =
