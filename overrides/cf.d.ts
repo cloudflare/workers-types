@@ -301,14 +301,6 @@ interface RequestInitCfPropertiesImageMinify {
  */
 type IncomingRequestCfProperties = {
   /**
-   * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
-   * airport code of the data center that the request hit.
-   *
-   * @example "DFW"
-   */
-  colo: string;
-
-  /**
    * [ASN](https://www.iana.org/assignments/as-numbers/as-numbers.xhtml) of the incoming request.
    *
    * @example 395747
@@ -323,27 +315,45 @@ type IncomingRequestCfProperties = {
   asOrganization: string;
 
   /**
-   * The HTTP Protocol the request used.
-   *
-   * @example "HTTP/2"
+   * Only set when using Cloudflare Bot Management.
    */
-  httpProtocol: string;
+  botManagement?: IncomingRequestCfPropertiesBotManagement;
 
   /**
-   * The TLS version of the connection to Cloudflare.
-   * In requests served over plaintext (without TLS), this property is the empty string `""`.
+   * The original value of the `Accept-Encoding` header if Cloudflare modified it.
    *
-   * @example "TLSv1.3"
+   * @example "gzip, deflate, br"
    */
-  tlsVersion: "" | string;
+  clientAcceptEncoding?: string;
 
   /**
-   * The cipher for the connection to Cloudflare.
-   * In requests served over plaintext (without TLS), this property is the empty string `""`.
-   *
-   * @example "AEAD-AES128-GCM-SHA256"
+   * The number of milliseconds it took for the request to reach your worker.
    */
-  tlsCipher: "" | string;
+  clientTcpRtt?: number;
+
+  /**
+   * Duplicate of `botManagement.score`. Only set when using Cloudflare Bot Management.
+   *
+   * @deprecated
+   */
+  clientTrustScore?: number;
+
+  /**
+   * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
+   * airport code of the data center that the request hit.
+   *
+   * @example "DFW"
+   */
+  colo: string;
+
+  /**
+   * Represents the upstream's response to a
+   * [TCP `keepalive` message](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
+   * from cloudflare.
+   *
+   * For workers with no upstream, this will always be `EdgeRequestKeepAliveStatus.NoKeepAlives`.
+   */
+  edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
 
   /**
    * Custom metadata set per-host in [Cloudflare for SaaS](https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/).
@@ -354,13 +364,29 @@ type IncomingRequestCfProperties = {
   hostMetadata?: unknown;
 
   /**
-   * Represents the upstream's response to a
-   * [TCP `keepalive` message](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
-   * from cloudflare.
+   * The browser-requested prioritization information in the request object.
    *
-   * For workers with no upstream, this will always be `EdgeRequestKeepAliveStatus.NoKeepAlives`.
+   * If no information was set, defaults to the empty string `""`
+   *
+   * @example "weight=192;exclusive=0;group=3;group-weight=127"
+   * @default ""
    */
-  edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
+  requestPriority: string;
+
+  /**
+   * The HTTP Protocol the request used.
+   *
+   * @example "HTTP/2"
+   */
+  httpProtocol: string;
+
+  /**
+   * The cipher for the connection to Cloudflare.
+   * In requests served over plaintext (without TLS), this property is the empty string `""`.
+   *
+   * @example "AEAD-AES128-GCM-SHA256"
+   */
+  tlsCipher: "" | string;
 
   /**
    * Information about the client certificate presented to Cloudflare.
@@ -381,43 +407,19 @@ type IncomingRequestCfProperties = {
     | IncomingRequestCfPropertiesTLSClientAuthPlaceholder;
 
   /**
-   * The browser-requested prioritization information in the request object.
-   *
-   * If no information was set, defaults to the empty string `""`
-   *
-   * @example "weight=192;exclusive=0;group=3;group-weight=127"
-   * @default ""
-   */
-  requestPriority: string;
-
-  /**
    * Metadata containing the [`HELLO`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2) and [`FINISHED`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9) messages from this request's TLS handshake.
    *
    * If the incoming request was served over plaintext (without TLS) this field is undefined.
    */
   tlsExportedAuthenticator?: IncomingRequestCfPropertiesExportedAuthenticatorMetadata;
 
-  /** Only set when using Cloudflare Bot Management. */
-  botManagement?: IncomingRequestCfPropertiesBotManagement;
-
   /**
-   * Duplicate of `botManagement.score`. Only set when using Cloudflare Bot Management.
+   * The TLS version of the connection to Cloudflare.
+   * In requests served over plaintext (without TLS), this property is the empty string `""`.
    *
-   * @deprecated
+   * @example "TLSv1.3"
    */
-  clientTrustScore?: number;
-
-  /**
-   * The number of milliseconds it took for the request to reach your worker.
-   */
-  clientTcpRtt?: number;
-
-  /**
-   * The original value of the `Accept-Encoding` header if Cloudflare modified it.
-   *
-   * @example "gzip, deflate, br"
-   */
-  clientAcceptEncoding?: string;
+  tlsVersion: "" | string;
 } & IncomingRequestCfPropertiesGeographicInformation;
 
 /**
