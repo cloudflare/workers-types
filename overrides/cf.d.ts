@@ -312,28 +312,24 @@ interface IncomingRequestCfPropertiesBase {
    * @example 395747
    */
   asn: number;
-
   /**
    * The organization which owns the ASN of the incoming request.
    *
    * @example "Google Cloud"
    */
   asOrganization: string;
-
   /**
    * The original value of the `Accept-Encoding` header if Cloudflare modified it.
    *
    * @example "gzip, deflate, br"
    */
   clientAcceptEncoding?: string;
-
   /**
    * The number of milliseconds it took for the request to reach your worker.
    *
    * @example 22
    */
   clientTcpRtt?: number;
-
   /**
    * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
    * airport code of the data center that the request hit.
@@ -341,7 +337,6 @@ interface IncomingRequestCfPropertiesBase {
    * @example "DFW"
    */
   colo: string;
-
   /**
    * Represents the upstream's response to a
    * [TCP `keepalive` message](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
@@ -352,14 +347,12 @@ interface IncomingRequestCfPropertiesBase {
    * @example 3
    */
   edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
-
   /**
    * The HTTP Protocol the request used.
    *
    * @example "HTTP/2"
    */
   httpProtocol: string;
-
   /**
    * The browser-requested prioritization information in the request object.
    *
@@ -369,7 +362,6 @@ interface IncomingRequestCfPropertiesBase {
    * @default ""
    */
   requestPriority: string;
-
   /**
    * The TLS version of the connection to Cloudflare.
    * In requests served over plaintext (without TLS), this property is the empty string `""`.
@@ -377,7 +369,6 @@ interface IncomingRequestCfPropertiesBase {
    * @example "TLSv1.3"
    */
   tlsVersion: string;
-
   /**
    * The cipher for the connection to Cloudflare.
    * In requests served over plaintext (without TLS), this property is the empty string `""`.
@@ -385,7 +376,6 @@ interface IncomingRequestCfPropertiesBase {
    * @example "AEAD-AES128-GCM-SHA256"
    */
   tlsCipher: string;
-
   /**
    * Metadata containing the [`HELLO`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2) and [`FINISHED`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9) messages from this request's TLS handshake.
    *
@@ -403,19 +393,16 @@ interface IncomingRequestCfPropertiesBotManagementBase {
    * @example 54
    */
   score: number;
-
   /**
    * A boolean value that is true if the request comes from a good bot, like Google or Bing.
    * Most customers choose to allow this traffic. For more details, see [Traffic from known bots](https://developers.cloudflare.com/firewall/known-issues-and-faq/#how-does-firewall-rules-handle-traffic-from-known-bots).
    */
   verifiedBot: boolean;
-
   /**
    * A boolean value that is true if the request originates from a
    * Cloudflare-verified proxy service.
    */
   corporateProxy: boolean;
-
   /**
    * A boolean value that's true if the request matches [file extensions](https://developers.cloudflare.com/bots/reference/static-resources/) for many types of static resources.
    */
@@ -427,7 +414,6 @@ interface IncomingRequestCfPropertiesBotManagement {
    * Results of Cloudflare's Bot Management analysis
    */
   botManagement: IncomingRequestCfPropertiesBotManagementBase;
-
   /**
    * Duplicate of `botManagement.score`.
    *
@@ -490,21 +476,18 @@ interface IncomingRequestCfPropertiesExportedAuthenticatorMetadata {
    * @example "44372ba35fa1270921d318f34c12f155dc87b682cf36a790cfaa3ba8737a1b5d"
    */
   clientHandshake: string;
-
   /**
    * The server's [`HELLO` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2), encoded in hexadecimal
    *
    * @example "44372ba35fa1270921d318f34c12f155dc87b682cf36a790cfaa3ba8737a1b5d"
    */
   serverHandshake: string;
-
   /**
    * The client's [`FINISHED` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9), encoded in hexadecimal
    *
    * @example "084ee802fe1348f688220e2a6040a05b2199a761f33cf753abb1b006792d3f8b"
    */
   clientFinished: string;
-
   /**
    * The server's [`FINISHED` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9), encoded in hexadecimal
    *
@@ -535,56 +518,48 @@ type IncomingRequestCfPropertiesGeographicInformation =
        * @example "GB"
        */
       country: Iso3166Alpha2Code;
-
       /**
        * If present, this property indicates that the request originated in the EU
        *
        * @example "1"
        */
       isEUCountry?: "1";
-
       /**
        * A two-letter code indicating the continent the request originated from.
        *
        * @example "AN"
        */
       continent: ContinentCode;
-
       /**
        * The city the request originated from
        *
        * @example "Austin"
        */
       city?: string;
-
       /**
        * Postal code of the incoming request
        *
        * @example "78701"
        */
       postalCode?: string;
-
       /**
        * Latitude of the incoming request
        *
        * @example "30.27130"
        */
       latitude?: string;
-
       /**
        * Longitude of the incoming request
        *
        * @example "-97.74260"
        */
       longitude?: string;
-
       /**
        * Timezone of the incoming request
        *
        * @example "America/Chicago"
        */
       timezone?: string;
-
       /**
        * If known, the ISO 3166-2 name for the first level region associated with
        * the IP address of the incoming request
@@ -592,7 +567,6 @@ type IncomingRequestCfPropertiesGeographicInformation =
        * @example "Texas"
        */
       region?: string;
-
       /**
        * If known, the ISO 3166-2 code for the first-level region associated with
        * the IP address of the incoming request
@@ -600,7 +574,6 @@ type IncomingRequestCfPropertiesGeographicInformation =
        * @example "TX"
        */
       regionCode?: string;
-
       /**
        * Metro code (DMA) of the incoming request
        *
@@ -613,104 +586,88 @@ type IncomingRequestCfPropertiesGeographicInformation =
 interface IncomingRequestCfPropertiesTLSClientAuth {
   /** Always `"1"`, indicating that the certificate was presented */
   certPresented: "1";
-
   /**
    * Result of certificate verification.
    *
    * @example "FAILED:self signed certificate"
    */
   certVerified: Exclude<CertVerificationStatus, "NONE">;
-
   /** The presented certificate's revokation status.
    *
    * - A value of `"1"` indicates the certificate has been revoked
    * - A value of `"0"` indicates the certificate has not been revoked
    */
   certRevoked: "1" | "0";
-
   /**
    * The certificate issuer's [distinguished name](https://knowledge.digicert.com/generalinformation/INFO1745.html)
    *
    * @example "CN=cloudflareaccess.com, C=US, ST=Texas, L=Austin, O=Cloudflare"
    */
   certIssuerDN: string;
-
   /**
    * The certificate subject's [distinguished name](https://knowledge.digicert.com/generalinformation/INFO1745.html)
    *
    * @example "CN=*.cloudflareaccess.com, C=US, ST=Texas, L=Austin, O=Cloudflare"
    */
   certSubjectDN: string;
-
   /**
    * The certificate issuer's [distinguished name](https://knowledge.digicert.com/generalinformation/INFO1745.html) ([RFC 2253](https://www.rfc-editor.org/rfc/rfc2253.html) formatted)
    *
    * @example "CN=cloudflareaccess.com, C=US, ST=Texas, L=Austin, O=Cloudflare"
    */
   certIssuerDNRFC2253: string;
-
   /**
    * The certificate subject's [distinguished name](https://knowledge.digicert.com/generalinformation/INFO1745.html) ([RFC 2253](https://www.rfc-editor.org/rfc/rfc2253.html) formatted)
    *
    * @example "CN=*.cloudflareaccess.com, C=US, ST=Texas, L=Austin, O=Cloudflare"
    */
   certSubjectDNRFC2253: string;
-
   /** The certificate issuer's distinguished name (legacy policies) */
   certIssuerDNLegacy: string;
-
   /** The certificate subject's distinguished name (legacy policies) */
   certSubjectDNLegacy: string;
-
   /**
    * The certificate's serial number
    *
    * @example "00936EACBE07F201DF"
    */
   certSerial: string;
-
   /**
    * The certificate issuer's serial number
    *
    * @example "2489002934BDFEA34"
    */
   certIssuerSerial: string;
-
   /**
    * The certificate's Subject Key Identifier
    *
    * @example "BB:AF:7E:02:3D:FA:A6:F1:3C:84:8E:AD:EE:38:98:EC:D9:32:32:D4"
    */
   certSKI: string;
-
   /**
    * The certificate issuer's Subject Key Identifier
    *
    * @example "BB:AF:7E:02:3D:FA:A6:F1:3C:84:8E:AD:EE:38:98:EC:D9:32:32:D4"
    */
   certIssuerSKI: string;
-
   /**
    * The certificate's SHA-1 fingerprint
    *
    * @example "6b9109f323999e52259cda7373ff0b4d26bd232e"
    */
   certFingerprintSHA1: string;
-
   /**
    * The certificate's SHA-256 fingerprint
    *
    * @example "acf77cf37b4156a2708e34c4eb755f9b5dbbe5ebb55adfec8f11493438d19e6ad3f157f81fa3b98278453d5652b0c1fd1d71e5695ae4d709803a4d3f39de9dea"
    */
   certFingerprintSHA256: string;
-
   /**
    * The effective starting date of the certificate
    *
    * @example "Dec 22 19:39:00 2018 GMT"
    */
   certNotBefore: string;
-
   /**
    * The effective expiration date of the certificate
    *
@@ -744,22 +701,16 @@ interface IncomingRequestCfPropertiesTLSClientAuthPlaceholder {
 declare type CertVerificationStatus =
   /** Authentication succeeded */
   | "SUCCESS"
-
   /** No certificate was presented */
   | "NONE"
-
   /** Failed because the certificate was self-signed */
   | "FAILED:self signed certificate"
-
   /** Failed because the certificate failed a trust chain check */
   | "FAILED:unable to verify the first certificate"
-
   /** Failed because the certificate not yet valid */
   | "FAILED:certificate is not yet valid"
-
   /** Failed because the certificate is expired */
   | "FAILED:certificate has expired"
-
   /** Failed for another unspecified reason */
   | "FAILED";
 
