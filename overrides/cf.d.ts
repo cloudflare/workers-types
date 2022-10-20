@@ -298,7 +298,7 @@ interface RequestInitCfPropertiesImageMinify {
 /**
  * Request metadata provided by Cloudflare's edge.
  */
-type IncomingRequestCfProperties<HostMetadata = never> =
+type IncomingRequestCfProperties<HostMetadata = unknown> =
   IncomingRequestCfPropertiesBase &
     IncomingRequestCfPropertiesBotManagementEnterprise &
     IncomingRequestCfPropertiesCloudflareForSaaSEnterprise<HostMetadata> &
@@ -394,37 +394,39 @@ interface IncomingRequestCfPropertiesBase {
   tlsExportedAuthenticator?: IncomingRequestCfPropertiesExportedAuthenticatorMetadata;
 }
 
+interface IncomingRequestCfPropertiesBotManagementBase {
+  /**
+   * Cloudflare’s [level of certainty](https://developers.cloudflare.com/bots/concepts/bot-score/) that a request comes from a bot,
+   * represented as an integer percentage between `1` (almost certainly human)
+   * and `99` (almost certainly a bot).
+   *
+   * @example 54
+   */
+  score: number;
+
+  /**
+   * A boolean value that is true if the request comes from a good bot, like Google or Bing.
+   * Most customers choose to allow this traffic. For more details, see [Traffic from known bots](https://developers.cloudflare.com/firewall/known-issues-and-faq/#how-does-firewall-rules-handle-traffic-from-known-bots).
+   */
+  verifiedBot: boolean;
+
+  /**
+   * A boolean value that is true if the request originates from a
+   * Cloudflare-verified proxy service.
+   */
+  corporateProxy: boolean;
+
+  /**
+   * A boolean value that's true if the request matches [file extensions](https://developers.cloudflare.com/bots/reference/static-resources/) for many types of static resources.
+   */
+  staticResource: boolean;
+}
+
 interface IncomingRequestCfPropertiesBotManagement {
   /**
    * Results of Cloudflare's Bot Management analysis
    */
-  botManagement: {
-    /**
-     * Cloudflare’s [level of certainty](https://developers.cloudflare.com/bots/concepts/bot-score/) that a request comes from a bot,
-     * represented as an integer percentage between `1` (almost certainly human)
-     * and `99` (almost certainly a bot).
-     *
-     * @example 54
-     */
-    score: number;
-
-    /**
-     * A boolean value that is true if the request comes from a good bot, like Google or Bing.
-     * Most customers choose to allow this traffic. For more details, see [Traffic from known bots](https://developers.cloudflare.com/firewall/known-issues-and-faq/#how-does-firewall-rules-handle-traffic-from-known-bots).
-     */
-    verifiedBot: boolean;
-
-    /**
-     * A boolean value that is true if the request originates from a
-     * Cloudflare-verified proxy service.
-     */
-    corporateProxy: boolean;
-
-    /**
-     * A boolean value that's true if the request matches [file extensions](https://developers.cloudflare.com/bots/reference/static-resources/) for many types of static resources.
-     */
-    staticResource: boolean;
-  };
+  botManagement: IncomingRequestCfPropertiesBotManagementBase;
 
   /**
    * Duplicate of `botManagement.score`.
@@ -439,46 +441,13 @@ interface IncomingRequestCfPropertiesBotManagementEnterprise
   /**
    * Results of Cloudflare's Bot Management analysis
    */
-  botManagement: {
-    /**
-     * Cloudflare’s [level of certainty](https://developers.cloudflare.com/bots/concepts/bot-score/) that a request comes from a bot,
-     * represented as an integer percentage between `1` (almost certainly human)
-     * and `99` (almost certainly a bot).
-     *
-     * @example 54
-     */
-    score: number;
-
-    /**
-     * A boolean value that is true if the request comes from a good bot, like Google or Bing.
-     * Most customers choose to allow this traffic. For more details, see [Traffic from known bots](https://developers.cloudflare.com/firewall/known-issues-and-faq/#how-does-firewall-rules-handle-traffic-from-known-bots).
-     */
-    verifiedBot: boolean;
-
-    /**
-     * A boolean value that is true if the request originates from a
-     * Cloudflare-verified proxy service.
-     */
-    corporateProxy: boolean;
-
-    /**
-     * A boolean value that's true if the request matches [file extensions](https://developers.cloudflare.com/bots/reference/static-resources/) for many types of static resources.
-     */
-    staticResource: boolean;
-
+  botManagement: IncomingRequestCfPropertiesBotManagementBase & {
     /**
      * A [JA3 Fingerprint](https://developers.cloudflare.com/bots/concepts/ja3-fingerprint/) to help profile specific SSL/TLS clients
      * across different destination IPs, Ports, and X509 certificates.
      */
     ja3Hash: string;
   };
-
-  /**
-   * Duplicate of `botManagement.score`.
-   *
-   * @deprecated
-   */
-  clientTrustScore: number;
 }
 
 interface IncomingRequestCfPropertiesCloudflareForSaaSEnterprise<HostMetadata> {
