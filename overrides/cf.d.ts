@@ -1,6 +1,14 @@
 // TODO: add Response cf object too
 
 declare class Request extends Body {
+  /**
+   * In addition to the properties on the standard `Request` object,
+   * the `cf` object contains extra information about the request provided
+   * by Cloudflare's edge.
+   *
+   * Note: Currently, settings in the `cf` object cannot be accessed in the
+   * playground.
+   */
   readonly cf?: IncomingRequestCfProperties;
 }
 
@@ -288,7 +296,10 @@ interface RequestInitCfPropertiesImageMinify {
   html?: boolean;
 }
 
-type Blah = {
+/**
+ * Request metadata provided by Cloudflare's edge.
+ */
+type IncomingRequestCfProperties = {
   /**
    * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
    * airport code of the data center that the request hit.
@@ -349,7 +360,7 @@ type Blah = {
    *
    * For workers with no upstream, this will always be `EdgeRequestKeepAliveStatus.NoKeepAlives`.
    */
-  edgeRequestKeepAliveStatus: EdgeRequestKeepAliveStatus;
+  edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
 
   /**
    * Information about the client certificate presented to Cloudflare.
@@ -365,17 +376,29 @@ type Blah = {
    * The property `certPresented` will be set to `"1"` when
    * the object is populated (i.e. the above conditions were met).
    */
-  tlsClientAuth: TlsClientAuth | TlsClientAuthPlaceholder;
+  tlsClientAuth:
+    | IncomingRequestCfPropertiesTLSClientAuth
+    | IncomingRequestCfPropertiesTLSClientAuthPlaceholder;
+
+  /**
+   * The browser-requested prioritization information in the request object.
+   *
+   * If no information was set, defaults to the empty string `""`
+   *
+   * @example "weight=192;exclusive=0;group=3;group-weight=127"
+   * @default ""
+   */
+  requestPriority: string;
 
   /**
    * Metadata containing the [`HELLO`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2) and [`FINISHED`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9) messages from this request's TLS handshake.
    *
    * If the incoming request was served over plaintext (without TLS) this field is undefined.
    */
-  tlsExportedAuthenticator?: ExportedAuthenticatorMetadata;
+  tlsExportedAuthenticator?: IncomingRequestCfPropertiesExportedAuthenticatorMetadata;
 
   /** Only set when using Cloudflare Bot Management. */
-  botManagement?: BotManagementInfo;
+  botManagement?: IncomingRequestCfPropertiesBotManagement;
 
   /**
    * Duplicate of `botManagement.score`. Only set when using Cloudflare Bot Management.
@@ -383,18 +406,30 @@ type Blah = {
    * @deprecated
    */
   clientTrustScore?: number;
-} & GeographicInformation;
 
-type BotManagementInfo = {
+  /**
+   * The number of milliseconds it took for the request to reach your worker.
+   */
+  clientTcpRtt?: number;
+
+  /**
+   * The original value of the `Accept-Encoding` header if Cloudflare modified it.
+   *
+   * @example "gzip, deflate, br"
+   */
+  clientAcceptEncoding?: string;
+} & IncomingRequestCfPropertiesGeographicInformation;
+
+/**
+ * Results of Cloudflare's Bot Management analysis
+ */
+type IncomingRequestCfPropertiesBotManagement = {
   /**
    * Cloudflare’s [level of certainty](https://developers.cloudflare.com/bots/concepts/bot-score/) that a request comes from a bot,
    * represented as an integer percentage between `1` (almost certainly human)
    * and `99` (almost certainly a bot).
    *
-   * If the bot management score is not computed for some reason, the value `0` is used.
-   *
    * @example 54
-   * @default 0
    */
   score: number;
 
@@ -424,7 +459,10 @@ type BotManagementInfo = {
   ja3Hash?: string;
 };
 
-type ExportedAuthenticatorMetadata = {
+/**
+ * Metadata about the request's TLS handshake
+ */
+type IncomingRequestCfPropertiesExportedAuthenticatorMetadata = {
   /**
    * The client's [`HELLO` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2), encoded in hexadecimal
    *
@@ -452,98 +490,235 @@ type ExportedAuthenticatorMetadata = {
   serverFinished: string;
 };
 
-type GeographicInformation =
-  | NoGeographicInformation
-  | TorConnection
-  | PopulatedGeographicInformation;
+/**
+ * Geographic data about the request's origin.
+ */
+type IncomingRequestCfPropertiesGeographicInformation =
+  | {
+      /* No georgraphic data was found for the incoming request. */
+    }
+  | {
+      /** The country code `"T1"` is used for requests originating on TOR  */
+      country: "T1";
+    }
+  | {
+      /**
+       * The [ISO 3166-1 Alpha 2](https://www.iso.org/iso-3166-country-codes.html) country code the request originated from.
+       *
+       * If your worker is [configured to accept TOR connections](https://support.cloudflare.com/hc/en-us/articles/203306930-Understanding-Cloudflare-Tor-support-and-Onion-Routing), this may also be `"T1"`, indicating a request that originated over TOR.
+       *
+       * If Cloudflare is unable to determine where the request originated this property is omitted.
+       *
+       * @example "GB"
+       */
+      country: Iso3166Alpha2Code;
 
-type NoGeographicInformation = {};
-type TorConnection = { country: "T1" };
-type PopulatedGeographicInformation = {
-  /**
-   * The [ISO 3166-1 Alpha 2](https://www.iso.org/iso-3166-country-codes.html) country code the request originated from.
+      /**
+       * If present, this property indicates that the request originated in the EU
+       *
+       * @example "1"
+       */
+      isEUCountry?: "1";
+
+      /**
+       * A two-letter code indicating the continent the request originated from.
+       *
+       * @example "AN"
+       */
+      continent: ContinentCode;
+
+      /**
+       * The city the request originated from
+       *
+       * @example "Austin"
+       */
+      city?: string;
+
+      /**
+       * Postal code of the incoming request
+       *
+       * @example "78701"
+       */
+      postalCode?: string;
+
+      /**
+       * Latitude of the incoming request
+       *
+       * @example "30.27130"
+       */
+      latitude?: string;
+
+      /**
+       * Longitude of the incoming request
+       *
+       * @example "-97.74260"
+       */
+      longitude?: string;
+
+      /**
+       * Timezone of the incoming request
+       *
+       * @example "America/Chicago"
+       */
+      timezone?: string;
+
+      /**
+       * If known, the ISO 3166-2 name for the first level region associated with
+       * the IP address of the incoming request
+       *
+       * @example "Texas"
+       */
+      region?: string;
+
+      /**
+       * If known, the ISO 3166-2 code for the first-level region associated with
+       * the IP address of the incoming request
+       *
+       * @example "TX"
+       */
+      regionCode?: string;
+
+      /**
+       * Metro code (DMA) of the incoming request
+       *
+       * @example "635"
+       */
+      metroCode?: string;
+    };
+
+/** Data about the incoming request's TLS certificate */
+type IncomingRequestCfPropertiesTLSClientAuth = {
+  /** Always `"1"`, indicating that the certificate was presented */
+  certPresented: "1";
+
+  /** Result of certificate verification. */
+  certVerified: Exclude<CertVerificationStatus, CertVerificationStatus.Absent>;
+
+  /** The presented certificate's revokation status.
    *
-   * If your worker is [configured to accept TOR connections](https://support.cloudflare.com/hc/en-us/articles/203306930-Understanding-Cloudflare-Tor-support-and-Onion-Routing), this may also be `"T1"`, indicating a request that originated over TOR.
-   *
-   * If Cloudflare is unable to determine where the request originated this property is omitted.
-   *
-   * @example "GB"
+   * - A value of `"1"` indicates the certificate has been revoked
+   * - A value of `"0"` indicates the certificate has not been revoked
    */
-  country: Iso3166Alpha2Code;
+  certRevoked: "1" | "0";
+
+  /** The certificate issuer's distinguished name */
+  certIssuerDN: "" | string;
+
+  /** The certificate subject's distinguished name */
+  certSubjectDN: "" | string;
+
+  /** The certificate issuer's distinguished name (RFC 2253 formatted) */
+  certIssuerDNRFC2253: "" | string;
+
+  /** The certificate subject's distinguished name (RFC 2253 formatted) */
+  certSubjectDNRFC2253: "" | string;
+
+  /** The certificate issuer's distinguished name (legacy policies) */
+  certIssuerDNLegacy: "" | string;
+
+  /** The certificate subject's distinguished name (legacy policies) */
+  certSubjectDNLegacy: "" | string;
+
+  /** The certificate's serial number */
+  certSerial: "" | string;
+
+  /** The certificate issuer's serial number */
+  certIssuerSerial: "" | string;
+
+  /** The certificate's Subject Key Identifier */
+  certSKI: "" | string;
+
+  /** The certificate issuer's Subject Key Identifier */
+  certIssuerSKI: "" | string;
+
+  /** The certificate's SHA-1 fingerprint */
+  certFingerprintSHA1: "" | string;
+
+  /** The certificate's SHA-256 fingerprint */
+  certFingerprintSHA256: "" | string;
 
   /**
-   * If present, this property indicates that the request originated in the EU
+   * The effective starting date of the certificate
    *
-   * @example "1"
+   * @example "Dec 22 19:39:00 2018 GMT"
    */
-  isEUCountry?: "1";
+  certNotBefore: "" | string;
 
   /**
-   * A two-letter code indicating the continent the request originated from.
+   * The effective expiration date of the certificate
    *
-   * @example "AN"
+   * @example "Dec 22 19:39:00 2018 GMT"
    */
-  continent: ContinentCode;
-
-  /**
-   * The city the request originated from
-   *
-   * @example "Austin"
-   */
-  city?: string;
-
-  /**
-   * Postal code of the incoming request
-   *
-   * @example "78701"
-   */
-  postalCode?: string;
-
-  /**
-   * Latitude of the incoming request
-   *
-   * @example "30.27130"
-   */
-  latitude?: string;
-
-  /**
-   * Longitude of the incoming request
-   *
-   * @example "-97.74260"
-   */
-  longitude?: string;
-
-  /**
-   * Timezone of the incoming request
-   *
-   * @example "America/Chicago"
-   */
-  timezone?: string;
-
-  /**
-   * If known, the ISO 3166-2 name for the first level region associated with
-   * the IP address of the incoming request
-   *
-   * @example "Texas"
-   */
-  region?: string;
-
-  /**
-   * If known, the ISO 3166-2 code for the first-level region associated with
-   * the IP address of the incoming request
-   *
-   * @example "TX"
-   */
-  regionCode?: string;
-
-  /**
-   * Metro code (DMA) of the incoming request
-   *
-   * @example "635"
-   */
-  metroCode?: string;
+  certNotAfter: "" | string;
 };
 
+/** Placeholder values for TLS Client Authorization */
+type IncomingRequestCfPropertiesTLSClientAuthPlaceholder = {
+  certPresented: "0";
+  certVerified: CertVerificationStatus.Absent;
+  certRevoked: "0";
+  certIssuerDN: "";
+  certSubjectDN: "";
+  certIssuerDNRFC2253: "";
+  certSubjectDNRFC2253: "";
+  certIssuerDNLegacy: "";
+  certSubjectDNLegacy: "";
+  certSerial: "";
+  certIssuerSerial: "";
+  certSKI: "";
+  certIssuerSKI: "";
+  certFingerprintSHA1: "";
+  certFingerprintSHA256: "";
+  certNotBefore: "";
+  certNotAfter: "";
+};
+
+/** Enumeration of all outcomes of TLS verification */
+declare const enum CertVerificationStatus {
+  /** Authentication succeeded */
+  Success = "SUCCESS",
+
+  /** No certificate was presented */
+  Absent = "NONE",
+
+  /** Failed because the certificate was self-signed */
+  SelfSigned = "FAILED:self signed certificate",
+
+  /** Failed because the certificate failed a trust chain check */
+  Untrusted = "FAILED:unable to verify the first certificate",
+
+  /** Failed because the certificate not yet valid */
+  NotYetValid = "FAILED:certificate is not yet valid",
+
+  /** Failed because the certificate is expired */
+  Expired = "FAILED:certificate has expired",
+
+  /** Failed for another unspecified reason */
+  Failed = "FAILED",
+}
+
+/**
+ * An upstream endpoint's response to a TCP `keepalive` message from Cloudflare.
+ */
+declare const enum IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus {
+  Unknown = 0,
+  /** no keepalives (not found) */
+  NoKeepAlives = 1,
+
+  /** no connection re-use, opening keepalive connection failed */
+  NoReuseOpenFailed = 2,
+
+  /** no connection re-use, keepalive accepted and saved */
+  NoReuseAccepted = 3,
+
+  /** connection re-use, refused by the origin server (`TCP FIN`) */
+  ReuseRefused = 4,
+
+  /** connection re-use, accepted by the origin server */
+  ReuseAccepted = 5,
+}
+
+/** Enumeration of all valid ISO 3166-1 Alpha-2 codes */
 declare const enum Iso3166Alpha2Code {
   Andorra = "AD",
   UnitedArabEmirates = "AE",
@@ -796,71 +971,6 @@ declare const enum Iso3166Alpha2Code {
   Zimbabwe = "ZW",
 }
 
-type TlsClientAuth = {
-  /** Always `"1"`, indicating that the certificate was presented */
-  certPresented: "1";
-
-  /** Result of certificate verification. */
-  certVerified: Exclude<CertVerificationStatus, CertVerificationStatus.Absent>;
-
-  /** The presented certificate's revokation status.
-   *
-   * - A value of `"1"` indicates the certificate has been revoked
-   * - A value of `"0"` indicates the certificate has not been revoked
-   */
-  certRevoked: "1" | "0";
-
-  /** The certificate issuer's distinguished name */
-  certIssuerDN: "" | string;
-
-  /** The certificate subject's distinguished name */
-  certSubjectDN: "" | string;
-
-  /** The certificate issuer's distinguished name (RFC 2253 formatted) */
-  certIssuerDNRFC2253: "" | string;
-
-  /** The certificate subject's distinguished name (RFC 2253 formatted) */
-  certSubjectDNRFC2253: "" | string;
-
-  /** The certificate issuer's distinguished name (legacy policies) */
-  certIssuerDNLegacy: "" | string;
-
-  /** The certificate subject's distinguished name (legacy policies) */
-  certSubjectDNLegacy: "" | string;
-
-  /** The certificate's serial number */
-  certSerial: "" | string;
-
-  /** The certificate issuer's serial number */
-  certIssuerSerial: "" | string;
-
-  /** The certificate's Subject Key Identifier */
-  certSKI: "" | string;
-
-  /** The certificate issuer's Subject Key Identifier */
-  certIssuerSKI: "" | string;
-
-  /** The certificate's SHA-1 fingerprint */
-  certFingerprintSHA1: "" | string;
-
-  /** The certificate's SHA-256 fingerprint */
-  certFingerprintSHA256: "" | string;
-
-  /**
-   * The effective starting date of the certificate
-   *
-   * @example "Dec 22 19:39:00 2018 GMT"
-   */
-  certNotBefore: "" | string;
-
-  /**
-   * The effective expiration date of the certificate
-   *
-   * @example "Dec 22 19:39:00 2018 GMT"
-   */
-  certNotAfter: "" | string;
-};
-
 declare const enum ContinentCode {
   Africa = "AF",
   Antarctica = "AN",
@@ -869,165 +979,6 @@ declare const enum ContinentCode {
   NorthAmerica = "NA",
   Oceania = "OC",
   SouthAmerica = "SA",
-}
-
-type TlsClientAuthPlaceholder = {
-  certPresented: "0";
-  certVerified: CertVerificationStatus.Absent;
-  certRevoked: "0";
-  certIssuerDN: "";
-  certSubjectDN: "";
-  certIssuerDNRFC2253: "";
-  certSubjectDNRFC2253: "";
-  certIssuerDNLegacy: "";
-  certSubjectDNLegacy: "";
-  certSerial: "";
-  certIssuerSerial: "";
-  certSKI: "";
-  certIssuerSKI: "";
-  certFingerprintSHA1: "";
-  certFingerprintSHA256: "";
-  certNotBefore: "";
-  certNotAfter: "";
-};
-
-declare const enum CertVerificationStatus {
-  /** Authentication succeeded */
-  Success = "SUCCESS",
-
-  /** No certificate was presented */
-  Absent = "NONE",
-
-  /** Failed because the certificate was self-signed */
-  SelfSigned = "FAILED:self signed certificate",
-
-  /** Failed because the certificate failed a trust chain check */
-  Untrusted = "FAILED:unable to verify the first certificate",
-
-  /** Failed because the certificate not yet valid */
-  NotYetValid = "FAILED:certificate is not yet valid",
-
-  /** Failed because the certificate is expired */
-  Expired = "FAILED:certificate has expired",
-
-  /** Failed for another unspecified reason */
-  Failed = "FAILED",
-}
-
-/**
- * An upstream endpoint's response to
- * a TCP `keepalive` message from Cloudflare.
- */
-declare const enum EdgeRequestKeepAliveStatus {
-  Unknown = 0,
-  /** no keepalives (not found) */
-  NoKeepAlives = 1,
-
-  /** no connection re-use, opening keepalive connection failed */
-  NoReuseOpenFailed = 2,
-
-  /** no connection re-use, keepalive accepted and saved */
-  NoReuseAccepted = 3,
-
-  /** connection re-use, refused by the origin server (`TCP FIN`) */
-  ReuseRefused = 4,
-
-  /** connection re-use, accepted by the origin server */
-  ReuseAccepted = 5,
-}
-
-/**
- * In addition to the properties on the standard Request object,
- * the cf object contains extra information about the request provided
- * by Cloudflare's edge.
- *
- * Note: Currently, settings in the cf object cannot be accessed in the
- * playground.
- */
-interface IncomingRequestCfProperties {
-  /**
-   * (e.g. 395747)
-   */
-  asn: number;
-  /**
-   * The organisation which owns the ASN of the incoming request.
-   * (e.g. Google Cloud)
-   */
-  asOrganization: string;
-  botManagement?: IncomingRequestCfPropertiesBotManagement;
-  city?: string;
-  clientAcceptEncoding?: string;
-  clientTcpRtt?: number;
-  clientTrustScore?: number;
-  /**
-   * The three-letter airport code of the data center that the request
-   * hit. (e.g. "DFW")
-   */
-  colo: string;
-  continent?: string;
-  /**
-   * The two-letter country code in the request. This is the same value
-   * as that provided in the CF-IPCountry header. (e.g. "US")
-   */
-  country: string;
-  httpProtocol: string;
-  isEUCountry?: string;
-  latitude?: string;
-  longitude?: string;
-  /**
-   * DMA metro code from which the request was issued, e.g. "635"
-   */
-  metroCode?: string;
-  postalCode?: string;
-  /**
-   * e.g. "Texas"
-   */
-  region?: string;
-  /**
-   * e.g. "TX"
-   */
-  regionCode?: string;
-  /**
-   * e.g. "weight=256;exclusive=1"
-   */
-  requestPriority: string;
-  /**
-   * e.g. "America/Chicago"
-   */
-  timezone?: string;
-  tlsVersion: string;
-  tlsCipher: string;
-  tlsClientAuth: IncomingRequestCfPropertiesTLSClientAuth;
-}
-
-interface IncomingRequestCfPropertiesBotManagement {
-  corporateProxy: boolean;
-  ja3Hash?: string;
-  score: number;
-  staticResource: boolean;
-  verifiedBot: boolean;
-}
-
-interface IncomingRequestCfPropertiesTLSClientAuth {
-  certIssuerDNLegacy: string;
-  certIssuerDN: string;
-  certIssuerDNRFC2253: string;
-  certIssuerSKI: string;
-  certIssuerSerial: string;
-  certPresented: "0" | "1";
-  certSubjectDNLegacy: string;
-  certSubjectDN: string;
-  certSubjectDNRFC2253: string;
-  /** In format "Dec 22 19:39:00 2018 GMT" */
-  certNotBefore: string;
-  /** In format "Dec 22 19:39:00 2018 GMT" */
-  certNotAfter: string;
-  certSerial: string;
-  certFingerprintSHA1: string;
-  /** "SUCCESS", "FAILED:reason", "NONE" */
-  certVerified: string;
-  certRevoked: string;
-  certSKI: string;
 }
 
 export {};
