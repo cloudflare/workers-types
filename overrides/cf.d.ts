@@ -328,6 +328,8 @@ type IncomingRequestCfProperties<HostMetadata extends unknown = never> =
 
     /**
      * The number of milliseconds it took for the request to reach your worker.
+     *
+     * @example 22
      */
     clientTcpRtt?: number;
 
@@ -352,6 +354,8 @@ type IncomingRequestCfProperties<HostMetadata extends unknown = never> =
      * from cloudflare.
      *
      * For workers with no upstream, this will always be `1`.
+     *
+     * @example 3
      */
     edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
 
@@ -595,7 +599,11 @@ interface IncomingRequestCfPropertiesTLSClientAuth {
   /** Always `"1"`, indicating that the certificate was presented */
   certPresented: "1";
 
-  /** Result of certificate verification. */
+  /**
+   * Result of certificate verification.
+   *
+   * @example "FAILED:self signed certificate"
+   */
   certVerified: Exclude<CertVerificationStatus, "NONE">;
 
   /** The presented certificate's revokation status.
@@ -605,16 +613,32 @@ interface IncomingRequestCfPropertiesTLSClientAuth {
    */
   certRevoked: "1" | "0";
 
-  /** The certificate issuer's distinguished name */
+  /**
+   * The certificate issuer's [distinguished name](https://knowledge.digicert.com/generalinformation/INFO1745.html)
+   *
+   * @example "CN=cloudflareaccess.com, C=US, ST=Texas, L=Austin, O=Cloudflare"
+   */
   certIssuerDN: string;
 
-  /** The certificate subject's distinguished name */
+  /**
+   * The certificate subject's [distinguished name](https://knowledge.digicert.com/generalinformation/INFO1745.html)
+   *
+   * @example "CN=*.cloudflareaccess.com, C=US, ST=Texas, L=Austin, O=Cloudflare"
+   */
   certSubjectDN: string;
 
-  /** The certificate issuer's distinguished name (RFC 2253 formatted) */
+  /**
+   * The certificate issuer's [distinguished name](https://knowledge.digicert.com/generalinformation/INFO1745.html) ([RFC 2253](https://www.rfc-editor.org/rfc/rfc2253.html) formatted)
+   *
+   * @example "CN=cloudflareaccess.com, C=US, ST=Texas, L=Austin, O=Cloudflare"
+   */
   certIssuerDNRFC2253: string;
 
-  /** The certificate subject's distinguished name (RFC 2253 formatted) */
+  /**
+   * The certificate subject's [distinguished name](https://knowledge.digicert.com/generalinformation/INFO1745.html) ([RFC 2253](https://www.rfc-editor.org/rfc/rfc2253.html) formatted)
+   *
+   * @example "CN=*.cloudflareaccess.com, C=US, ST=Texas, L=Austin, O=Cloudflare"
+   */
   certSubjectDNRFC2253: string;
 
   /** The certificate issuer's distinguished name (legacy policies) */
@@ -623,22 +647,46 @@ interface IncomingRequestCfPropertiesTLSClientAuth {
   /** The certificate subject's distinguished name (legacy policies) */
   certSubjectDNLegacy: string;
 
-  /** The certificate's serial number */
+  /**
+   * The certificate's serial number
+   *
+   * @example "00936EACBE07F201DF"
+   */
   certSerial: string;
 
-  /** The certificate issuer's serial number */
+  /**
+   * The certificate issuer's serial number
+   *
+   * @example "2489002934BDFEA34"
+   */
   certIssuerSerial: string;
 
-  /** The certificate's Subject Key Identifier */
+  /**
+   * The certificate's Subject Key Identifier
+   *
+   * @example "BB:AF:7E:02:3D:FA:A6:F1:3C:84:8E:AD:EE:38:98:EC:D9:32:32:D4"
+   */
   certSKI: string;
 
-  /** The certificate issuer's Subject Key Identifier */
+  /**
+   * The certificate issuer's Subject Key Identifier
+   *
+   * @example "BB:AF:7E:02:3D:FA:A6:F1:3C:84:8E:AD:EE:38:98:EC:D9:32:32:D4"
+   */
   certIssuerSKI: string;
 
-  /** The certificate's SHA-1 fingerprint */
+  /**
+   * The certificate's SHA-1 fingerprint
+   *
+   * @example "6b9109f323999e52259cda7373ff0b4d26bd232e"
+   */
   certFingerprintSHA1: string;
 
-  /** The certificate's SHA-256 fingerprint */
+  /**
+   * The certificate's SHA-256 fingerprint
+   *
+   * @example "acf77cf37b4156a2708e34c4eb755f9b5dbbe5ebb55adfec8f11493438d19e6ad3f157f81fa3b98278453d5652b0c1fd1d71e5695ae4d709803a4d3f39de9dea"
+   */
   certFingerprintSHA256: string;
 
   /**
