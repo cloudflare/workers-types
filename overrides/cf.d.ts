@@ -381,6 +381,14 @@ type IncomingRequestCfProperties = {
   requestPriority: string;
 
   /**
+   * The TLS version of the connection to Cloudflare.
+   * In requests served over plaintext (without TLS), this property is the empty string `""`.
+   *
+   * @example "TLSv1.3"
+   */
+  tlsVersion: "" | string;
+
+  /**
    * The cipher for the connection to Cloudflare.
    * In requests served over plaintext (without TLS), this property is the empty string `""`.
    *
@@ -412,14 +420,6 @@ type IncomingRequestCfProperties = {
    * If the incoming request was served over plaintext (without TLS) this field is undefined.
    */
   tlsExportedAuthenticator?: IncomingRequestCfPropertiesExportedAuthenticatorMetadata;
-
-  /**
-   * The TLS version of the connection to Cloudflare.
-   * In requests served over plaintext (without TLS), this property is the empty string `""`.
-   *
-   * @example "TLSv1.3"
-   */
-  tlsVersion: "" | string;
 } & IncomingRequestCfPropertiesGeographicInformation;
 
 /**
