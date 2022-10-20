@@ -487,7 +487,9 @@ type IncomingRequestCfPropertiesExportedAuthenticatorMetadata = {
   clientFinished: string;
 
   /**
-   * The server's [`FINISHED` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9)
+   * The server's [`FINISHED` message](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9), encoded in hexadecimal
+   *
+   * @example "084ee802fe1348f688220e2a6040a05b2199a761f33cf753abb1b006792d3f8b"
    */
   serverFinished: string;
 };
@@ -497,7 +499,7 @@ type IncomingRequestCfPropertiesExportedAuthenticatorMetadata = {
  */
 type IncomingRequestCfPropertiesGeographicInformation =
   | {
-      /* No georgraphic data was found for the incoming request. */
+      /* No geographic data was found for the incoming request. */
     }
   | {
       /** The country code `"T1"` is used for requests originating on TOR  */
@@ -720,7 +722,7 @@ declare const enum IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus {
   ReuseAccepted = 5,
 }
 
-/** Enumeration of all valid ISO 3166-1 Alpha-2 codes */
+/** ISO 3166-1 Alpha-2 codes */
 declare const enum Iso3166Alpha2Code {
   Andorra = "AD",
   UnitedArabEmirates = "AE",
@@ -973,6 +975,7 @@ declare const enum Iso3166Alpha2Code {
   Zimbabwe = "ZW",
 }
 
+/** The 2-letter continent codes Cloudflare uses */
 declare const enum ContinentCode {
   Africa = "AF",
   Antarctica = "AN",
