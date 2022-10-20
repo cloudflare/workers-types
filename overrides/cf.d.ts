@@ -364,6 +364,13 @@ type IncomingRequestCfProperties = {
   hostMetadata?: unknown;
 
   /**
+   * The HTTP Protocol the request used.
+   *
+   * @example "HTTP/2"
+   */
+  httpProtocol: string;
+
+  /**
    * The browser-requested prioritization information in the request object.
    *
    * If no information was set, defaults to the empty string `""`
@@ -372,13 +379,6 @@ type IncomingRequestCfProperties = {
    * @default ""
    */
   requestPriority: string;
-
-  /**
-   * The HTTP Protocol the request used.
-   *
-   * @example "HTTP/2"
-   */
-  httpProtocol: string;
 
   /**
    * The cipher for the connection to Cloudflare.
