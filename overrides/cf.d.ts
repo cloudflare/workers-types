@@ -386,7 +386,7 @@ type IncomingRequestCfProperties = {
    *
    * @example "TLSv1.3"
    */
-  tlsVersion: "" | string;
+  tlsVersion: string;
 
   /**
    * The cipher for the connection to Cloudflare.
@@ -394,7 +394,7 @@ type IncomingRequestCfProperties = {
    *
    * @example "AEAD-AES128-GCM-SHA256"
    */
-  tlsCipher: "" | string;
+  tlsCipher: string;
 
   /**
    * Information about the client certificate presented to Cloudflare.
