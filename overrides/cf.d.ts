@@ -6,10 +6,9 @@ declare class Request extends Body {
    * the `cf` object contains extra information about the request provided
    * by Cloudflare's edge.
    *
-   * Note: Currently, settings in the `cf` object cannot be accessed in the
-   * playground.
+   * Returns undefined when accessed in the playground.
    */
-  readonly cf?: IncomingRequestCfProperties;
+  get cf(): IncomingRequestCfProperties | undefined;
 }
 
 interface RequestInit {
@@ -351,7 +350,7 @@ type IncomingRequestCfProperties = {
    * [TCP `keepalive` message](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
    * from cloudflare.
    *
-   * For workers with no upstream, this will always be `EdgeRequestKeepAliveStatus.NoKeepAlives`.
+   * For workers with no upstream, this will always be `1`.
    */
   edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
 
@@ -596,7 +595,7 @@ type IncomingRequestCfPropertiesTLSClientAuth = {
   certPresented: "1";
 
   /** Result of certificate verification. */
-  certVerified: Exclude<CertVerificationStatus, CertVerificationStatus.Absent>;
+  certVerified: Exclude<CertVerificationStatus, "NONE">;
 
   /** The presented certificate's revokation status.
    *
@@ -659,7 +658,7 @@ type IncomingRequestCfPropertiesTLSClientAuth = {
 /** Placeholder values for TLS Client Authorization */
 type IncomingRequestCfPropertiesTLSClientAuthPlaceholder = {
   certPresented: "0";
-  certVerified: CertVerificationStatus.Absent;
+  certVerified: "NONE";
   certRevoked: "0";
   certIssuerDN: "";
   certSubjectDN: "";
@@ -677,313 +676,293 @@ type IncomingRequestCfPropertiesTLSClientAuthPlaceholder = {
   certNotAfter: "";
 };
 
-/** Enumeration of all outcomes of TLS verification */
-declare const enum CertVerificationStatus {
+/** Possible outcomes of TLS verification */
+declare type CertVerificationStatus =
   /** Authentication succeeded */
-  Success = "SUCCESS",
+  | "SUCCESS"
 
   /** No certificate was presented */
-  Absent = "NONE",
+  | "NONE"
 
   /** Failed because the certificate was self-signed */
-  SelfSigned = "FAILED:self signed certificate",
+  | "FAILED:self signed certificate"
 
   /** Failed because the certificate failed a trust chain check */
-  Untrusted = "FAILED:unable to verify the first certificate",
+  | "FAILED:unable to verify the first certificate"
 
   /** Failed because the certificate not yet valid */
-  NotYetValid = "FAILED:certificate is not yet valid",
+  | "FAILED:certificate is not yet valid"
 
   /** Failed because the certificate is expired */
-  Expired = "FAILED:certificate has expired",
+  | "FAILED:certificate has expired"
 
   /** Failed for another unspecified reason */
-  Failed = "FAILED",
-}
+  | "FAILED";
 
 /**
  * An upstream endpoint's response to a TCP `keepalive` message from Cloudflare.
  */
-declare const enum IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus {
-  Unknown = 0,
-  /** no keepalives (not found) */
-  NoKeepAlives = 1,
-
-  /** no connection re-use, opening keepalive connection failed */
-  NoReuseOpenFailed = 2,
-
-  /** no connection re-use, keepalive accepted and saved */
-  NoReuseAccepted = 3,
-
-  /** connection re-use, refused by the origin server (`TCP FIN`) */
-  ReuseRefused = 4,
-
-  /** connection re-use, accepted by the origin server */
-  ReuseAccepted = 5,
-}
+declare type IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus =
+  | 0 /** Unknown */
+  | 1 /** no keepalives (not found) */
+  | 2 /** no connection re-use, opening keepalive connection failed */
+  | 3 /** no connection re-use, keepalive accepted and saved */
+  | 4 /** connection re-use, refused by the origin server (`TCP FIN`) */
+  | 5; /** connection re-use, accepted by the origin server */
 
 /** ISO 3166-1 Alpha-2 codes */
-declare const enum Iso3166Alpha2Code {
-  Andorra = "AD",
-  UnitedArabEmirates = "AE",
-  Afghanistan = "AF",
-  AntiguaAndBarbuda = "AG",
-  Anguilla = "AI",
-  Albania = "AL",
-  Armenia = "AM",
-  Angola = "AO",
-  Antarctica = "AQ",
-  Argentina = "AR",
-  AmericanSamoa = "AS",
-  Austria = "AT",
-  Australia = "AU",
-  Aruba = "AW",
-  ÅlandIslands = "AX",
-  Azerbaijan = "AZ",
-  BosniaAndHerzegovina = "BA",
-  Barbados = "BB",
-  Bangladesh = "BD",
-  Belgium = "BE",
-  BurkinaFaso = "BF",
-  Bulgaria = "BG",
-  Bahrain = "BH",
-  Burundi = "BI",
-  Benin = "BJ",
-  SaintBarthélemy = "BL",
-  Bermuda = "BM",
-  BruneiDarussalam = "BN",
-  BoliviaPlurinationalStateOf = "BO",
-  BonaireSintEustatiusAndSaba = "BQ",
-  Brazil = "BR",
-  Bahamas = "BS",
-  Bhutan = "BT",
-  BouvetIsland = "BV",
-  Botswana = "BW",
-  Belarus = "BY",
-  Belize = "BZ",
-  Canada = "CA",
-  CocosKeelingIslands = "CC",
-  CongoDemocraticRepublicOfThe = "CD",
-  CentralAfricanRepublic = "CF",
-  Congo = "CG",
-  Switzerland = "CH",
-  CôtedIvoire = "CI",
-  CookIslands = "CK",
-  Chile = "CL",
-  Cameroon = "CM",
-  China = "CN",
-  Colombia = "CO",
-  CostaRica = "CR",
-  Cuba = "CU",
-  CaboVerde = "CV",
-  Curaçao = "CW",
-  ChristmasIsland = "CX",
-  Cyprus = "CY",
-  Czechia = "CZ",
-  Germany = "DE",
-  Djibouti = "DJ",
-  Denmark = "DK",
-  Dominica = "DM",
-  DominicanRepublic = "DO",
-  Algeria = "DZ",
-  Ecuador = "EC",
-  Estonia = "EE",
-  Egypt = "EG",
-  WesternSahara = "EH",
-  Eritrea = "ER",
-  Spain = "ES",
-  Ethiopia = "ET",
-  Finland = "FI",
-  Fiji = "FJ",
-  FalklandIslandsMalvinas = "FK",
-  MicronesiaFederatedStatesOf = "FM",
-  FaroeIslands = "FO",
-  France = "FR",
-  Gabon = "GA",
-  UnitedKingdomOfGreatBritainAndNorthernIreland = "GB",
-  Grenada = "GD",
-  Georgia = "GE",
-  FrenchGuiana = "GF",
-  Guernsey = "GG",
-  Ghana = "GH",
-  Gibraltar = "GI",
-  Greenland = "GL",
-  Gambia = "GM",
-  Guinea = "GN",
-  Guadeloupe = "GP",
-  EquatorialGuinea = "GQ",
-  Greece = "GR",
-  SouthGeorgiaAndTheSouthSandwichIslands = "GS",
-  Guatemala = "GT",
-  Guam = "GU",
-  GuineaBissau = "GW",
-  Guyana = "GY",
-  HongKong = "HK",
-  HeardIslandAndMcDonaldIslands = "HM",
-  Honduras = "HN",
-  Croatia = "HR",
-  Haiti = "HT",
-  Hungary = "HU",
-  Indonesia = "ID",
-  Ireland = "IE",
-  Israel = "IL",
-  IsleOfMan = "IM",
-  India = "IN",
-  BritishIndianOceanTerritory = "IO",
-  Iraq = "IQ",
-  IranIslamicRepublicOf = "IR",
-  Iceland = "IS",
-  Italy = "IT",
-  Jersey = "JE",
-  Jamaica = "JM",
-  Jordan = "JO",
-  Japan = "JP",
-  Kenya = "KE",
-  Kyrgyzstan = "KG",
-  Cambodia = "KH",
-  Kiribati = "KI",
-  Comoros = "KM",
-  SaintKittsAndNevis = "KN",
-  KoreaDemocraticPeoplesRepublicOf = "KP",
-  KoreaRepublicOf = "KR",
-  Kuwait = "KW",
-  CaymanIslands = "KY",
-  Kazakhstan = "KZ",
-  LaoPeoplesDemocraticRepublic = "LA",
-  Lebanon = "LB",
-  SaintLucia = "LC",
-  Liechtenstein = "LI",
-  SriLanka = "LK",
-  Liberia = "LR",
-  Lesotho = "LS",
-  Lithuania = "LT",
-  Luxembourg = "LU",
-  Latvia = "LV",
-  Libya = "LY",
-  Morocco = "MA",
-  Monaco = "MC",
-  MoldovaRepublicOf = "MD",
-  Montenegro = "ME",
-  SaintMartinFrenchPart = "MF",
-  Madagascar = "MG",
-  MarshallIslands = "MH",
-  NorthMacedonia = "MK",
-  Mali = "ML",
-  Myanmar = "MM",
-  Mongolia = "MN",
-  Macao = "MO",
-  NorthernMarianaIslands = "MP",
-  Martinique = "MQ",
-  Mauritania = "MR",
-  Montserrat = "MS",
-  Malta = "MT",
-  Mauritius = "MU",
-  Maldives = "MV",
-  Malawi = "MW",
-  Mexico = "MX",
-  Malaysia = "MY",
-  Mozambique = "MZ",
-  Namibia = "NA",
-  NewCaledonia = "NC",
-  Niger = "NE",
-  NorfolkIsland = "NF",
-  Nigeria = "NG",
-  Nicaragua = "NI",
-  Netherlands = "NL",
-  Norway = "NO",
-  Nepal = "NP",
-  Nauru = "NR",
-  Niue = "NU",
-  NewZealand = "NZ",
-  Oman = "OM",
-  Panama = "PA",
-  Peru = "PE",
-  FrenchPolynesia = "PF",
-  PapuaNewGuinea = "PG",
-  Philippines = "PH",
-  Pakistan = "PK",
-  Poland = "PL",
-  SaintPierreAndMiquelon = "PM",
-  Pitcairn = "PN",
-  PuertoRico = "PR",
-  PalestineStateOf = "PS",
-  Portugal = "PT",
-  Palau = "PW",
-  Paraguay = "PY",
-  Qatar = "QA",
-  Réunion = "RE",
-  Romania = "RO",
-  Serbia = "RS",
-  RussianFederation = "RU",
-  Rwanda = "RW",
-  SaudiArabia = "SA",
-  SolomonIslands = "SB",
-  Seychelles = "SC",
-  Sudan = "SD",
-  Sweden = "SE",
-  Singapore = "SG",
-  SaintHelenaAscensionAndTristanDaCunha = "SH",
-  Slovenia = "SI",
-  SvalbardAndJanMayen = "SJ",
-  Slovakia = "SK",
-  SierraLeone = "SL",
-  SanMarino = "SM",
-  Senegal = "SN",
-  Somalia = "SO",
-  Suriname = "SR",
-  SouthSudan = "SS",
-  SaoTomeAndPrincipe = "ST",
-  ElSalvador = "SV",
-  SintMaartenDutchPart = "SX",
-  SyrianArabRepublic = "SY",
-  Eswatini = "SZ",
-  TurksAndCaicosIslands = "TC",
-  Chad = "TD",
-  FrenchSouthernTerritories = "TF",
-  Togo = "TG",
-  Thailand = "TH",
-  Tajikistan = "TJ",
-  Tokelau = "TK",
-  TimorLeste = "TL",
-  Turkmenistan = "TM",
-  Tunisia = "TN",
-  Tonga = "TO",
-  Türkiye = "TR",
-  TrinidadAndTobago = "TT",
-  Tuvalu = "TV",
-  TaiwanProvinceOfChina = "TW",
-  TanzaniaUnitedRepublicOf = "TZ",
-  Ukraine = "UA",
-  Uganda = "UG",
-  UnitedStatesMinorOutlyingIslands = "UM",
-  UnitedStatesOfAmerica = "US",
-  Uruguay = "UY",
-  Uzbekistan = "UZ",
-  HolySee = "VA",
-  SaintVincentAndTheGrenadines = "VC",
-  VenezuelaBolivarianRepublicOf = "VE",
-  VirginIslandsBritish = "VG",
-  VirginIslandsUS = "VI",
-  VietNam = "VN",
-  Vanuatu = "VU",
-  WallisAndFutuna = "WF",
-  Samoa = "WS",
-  Yemen = "YE",
-  Mayotte = "YT",
-  SouthAfrica = "ZA",
-  Zambia = "ZM",
-  Zimbabwe = "ZW",
-}
+declare type Iso3166Alpha2Code =
+  | "AD"
+  | "AE"
+  | "AF"
+  | "AG"
+  | "AI"
+  | "AL"
+  | "AM"
+  | "AO"
+  | "AQ"
+  | "AR"
+  | "AS"
+  | "AT"
+  | "AU"
+  | "AW"
+  | "AX"
+  | "AZ"
+  | "BA"
+  | "BB"
+  | "BD"
+  | "BE"
+  | "BF"
+  | "BG"
+  | "BH"
+  | "BI"
+  | "BJ"
+  | "BL"
+  | "BM"
+  | "BN"
+  | "BO"
+  | "BQ"
+  | "BR"
+  | "BS"
+  | "BT"
+  | "BV"
+  | "BW"
+  | "BY"
+  | "BZ"
+  | "CA"
+  | "CC"
+  | "CD"
+  | "CF"
+  | "CG"
+  | "CH"
+  | "CI"
+  | "CK"
+  | "CL"
+  | "CM"
+  | "CN"
+  | "CO"
+  | "CR"
+  | "CU"
+  | "CV"
+  | "CW"
+  | "CX"
+  | "CY"
+  | "CZ"
+  | "DE"
+  | "DJ"
+  | "DK"
+  | "DM"
+  | "DO"
+  | "DZ"
+  | "EC"
+  | "EE"
+  | "EG"
+  | "EH"
+  | "ER"
+  | "ES"
+  | "ET"
+  | "FI"
+  | "FJ"
+  | "FK"
+  | "FM"
+  | "FO"
+  | "FR"
+  | "GA"
+  | "GB"
+  | "GD"
+  | "GE"
+  | "GF"
+  | "GG"
+  | "GH"
+  | "GI"
+  | "GL"
+  | "GM"
+  | "GN"
+  | "GP"
+  | "GQ"
+  | "GR"
+  | "GS"
+  | "GT"
+  | "GU"
+  | "GW"
+  | "GY"
+  | "HK"
+  | "HM"
+  | "HN"
+  | "HR"
+  | "HT"
+  | "HU"
+  | "ID"
+  | "IE"
+  | "IL"
+  | "IM"
+  | "IN"
+  | "IO"
+  | "IQ"
+  | "IR"
+  | "IS"
+  | "IT"
+  | "JE"
+  | "JM"
+  | "JO"
+  | "JP"
+  | "KE"
+  | "KG"
+  | "KH"
+  | "KI"
+  | "KM"
+  | "KN"
+  | "KP"
+  | "KR"
+  | "KW"
+  | "KY"
+  | "KZ"
+  | "LA"
+  | "LB"
+  | "LC"
+  | "LI"
+  | "LK"
+  | "LR"
+  | "LS"
+  | "LT"
+  | "LU"
+  | "LV"
+  | "LY"
+  | "MA"
+  | "MC"
+  | "MD"
+  | "ME"
+  | "MF"
+  | "MG"
+  | "MH"
+  | "MK"
+  | "ML"
+  | "MM"
+  | "MN"
+  | "MO"
+  | "MP"
+  | "MQ"
+  | "MR"
+  | "MS"
+  | "MT"
+  | "MU"
+  | "MV"
+  | "MW"
+  | "MX"
+  | "MY"
+  | "MZ"
+  | "NA"
+  | "NC"
+  | "NE"
+  | "NF"
+  | "NG"
+  | "NI"
+  | "NL"
+  | "NO"
+  | "NP"
+  | "NR"
+  | "NU"
+  | "NZ"
+  | "OM"
+  | "PA"
+  | "PE"
+  | "PF"
+  | "PG"
+  | "PH"
+  | "PK"
+  | "PL"
+  | "PM"
+  | "PN"
+  | "PR"
+  | "PS"
+  | "PT"
+  | "PW"
+  | "PY"
+  | "QA"
+  | "RE"
+  | "RO"
+  | "RS"
+  | "RU"
+  | "RW"
+  | "SA"
+  | "SB"
+  | "SC"
+  | "SD"
+  | "SE"
+  | "SG"
+  | "SH"
+  | "SI"
+  | "SJ"
+  | "SK"
+  | "SL"
+  | "SM"
+  | "SN"
+  | "SO"
+  | "SR"
+  | "SS"
+  | "ST"
+  | "SV"
+  | "SX"
+  | "SY"
+  | "SZ"
+  | "TC"
+  | "TD"
+  | "TF"
+  | "TG"
+  | "TH"
+  | "TJ"
+  | "TK"
+  | "TL"
+  | "TM"
+  | "TN"
+  | "TO"
+  | "TR"
+  | "TT"
+  | "TV"
+  | "TW"
+  | "TZ"
+  | "UA"
+  | "UG"
+  | "UM"
+  | "US"
+  | "UY"
+  | "UZ"
+  | "VA"
+  | "VC"
+  | "VE"
+  | "VG"
+  | "VI"
+  | "VN"
+  | "VU"
+  | "WF"
+  | "WS"
+  | "YE"
+  | "YT"
+  | "ZA"
+  | "ZM"
+  | "ZW";
 
 /** The 2-letter continent codes Cloudflare uses */
-declare const enum ContinentCode {
-  Africa = "AF",
-  Antarctica = "AN",
-  Asia = "AS",
-  Europe = "EU",
-  NorthAmerica = "NA",
-  Oceania = "OC",
-  SouthAmerica = "SA",
-}
+declare type ContinentCode = "AF" | "AN" | "AS" | "EU" | "NA" | "OC" | "SA";
 
 export {};
