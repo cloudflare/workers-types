@@ -604,54 +604,54 @@ type IncomingRequestCfPropertiesTLSClientAuth = {
   certRevoked: "1" | "0";
 
   /** The certificate issuer's distinguished name */
-  certIssuerDN: "" | string;
+  certIssuerDN: string;
 
   /** The certificate subject's distinguished name */
-  certSubjectDN: "" | string;
+  certSubjectDN: string;
 
   /** The certificate issuer's distinguished name (RFC 2253 formatted) */
-  certIssuerDNRFC2253: "" | string;
+  certIssuerDNRFC2253: string;
 
   /** The certificate subject's distinguished name (RFC 2253 formatted) */
-  certSubjectDNRFC2253: "" | string;
+  certSubjectDNRFC2253: string;
 
   /** The certificate issuer's distinguished name (legacy policies) */
-  certIssuerDNLegacy: "" | string;
+  certIssuerDNLegacy: string;
 
   /** The certificate subject's distinguished name (legacy policies) */
-  certSubjectDNLegacy: "" | string;
+  certSubjectDNLegacy: string;
 
   /** The certificate's serial number */
-  certSerial: "" | string;
+  certSerial: string;
 
   /** The certificate issuer's serial number */
-  certIssuerSerial: "" | string;
+  certIssuerSerial: string;
 
   /** The certificate's Subject Key Identifier */
-  certSKI: "" | string;
+  certSKI: string;
 
   /** The certificate issuer's Subject Key Identifier */
-  certIssuerSKI: "" | string;
+  certIssuerSKI: string;
 
   /** The certificate's SHA-1 fingerprint */
-  certFingerprintSHA1: "" | string;
+  certFingerprintSHA1: string;
 
   /** The certificate's SHA-256 fingerprint */
-  certFingerprintSHA256: "" | string;
+  certFingerprintSHA256: string;
 
   /**
    * The effective starting date of the certificate
    *
    * @example "Dec 22 19:39:00 2018 GMT"
    */
-  certNotBefore: "" | string;
+  certNotBefore: string;
 
   /**
    * The effective expiration date of the certificate
    *
    * @example "Dec 22 19:39:00 2018 GMT"
    */
-  certNotAfter: "" | string;
+  certNotAfter: string;
 };
 
 /** Placeholder values for TLS Client Authorization */
