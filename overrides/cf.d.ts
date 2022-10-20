@@ -298,128 +298,129 @@ interface RequestInitCfPropertiesImageMinify {
 /**
  * Request metadata provided by Cloudflare's edge.
  */
-type IncomingRequestCfProperties = {
-  /**
-   * [ASN](https://www.iana.org/assignments/as-numbers/as-numbers.xhtml) of the incoming request.
-   *
-   * @example 395747
-   */
-  asn: number;
+type IncomingRequestCfProperties =
+  IncomingRequestCfPropertiesGeographicInformation & {
+    /**
+     * [ASN](https://www.iana.org/assignments/as-numbers/as-numbers.xhtml) of the incoming request.
+     *
+     * @example 395747
+     */
+    asn: number;
 
-  /**
-   * The organization which owns the ASN of the incoming request.
-   *
-   * @example "Google Cloud"
-   */
-  asOrganization: string;
+    /**
+     * The organization which owns the ASN of the incoming request.
+     *
+     * @example "Google Cloud"
+     */
+    asOrganization: string;
 
-  /**
-   * Only set when using Cloudflare Bot Management.
-   */
-  botManagement?: IncomingRequestCfPropertiesBotManagement;
+    /**
+     * Only set when using Cloudflare Bot Management.
+     */
+    botManagement?: IncomingRequestCfPropertiesBotManagement;
 
-  /**
-   * The original value of the `Accept-Encoding` header if Cloudflare modified it.
-   *
-   * @example "gzip, deflate, br"
-   */
-  clientAcceptEncoding?: string;
+    /**
+     * The original value of the `Accept-Encoding` header if Cloudflare modified it.
+     *
+     * @example "gzip, deflate, br"
+     */
+    clientAcceptEncoding?: string;
 
-  /**
-   * The number of milliseconds it took for the request to reach your worker.
-   */
-  clientTcpRtt?: number;
+    /**
+     * The number of milliseconds it took for the request to reach your worker.
+     */
+    clientTcpRtt?: number;
 
-  /**
-   * Duplicate of `botManagement.score`. Only set when using Cloudflare Bot Management.
-   *
-   * @deprecated
-   */
-  clientTrustScore?: number;
+    /**
+     * Duplicate of `botManagement.score`. Only set when using Cloudflare Bot Management.
+     *
+     * @deprecated
+     */
+    clientTrustScore?: number;
 
-  /**
-   * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
-   * airport code of the data center that the request hit.
-   *
-   * @example "DFW"
-   */
-  colo: string;
+    /**
+     * The three-letter [IATA](https://en.wikipedia.org/wiki/IATA_airport_code)
+     * airport code of the data center that the request hit.
+     *
+     * @example "DFW"
+     */
+    colo: string;
 
-  /**
-   * Represents the upstream's response to a
-   * [TCP `keepalive` message](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
-   * from cloudflare.
-   *
-   * For workers with no upstream, this will always be `1`.
-   */
-  edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
+    /**
+     * Represents the upstream's response to a
+     * [TCP `keepalive` message](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
+     * from cloudflare.
+     *
+     * For workers with no upstream, this will always be `1`.
+     */
+    edgeRequestKeepAliveStatus: IncomingRequestCfPropertiesEdgeRequestKeepAliveStatus;
 
-  /**
-   * Custom metadata set per-host in [Cloudflare for SaaS](https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/).
-   *
-   * This field is only present if you have Cloudflare for SaaS enabled on your account
-   * and you have followed the [required steps to enable it]((https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/domain-support/custom-metadata/)).
-   */
-  hostMetadata?: unknown;
+    /**
+     * Custom metadata set per-host in [Cloudflare for SaaS](https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/).
+     *
+     * This field is only present if you have Cloudflare for SaaS enabled on your account
+     * and you have followed the [required steps to enable it]((https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/domain-support/custom-metadata/)).
+     */
+    hostMetadata?: unknown;
 
-  /**
-   * The HTTP Protocol the request used.
-   *
-   * @example "HTTP/2"
-   */
-  httpProtocol: string;
+    /**
+     * The HTTP Protocol the request used.
+     *
+     * @example "HTTP/2"
+     */
+    httpProtocol: string;
 
-  /**
-   * The browser-requested prioritization information in the request object.
-   *
-   * If no information was set, defaults to the empty string `""`
-   *
-   * @example "weight=192;exclusive=0;group=3;group-weight=127"
-   * @default ""
-   */
-  requestPriority: string;
+    /**
+     * The browser-requested prioritization information in the request object.
+     *
+     * If no information was set, defaults to the empty string `""`
+     *
+     * @example "weight=192;exclusive=0;group=3;group-weight=127"
+     * @default ""
+     */
+    requestPriority: string;
 
-  /**
-   * The TLS version of the connection to Cloudflare.
-   * In requests served over plaintext (without TLS), this property is the empty string `""`.
-   *
-   * @example "TLSv1.3"
-   */
-  tlsVersion: string;
+    /**
+     * The TLS version of the connection to Cloudflare.
+     * In requests served over plaintext (without TLS), this property is the empty string `""`.
+     *
+     * @example "TLSv1.3"
+     */
+    tlsVersion: string;
 
-  /**
-   * The cipher for the connection to Cloudflare.
-   * In requests served over plaintext (without TLS), this property is the empty string `""`.
-   *
-   * @example "AEAD-AES128-GCM-SHA256"
-   */
-  tlsCipher: string;
+    /**
+     * The cipher for the connection to Cloudflare.
+     * In requests served over plaintext (without TLS), this property is the empty string `""`.
+     *
+     * @example "AEAD-AES128-GCM-SHA256"
+     */
+    tlsCipher: string;
 
-  /**
-   * Information about the client certificate presented to Cloudflare.
-   *
-   * This is populated when the incoming request is served over TLS using
-   * either Cloudflare Access or API Shield (mTLS)
-   * and the presented SSL certificate has a valid
-   * [Certificate Serial Number](https://ldapwiki.com/wiki/Certificate%20Serial%20Number)
-   * (i.e., not `null` or `""`).
-   *
-   * Otherwise, a set of placeholder values are used.
-   *
-   * The property `certPresented` will be set to `"1"` when
-   * the object is populated (i.e. the above conditions were met).
-   */
-  tlsClientAuth:
-    | IncomingRequestCfPropertiesTLSClientAuth
-    | IncomingRequestCfPropertiesTLSClientAuthPlaceholder;
+    /**
+     * Information about the client certificate presented to Cloudflare.
+     *
+     * This is populated when the incoming request is served over TLS using
+     * either Cloudflare Access or API Shield (mTLS)
+     * and the presented SSL certificate has a valid
+     * [Certificate Serial Number](https://ldapwiki.com/wiki/Certificate%20Serial%20Number)
+     * (i.e., not `null` or `""`).
+     *
+     * Otherwise, a set of placeholder values are used.
+     *
+     * The property `certPresented` will be set to `"1"` when
+     * the object is populated (i.e. the above conditions were met).
+     */
+    tlsClientAuth:
+      | IncomingRequestCfPropertiesTLSClientAuth
+      | IncomingRequestCfPropertiesTLSClientAuthPlaceholder;
 
-  /**
-   * Metadata containing the [`HELLO`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2) and [`FINISHED`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9) messages from this request's TLS handshake.
-   *
-   * If the incoming request was served over plaintext (without TLS) this field is undefined.
-   */
-  tlsExportedAuthenticator?: IncomingRequestCfPropertiesExportedAuthenticatorMetadata;
-} & IncomingRequestCfPropertiesGeographicInformation;
+    /**
+     * Metadata containing the [`HELLO`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.2) and [`FINISHED`](https://www.rfc-editor.org/rfc/rfc5246#section-7.4.9) messages from this request's TLS handshake.
+     *
+     * If the incoming request was served over plaintext (without TLS) this field is undefined.
+     */
+    tlsExportedAuthenticator?: IncomingRequestCfPropertiesExportedAuthenticatorMetadata;
+  };
 
 /**
  * Results of Cloudflare's Bot Management analysis
