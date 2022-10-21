@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.18.0
+
+### Minor Changes
+
+- [#307](https://github.com/cloudflare/workers-types/pull/307) [`0721beb`](https://github.com/cloudflare/workers-types/commit/0721bebe14bcf4f70e90d24f147dcd805a3f4d5e) Thanks [@autodecl-bot](https://github.com/apps/autodecl-bot)! - Updated auto-generated types @ 2022-10-21
+
+### Patch Changes
+
+- [#301](https://github.com/cloudflare/workers-types/pull/301) [`17b6d16`](https://github.com/cloudflare/workers-types/commit/17b6d16e2b7d0e8605ae0ed2e704336ef89c2c47) Thanks [@caass](https://github.com/caass)! - Improve the `IncomingRequestCfProperties` type.
+
+  Previously, this type was based on our docs, which didn't include some fields. Now we've gone through the code that generates these fields and ensured that every property matches up.
+
+  Additionally, we added examples and documentation for almost everything, so it should be more clear exactly what a certain property is or isn't.
+
 ## 3.17.0
 
 ### Minor Changes
