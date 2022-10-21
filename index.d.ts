@@ -1389,6 +1389,7 @@ interface RequestInitCfProperties {
    * to point to that CNAME record.
    */
   resolveOverride?: string;
+  webp?: boolean;
 }
 
 interface RequestInitCfPropertiesImage extends BasicImageTransformations {
