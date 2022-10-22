@@ -2270,15 +2270,7 @@ interface IncomingRequestCfPropertiesExportedAuthenticatorMetadata {
 /**
  * Geographic data about the request's origin.
  */
-type IncomingRequestCfPropertiesGeographicInformation =
-  | {
-      /* No geographic data was found for the incoming request. */
-    }
-  | {
-      /** The country code `"T1"` is used for requests originating on TOR  */
-      country: "T1";
-    }
-  | {
+type IncomingRequestCfPropertiesGeographicInformation = Partial<{
       /**
        * The [ISO 3166-1 Alpha 2](https://www.iso.org/iso-3166-country-codes.html) country code the request originated from.
        *
@@ -2287,8 +2279,9 @@ type IncomingRequestCfPropertiesGeographicInformation =
        * If Cloudflare is unable to determine where the request originated this property is omitted.
        *
        * @example "GB"
+	   * 
        */
-      country: Iso3166Alpha2Code;
+      country: Iso3166Alpha2Code | "T1";
       /**
        * If present, this property indicates that the request originated in the EU
        *
@@ -2351,7 +2344,7 @@ type IncomingRequestCfPropertiesGeographicInformation =
        * @example "635"
        */
       metroCode?: string;
-    };
+    }>;
 
 /** Data about the incoming request's TLS certificate */
 interface IncomingRequestCfPropertiesTLSClientAuth {
