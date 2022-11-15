@@ -1,9 +1,8 @@
 declare type D1Result<T = unknown> = {
   results?: T[];
-  lastRowId: number | null;
-  changes: number;
-  duration: number;
+  success: boolean;
   error?: string;
+  meta: any;
 };
 
 declare abstract class D1Database {
