@@ -1,8 +1,8 @@
 declare type D1Result<T = unknown> = {
-    results?: T[];
-    success: boolean;
-    error?: string;
-    meta: any;
+  results?: T[];
+  success: boolean;
+  error?: string;
+  meta: any;
 };
 
 declare abstract class D1Database {
