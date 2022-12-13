@@ -9,7 +9,10 @@ declare abstract class DurableObjectStub extends Fetcher {
 }
 
 declare abstract class DurableObjectNamespace {
-  get(id: DurableObjectId): DurableObjectStub;
+  get(
+    id: DurableObjectId,
+    options?: DurableObjectNamespaceGetOptions
+  ): DurableObjectStub;
 }
 
 declare abstract class DurableObjectState {

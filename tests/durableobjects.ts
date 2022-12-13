@@ -12,4 +12,10 @@ const myDurableObjectStub = MyDurableObjectNamespace.get(
 );
 myDurableObjectStub.fetch("/", { method: "POST" });
 
+const myDurableObjectLocationHintedStub = MyDurableObjectNamespace.get(
+  MyDurableObjectNamespace.newUniqueId(),
+  { locationHint: "enam" }
+);
+myDurableObjectLocationHintedStub.fetch("/", { method: "POST" });
+
 export {};

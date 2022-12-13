@@ -288,6 +288,21 @@ interface DocumentEnd {
   append(content: Content, options?: ContentOptions): DocumentEnd;
 }
 
+type DurableObjectLocationHint =
+  | "afr"
+  | "apac"
+  | "eeur"
+  | "enam"
+  | "me"
+  | "oc"
+  | "sam"
+  | "weur"
+  | "wnam";
+
+interface DurableObjectNamespaceGetOptions {
+  locationHint?: DurableObjectLocationHint;
+}
+
 interface DurableObject {
   fetch(request: Request): Promise<Response>;
   alarm?(): Promise<void>;
@@ -325,7 +340,10 @@ interface DurableObjectNamespace {
   ): DurableObjectId;
   idFromName(name: string): DurableObjectId;
   idFromString(id: string): DurableObjectId;
-  get(id: DurableObjectId): DurableObjectStub;
+  get(
+    id: DurableObjectId,
+    options?: DurableObjectNamespaceGetOptions
+  ): DurableObjectStub;
 }
 
 interface DurableObjectNamespaceNewUniqueIdOptions {
