@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.19.0
+
+### Minor Changes
+
+- [`0edd92e`](https://github.com/cloudflare/workers-types/commit/0edd92ef75b20bc9869d06d58ac4a190928f3e91) Thanks [@mrbbot](https://github.com/mrbbot)! - Merge and make optional all `IncomingRequestCfPropertiesGeographicInformation` properties
+
+### Patch Changes
+
+- [#314](https://github.com/cloudflare/workers-types/pull/314) [`59b3f55`](https://github.com/cloudflare/workers-types/commit/59b3f5599dd0240b750fbde4abdb7277178af72b) Thanks [@GregBrimble](https://github.com/GregBrimble)! - feat: Add `passThroughOnException()` to Pages Functions
+
 ## 3.18.0
 
 ### Minor Changes
