@@ -1,7 +1,17 @@
 # Cloudflare Workers Types
 
-> :warning: If you're upgrading from version 2, make sure to remove `webworker` from the `lib` array in your
-> `tsconfig.json`. These types are now included in `@cloudflare/workers-types`.
+:stop_sign: This repository was for `@cloudflare/workers-types` versions ≤ 3 and is no longer maintained.
+
+Since version 4, types are automatically generated from and in the [`workerd`](https://github.com/cloudflare/workerd) repository.
+
+Find the [new `README` here](https://github.com/cloudflare/workerd/tree/main/npm/workers-types) and the [new auto-generation scripts here](https://github.com/cloudflare/workerd/tree/main/types).
+
+Please raise issues with type definitions [in the `workerd` repository](https://github.com/cloudflare/workerd/issues/new/choose), tagging `@cloudflare/workers-types` in your report.
+
+---
+
+<details>
+<summary>Legacy Documentation</summary>
 
 ## Install
 
@@ -12,6 +22,9 @@ yarn add -D @cloudflare/workers-types
 ```
 
 ## Usage
+
+> :warning: If you're upgrading from version 2, make sure to remove `webworker` from the `lib` array in your
+> `tsconfig.json`. These types are now included in `@cloudflare/workers-types`.
 
 The following is a minimal `tsconfig.json` for use alongside this package:
 
@@ -74,3 +87,5 @@ headings correspond to JSDoc sections for members:
 - `#### Returns`: contents will be copied as-is to the `@returns` tag
 - `#### Examples`: fenced code blocks with the language set to `js`, `ts`, `javascript` or `typescript` will be copied
   to `@example` tags
+
+</details>
