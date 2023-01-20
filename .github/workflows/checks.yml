@@ -8,17 +8,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Use Node.js 16.7
-        uses: actions/setup-node@v2
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.7
+          node-version: 18.x
 
       - name: Install NPM dependencies
         run: npm install
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: node-modules-cache
         with:
           path: |
